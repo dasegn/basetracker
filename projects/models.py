@@ -11,7 +11,10 @@ class Project(models.Model):
 		(PUBLIC,'Público'),
 		(PRIVATE, 'Privado'),
 	)
-
+	StatusOptions = (
+		(1,'Abierto'),
+		(0, 'Cerrado'),
+	)
 	id = models.AutoField(primary_key=True, unique=True)
 	name = models.CharField(max_length=255)
 	description = models.TextField()	
@@ -20,7 +23,7 @@ class Project(models.Model):
 	access = models.IntegerField(default=PUBLIC,choices=Access)
 	date_begin = models.DateTimeField(null=True)
 	date_end = models.DateTimeField(null=True)
-	status = models.IntegerField()
+	status = models.IntegerField(default=1, choices=StatusOptions)
 
 	def __unicode__(self):
 		return self.name
