@@ -3,13 +3,15 @@ from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
 
 from django.contrib import admin
-
 admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:    
     # url(r'^blog/', include('blog.urls')),
-    url(r'^admin/project/', include('projects.urls')),
+    url(r'^admin/project/', include('projects.urls'), name='project'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
+    #url(r'^login/$', 'social_auth.views.auth', {'backend': 'facebook'}, name='login'),
     url(r'^$', RedirectView.as_view(url='admin'), name='redirect_home'),
+    url('', include('social.apps.django_app.urls', namespace='social')),
+    url('', include('django.contrib.auth.urls', namespace='auth')),
 )
