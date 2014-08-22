@@ -74,6 +74,13 @@ ROOT_URLCONF = 'basetracker.urls'
 
 WSGI_APPLICATION = 'basetracker.wsgi.application'
 
+# Custom app/model order
+ADMIN_REORDER = (
+        ("default", ("default.association", "default.nonce", "default.usersocialauth")),
+        ("auth", ("auth.User", "auth.Group")),
+        ("applications", ("applications.Project", "applications.Team")),
+
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
