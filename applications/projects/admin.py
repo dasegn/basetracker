@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from projects.models import Project
-from projects.forms import ProjectForm
+from applications.projects.models import Project
+from applications.projects.forms import ProjectForm
 
 class ProjectAdmin(admin.ModelAdmin):
 	form = ProjectForm

@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from teams.models import Team
-from teams.forms import TeamForm
+from applications.teams.models import Team
+from applications.teams.forms import TeamForm
 
 class TeamAdmin(admin.ModelAdmin):
 	form = TeamForm

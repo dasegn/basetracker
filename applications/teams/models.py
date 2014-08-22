@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 from django.db import models
-from projects.models import Project
+from applications.projects.models import Project
 from django.utils.translation import ugettext as _
 
 

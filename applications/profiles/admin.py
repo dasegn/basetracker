@@ -7,8 +7,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 # Register your models here.
-from profiles.models import Profile
-from profiles import views
+from applications.profiles.models import Profile
+from applications.profiles import views
 
 
 # Define an inline admin descriptor for Profile model

@@ -3,7 +3,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.admin import widgets 
-from teams.models import Team
+from applications.teams.models import Team
 from django.utils.translation import ugettext as _
 
 class TeamForm(forms.ModelForm):
