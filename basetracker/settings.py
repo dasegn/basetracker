@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'projects',
     'profiles',
+    'teams',
     'south',
 )
 
@@ -82,7 +83,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'basetracker',
         'USER': 'root',
-        'PASSWORD' : 'demo123'
+        'PASSWORD' : 'demo123',
+        'HOST' : '127.0.0.1'
     }
 }
 

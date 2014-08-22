@@ -7,8 +7,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:    
-    # url(r'^blog/', include('blog.urls')),
+
     url(r'^admin/project/', include('projects.urls'), name='project'),
+    url(r'^admin/profile/', include('profiles.urls'), name='profile'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
     #url(r'^login/$', 'social_auth.views.auth', {'backend': 'facebook'}, name='login'),
     url(r'^$', RedirectView.as_view(url='admin'), name='redirect_home'),
