@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -10,6 +10,9 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, related_name='profile', unique=False)
 	skype = models.CharField(verbose_name=_("Skype"), max_length=100, default='', blank=True)
 	avatar = models.ImageField(verbose_name=_("Avatar"), upload_to='uploads/avatars', default='', blank=True)
+
+	class Meta:
+		app_label = 'bt'
 
 	def __unicode__(self):
 		return self.user.username

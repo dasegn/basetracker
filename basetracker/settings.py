@@ -41,9 +41,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social.apps.django_app.default',
-    'applications.projects',
-    'applications.profiles',
-    'applications.teams',
+    #'applications.projects',
+    #'applications.profiles',
+    #'applications.teams',
+    'bt',
     'south',
 )
 

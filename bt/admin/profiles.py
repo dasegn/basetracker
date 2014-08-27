@@ -1,4 +1,4 @@
-#encoding:utf-8
+# -*- coding: utf-8 -*-
 
 from django.contrib import admin
 from django.template import RequestContext
@@ -7,8 +7,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 # Register your models here.
-from applications.profiles.models import Profile
-from applications.profiles import views
+from bt.models.profiles import Profile
+from bt.views import profiles
 
 
 # Define an inline admin descriptor for Profile model
@@ -42,5 +42,3 @@ class ProfileAdmin(admin.ModelAdmin):
 # Re-register UserAdmin
 admin.site.unregister(User)	
 admin.site.register(User, UserAdmin)
-
-#admin.site.register(Profile, ProfileAdmin)

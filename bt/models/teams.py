@@ -1,7 +1,7 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
-from applications.projects.models import Project
+from bt.models.projects import Project
 from django.utils.translation import ugettext as _
 
 
@@ -18,3 +18,4 @@ class Team(models.Model):
 	class Meta:
 		verbose_name = 'Equipo'
 		verbose_name_plural = 'Equipos'	
+		app_label = 'bt'

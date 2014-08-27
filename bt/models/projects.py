@@ -1,7 +1,7 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
-from applications.projects import views
+from bt.views import projects
 from django.utils.translation import ugettext as _
 # Create your models here.
 
@@ -32,3 +32,4 @@ class Project(models.Model):
 	class Meta:
 		verbose_name = 'Proyecto'
 		verbose_name_plural = 'Proyectos'
+		app_label = 'bt'

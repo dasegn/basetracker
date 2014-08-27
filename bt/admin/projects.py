@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from django.contrib import admin
 
 # Register your models here.
-from applications.projects.models import Project
-from applications.projects.forms import ProjectForm
+from bt.models.projects import Project
+from bt.forms.projects import ProjectForm
 
 class ProjectAdmin(admin.ModelAdmin):
 	form = ProjectForm
