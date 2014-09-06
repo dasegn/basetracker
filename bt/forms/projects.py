@@ -4,7 +4,9 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.admin import widgets 
 from bt.models.projects import Project
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 # Importación de app de utilerías 
 from utils.forms import NestedModelChoiceField
@@ -24,5 +26,13 @@ class ProjectForm(forms.ModelForm):
 									label= _('Proyecto padre'),
 									empty_label= _('Elige un proyecto'))
 
+	users = forms.ModelMultipleChoiceField(
+		queryset=User.objects.all(),
+		required=False,
+		widget=FilteredSelectMultiple(
+			verbose_name='Miembros',
+			is_stacked=False
+		)
+	)
 	class Meta:
 		model = Project

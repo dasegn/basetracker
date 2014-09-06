@@ -101,7 +101,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'es-mx'
 
-TIME_ZONE = 'UTC-6'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 

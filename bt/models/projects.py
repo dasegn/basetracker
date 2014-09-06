@@ -2,7 +2,11 @@
 
 from django.db import models
 from bt.views import projects
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from utils.adminLabels import string_with_title
+from django.contrib.admin.widgets import FilteredSelectMultiple
+
 # Create your models here.
 
 class Project(models.Model):
@@ -25,6 +29,7 @@ class Project(models.Model):
 	date_begin = models.DateTimeField(verbose_name=_("Fecha de inicio"), null=True)
 	date_end = models.DateTimeField(verbose_name=_("Fecha de fin"), null=True)
 	status = models.IntegerField(verbose_name=_("Estado"), default=1, choices=StatusOptions)
+	users = models.ManyToManyField(User, verbose_name=_("Miembros"))
 
 	def __unicode__(self):
 		return self.name
@@ -32,4 +37,4 @@ class Project(models.Model):
 	class Meta:
 		verbose_name = 'Proyecto'
 		verbose_name_plural = 'Proyectos'
-		app_label = 'bt'
+		app_label = string_with_title('bt', u'Módulos')

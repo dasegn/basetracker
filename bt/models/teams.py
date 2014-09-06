@@ -3,7 +3,7 @@
 from django.db import models
 from bt.models.projects import Project
 from django.utils.translation import ugettext as _
-
+from utils.adminLabels import string_with_title
 
 # Create your models here.
 class Team(models.Model):	
@@ -18,4 +18,4 @@ class Team(models.Model):
 	class Meta:
 		verbose_name = 'Equipo'
 		verbose_name_plural = 'Equipos'	
-		app_label = 'bt'
+		app_label = string_with_title('bt', u'Módulos')
