@@ -2,6 +2,7 @@
 
 from django.db import models
 from bt.models.projects import Project
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 
@@ -12,8 +13,12 @@ class Team(models.Model):
 	description = models.TextField(verbose_name=_(u'Descripción'))
 	projects = models.ManyToManyField(Project, verbose_name=_("Proyectos"))
 
+	members = models.ManyToManyField(User, verbose_name=_("Miembros"))
+
 	def __unicode__(self):
 		return self.name
+
+
 
 	class Meta:
 		verbose_name = 'Equipo'
