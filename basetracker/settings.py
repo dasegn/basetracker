@@ -34,21 +34,23 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.staticfiles',    
+    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'social.apps.django_app.default',
     #'applications.projects',
     #'applications.profiles',
     #'applications.teams',
-    'bt',
+    'bt',    
     'south',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',    
     'social.apps.django_app.context_processors.backends',    
     'social.apps.django_app.context_processors.login_redirect',    
     'django.contrib.messages.context_processors.messages',     

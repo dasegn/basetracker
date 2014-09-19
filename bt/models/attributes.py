@@ -7,6 +7,10 @@ from utils.adminLabels import string_with_title
 class Attribute(models.Model):
 	PROJECT_TYPE = 'project-type'
 	PROJECT_STATUS = 'project-status'
+    PROJECT_KAM = 'project-kam'
+    PROJECT_ADMIN = 'project-admin'
+    PROJECT_RD = 'project-rd'
+    PROJECT_CLIENT = 'project-client'
     ATTRIBUTE_TYPES = {
         PROJECT_TYPE: 'Tipo de proyecto',
         PROJECT_STATUS: 'Estado del proyecto',

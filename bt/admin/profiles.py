@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
+
 from django.template import RequestContext
 from django.conf.urls import patterns, url
 from django.contrib.auth.admin import UserAdmin

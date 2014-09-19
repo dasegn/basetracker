@@ -5,5 +5,5 @@ from bt.views import projects
 urlpatterns = patterns('',
     url(r'^$', projects.index, name='index'),
     # ex: /project/5/
-    url(r'^(?P<project_id>\d+)/$', projects.detail, name='detail'),
+    url(r'^(?P<project_id>\d+)/$', projects.detail, {}, name='detail'),
 )
