@@ -2,53 +2,25 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from bt.models.teams import Team
+from django.contrib.auth.models import Group
+from bt.models.projects import Project
+from bt.models.attributes import Attribute
+from utils.adminLabels import string_with_title
+from django.template.defaultfilters import slugify
 
 import datetime
-
-class Task(models.Model):
-	title = models.CharField(max_length=140)
-    list = models.ForeingKey(TaskList)
-	created_date = models.DateField(auto_now=True, auto_now_add=True)
-	due_date = models.DateField(blank=True, null=True)
-	completed = models.BooleanField()
-	completed_date = models.DateField(blank=True, null=True)
-	created_by = models.ForeingKey(User, related_name='task_created_by')
-	assigned_to = models.ForeingKey(User, related_name='task_assigned_to')
-	note = models.TextField(blank=True, null=True)
-	priority = models.PositiveIntegerField(max_length=3)
-
-    def overdue_status(self):
-        "Returns whether the item's due date has passed or not."
-        if self.due_date and datetime.date.today() > self.due_date:
-            return 1
-
-	def __unicode__(self):
-		return self.title
-
-    # Auto-set the item creation / completed date
-    def save(self):
-        # If Item is being marked complete, set the completed_date
-        if self.completed:
-            self.completed_date = datetime.datetime.now()
-        super(Task, self).save()
-
-	class Meta:
-		ordering = ['priority']
-        verbose_name = 'Tarea'
-        verbose_name_plural = 'Tareas'
-
 
 class TaskList(models.Model):
     name = models.CharField(max_length=140)
     slug = models.SlugField(max_length=140, editable=False)
-    team = models.ForeignKey(Team)
+    team = models.ForeignKey(Group)
+    project = models.ForeignKey(Project)
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.name)
 
-        super(List, self).save(*args, **kwargs)
+        super(TaskList, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
@@ -67,6 +39,43 @@ class TaskList(models.Model):
 
         # Prevents (at the database level) creation of two lists with the same name in the same group
         unique_together = ("team", "slug")
+        app_label = string_with_title('bt', u'Módulos')
+
+
+
+class Task(models.Model):
+    title = models.CharField(max_length=140)
+    list = models.ForeignKey(TaskList)
+    created_date = models.DateField(auto_now=True, auto_now_add=True)
+    due_date = models.DateField(blank=True, null=True)
+    completed = models.BooleanField()
+    completed_date = models.DateField(blank=True, null=True)
+    created_by = models.ForeignKey(User, related_name='task_created_by')
+    assigned_to = models.ForeignKey(User, related_name='task_assigned_to')
+    note = models.TextField(blank=True, null=True)
+
+    priority = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'task-priority'}, related_name='task_with_priority')
+
+    def overdue_status(self):
+        "Returns whether the item's due date has passed or not."
+        if self.due_date and datetime.date.today() > self.due_date:
+            return 1
+
+    def __unicode__(self):
+    	return self.title
+
+    # Auto-set the item creation / completed date
+    def save(self):
+        # If Item is being marked complete, set the completed_date
+        if self.completed:
+            self.completed_date = datetime.datetime.now()
+        super(Task, self).save()
+
+    class Meta:
+    	ordering = ['priority']
+        verbose_name = 'Tarea'
+        verbose_name_plural = 'Tareas'
+        app_label = string_with_title('bt', u'Módulos')
 
 
 class Comment(models.Model):
@@ -74,8 +83,9 @@ class Comment(models.Model):
     Not using Django's built-in comments because we want to be able to save
     a comment and change task details at the same time. Rolling our own since it's easy.
     """
+
     author = models.ForeignKey(User)
-    task = models.ForeignKey(Task)
+    tasklist = models.ForeignKey(TaskList)
     date = models.DateTimeField(default=datetime.datetime.now)
     body = models.TextField(blank=True)
 
@@ -84,3 +94,5 @@ class Comment(models.Model):
             self.author,
             self.date,
         )
+    class Meta:
+        app_label = string_with_title('bt', u'Módulos')    

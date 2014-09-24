@@ -35,31 +35,22 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'django.contrib.staticfiles',    
-    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'social.apps.django_app.default',
-    #'applications.projects',
-    #'applications.profiles',
-    #'applications.teams',
     'bt',    
     'south',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',    
-    'social.apps.django_app.context_processors.backends',    
-    'social.apps.django_app.context_processors.login_redirect',    
     'django.contrib.messages.context_processors.messages',     
     'django.contrib.auth.context_processors.auth',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.facebook.FacebookAppOAuth2',
-    'social.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',       
 )
 
@@ -77,13 +68,6 @@ ROOT_URLCONF = 'basetracker.urls'
 
 WSGI_APPLICATION = 'basetracker.wsgi.application'
 
-# Custom app/model order
-ADMIN_REORDER = (
-        ("default", ("default.association", "default.nonce", "default.usersocialauth")),
-        ("auth", ("auth.User", "auth.Group")),
-        ("applications", ("applications.Project", "applications.Team")),
-
-)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -111,28 +95,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-USE_SOCIAL_AUTH_AS_ADMIN_LOGIN = True
-
-SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details',
-)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/admin/projects/'
-
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/admin/projects/'
 
 ## Facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '1464510653816877'

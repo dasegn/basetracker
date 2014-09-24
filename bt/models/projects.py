@@ -3,6 +3,8 @@
 from django.db import models
 from bt.views import projects
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+from bt.models.attributes import Attribute
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -16,10 +18,7 @@ class Project(models.Model):
 		(PUBLIC,'Público'),
 		(PRIVATE, 'Privado'),
 	)
-	StatusOptions = (
-		(1,'Abierto'),
-		(0, 'Cerrado'),
-	)
+
 	id = models.AutoField(primary_key=True, unique=True)
 	name = models.CharField(verbose_name=_("Nombre"), max_length=255)
 	description = models.TextField(verbose_name=_(u'Descripción'))	
@@ -28,8 +27,18 @@ class Project(models.Model):
 	access = models.IntegerField(verbose_name=_("Acceso"), default=PUBLIC,choices=Access)
 	date_begin = models.DateTimeField(verbose_name=_("Fecha de inicio"), null=True)
 	date_end = models.DateTimeField(verbose_name=_("Fecha de fin"), null=True)
-	status = models.IntegerField(verbose_name=_("Estado"), default=1, choices=StatusOptions)
 	users = models.ManyToManyField(User, verbose_name=_("Miembros"))
+	groups = models.ManyToManyField(Group, verbose_name=_("Grupos"))
+
+	#Attributes
+	type = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-type'}, related_name='projects_with_type')
+	status = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-status'}, related_name='projects_with_status')
+	kam = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-kam'}, related_name='projects_with_kam')
+	admin = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-admin'}, related_name='projects_with_admin')
+	rd = models.ForeignKey(Attribute, null=True,  limit_choices_to={'type': 'project-rd'}, related_name='projects_with_rd')
+	client = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-client'}, related_name='projects_with_client')
+
+	objects = models.Manager()
 
 	def __unicode__(self):
 		return self.name
@@ -38,3 +47,4 @@ class Project(models.Model):
 		verbose_name = 'Proyecto'
 		verbose_name_plural = 'Proyectos'
 		app_label = string_with_title('bt', u'Módulos')
+		ordering = ('name', 'status', 'type',)
