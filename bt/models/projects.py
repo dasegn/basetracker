@@ -12,22 +12,24 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 # Create your models here.
 
 class Project(models.Model):
-	PUBLIC = 0
-	PRIVATE = 1
-	Access = (
-		(PUBLIC,'Público'),
-		(PRIVATE, 'Privado'),
-	)
 
 	id = models.AutoField(primary_key=True, unique=True)
-	name = models.CharField(verbose_name=_("Nombre"), max_length=255)
-	description = models.TextField(verbose_name=_(u'Descripción'))	
+	name = models.CharField(verbose_name=_("Nombre"), null=False, blank=False, max_length=255)
+	description = models.TextField(null=False, blank=False, verbose_name=_(u'Descripción'))	
 	identifier = models.CharField( verbose_name=_("Identificador"), max_length=255)
 	parent = models.ForeignKey('self', verbose_name=_("Proyecto padre"), default=0, null=True, blank=True)	
-	access = models.IntegerField(verbose_name=_("Acceso"), default=PUBLIC,choices=Access)
+	access = models.BooleanField(default=False, null=False, blank=True, verbose_name=_("Es privado"))
+
+	# Dates 
 	date_begin = models.DateTimeField(verbose_name=_("Fecha de inicio"), null=True)
 	date_end = models.DateTimeField(verbose_name=_("Fecha de fin"), null=True)
-	users = models.ManyToManyField(User, verbose_name=_("Miembros"))
+	date_created = models.DateTimeField(null=False, blank=False,
+										verbose_name=_("Fecha de creación"),
+										default=timezone.now)
+    date_modified = models.DateTimeField(null=False, blank=False,
+										verbose_name=_("Fecha de modificación"))
+	# Memberships
+	users = models.ManyToManyField(User,  related_name="projects", verbose_name=_("Miembros"))
 	groups = models.ManyToManyField(Group, verbose_name=_("Grupos"))
 
 	#Attributes
@@ -42,6 +44,13 @@ class Project(models.Model):
 
 	def __unicode__(self):
 		return self.name
+	
+	def save(self, *args, **kwargs):
+		if not self.date_modified:
+			self.date_modified = timezone.now()
+
+		super().save(*args, **kwargs)
+
 
 	class Meta:
 		verbose_name = 'Proyecto'
