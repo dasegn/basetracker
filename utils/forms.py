@@ -38,7 +38,7 @@ class NestedModelChoiceField(forms.ModelChoiceField):
             .prefetch_related(self.related_name)
         
         if getattr(self, 'empty_label'):
-            choices = [(0, self.empty_label)]
+            choices.append((0, self.empty_label))
         for parent in queryset:
             choices.append((self.prepare_value(parent), self.label_from_instance(parent)))
             choices.extend([(self.prepare_value(children), self.label_from_instance(children))

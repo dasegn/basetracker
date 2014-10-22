@@ -67,7 +67,7 @@ class Attribute(models.Model):
         PROJECT_CLIENT: 'Cliente',
         TASK_PRIORITY: 'Prioridad de tarea',
     }
-    id = models.AutoField(primary_key=True, unique=True)
+
     type = models.CharField(max_length=32, choices=ATTRIBUTE_TYPES.items())
     label = models.CharField(max_length=255)
 
@@ -82,7 +82,7 @@ class Attribute(models.Model):
     priority = PriorityAttributeManager()
 
     class Meta:
-        db_table = 'bt_attribute'  # Using legacy table name.
+        #db_table = 'bt_attribute'  # Using legacy table name.
         verbose_name = 'Atributo'
         verbose_name_plural = 'Atributos'        
         unique_together = ('type', 'label')

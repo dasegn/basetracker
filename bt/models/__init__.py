@@ -6,4 +6,5 @@ from bt.models import profiles
 from bt.models import tasks
 from bt.models import projects
 from bt.models import teams
+from bt.models import attributes
 

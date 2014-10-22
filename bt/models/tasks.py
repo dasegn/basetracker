@@ -46,14 +46,14 @@ class TaskList(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=140)
-    description = models.TextField(null=False, blank=True, verbose_name=_("descripcion"))
+    description = models.TextField(null=False, blank=True, default="", verbose_name=_(u'Descripción'))
     list = models.ForeignKey(TaskList)
     created_date = models.DateField(auto_now=True, auto_now_add=True)
     due_date = models.DateField(blank=True, null=True)
     completed = models.BooleanField()
     completed_date = models.DateField(blank=True, null=True)
     created_by = models.ForeignKey(User, related_name='task_created_by')
-    assigned_to = models.ForeignKey(User,  blank=True, null=True, default=None,  verbose_name=_("asignada a"), related_name='task_assigned_to')
+    assigned_to = models.ForeignKey(User,  blank=True, null=False, default=None,  verbose_name=_("asignada a"), related_name='task_assigned_to')
     note = models.TextField(blank=True, null=True)
 
     priority = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'task-priority'}, related_name='task_with_priority')

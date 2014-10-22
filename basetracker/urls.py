@@ -13,6 +13,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls), name='admin'),
     #url(r'^login/$', 'social_auth.views.auth', {'backend': 'facebook'}, name='login'),
     url(r'^$', RedirectView.as_view(url='admin'), name='redirect_home'),
-    url('', include('social.apps.django_app.urls', namespace='social')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
 )
