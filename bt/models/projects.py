@@ -4,7 +4,10 @@ from django.db import models
 from bt.views import projects
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+
+from bt.models.services import Service
 from bt.models.attributes import Attribute
+
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -32,12 +35,15 @@ class Project(models.Model):
 	groups = models.ManyToManyField(Group, verbose_name=_("Grupos"))
 
 	#Attributes
-	type = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-type'}, related_name='projects_with_type')
-	status = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-status'}, related_name='projects_with_status')
-	kam = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-kam'}, related_name='projects_with_kam')
-	admin = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-admin'}, related_name='projects_with_admin')
-	rd = models.ForeignKey(Attribute, null=True,  limit_choices_to={'type': 'project-rd'}, related_name='projects_with_rd')
-	client = models.ForeignKey(Attribute,  null=True, limit_choices_to={'type': 'project-client'}, related_name='projects_with_client')
+	type = models.ForeignKey(Attribute, verbose_name=_(u"Tipo de proyecto"), null=True, limit_choices_to={'type': 'project-type'}, related_name='projects_with_type')
+	status = models.ForeignKey(Attribute, verbose_name=_(u"Estado del proyecto"), null=True, limit_choices_to={'type': 'project-status'}, related_name='projects_with_status')
+	kam = models.ForeignKey(Attribute, verbose_name=_(u"KAM del proyecto"), null=True, limit_choices_to={'type': 'project-kam'}, related_name='projects_with_kam')
+	admin = models.ForeignKey(Attribute, verbose_name=_(u"Administrador del proyecto"),  null=True, limit_choices_to={'type': 'project-admin'}, related_name='projects_with_admin')
+	rd = models.ForeignKey(Attribute, verbose_name=_(u"RD del proyecto"), null=True,  limit_choices_to={'type': 'project-rd'}, related_name='projects_with_rd')
+	client = models.ForeignKey(Attribute, verbose_name=_(u"Cliente"),  null=True, limit_choices_to={'type': 'project-client'}, related_name='projects_with_client')
+
+	#Services
+	services = models.ManyToManyField(Service, related_name="services", verbose_name=_("Servicios"))
 
 	objects = models.Manager()
 
@@ -45,7 +51,7 @@ class Project(models.Model):
 		return self.name
 	
 	def save(self, *args, **kwargs):
-		if not self.date_modified:
+		if self.date_modified:
 			self.date_modified = timezone.now()
 		super(Project, self).save(*args, **kwargs)
 

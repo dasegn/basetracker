@@ -4,6 +4,8 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.admin import widgets 
 from bt.models.projects import Project
+from bt.models.services import Service
+
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
@@ -22,6 +24,7 @@ class ProjectForm(forms.ModelForm):
 
 		self.fields['users'].required = False
 		self.fields['groups'].required = False
+		self.fields['services'].required = False
 
 		self.fields['type'].required = False
 		self.fields['status'].required = False
@@ -56,5 +59,13 @@ class ProjectForm(forms.ModelForm):
 		)
 	)
 
+	services = forms.ModelMultipleChoiceField(
+		queryset=Service.objects.all(),
+		required=False,
+		widget=FilteredSelectMultiple(
+			verbose_name='Servicios',
+			is_stacked=False
+		)
+	)
 	class Meta:
 		model = Project

@@ -41,11 +41,11 @@ class ClientAttributeManager(models.Manager):
         qs = super(ClientAttributeManager, self).get_query_set()
         return qs.filter(type=Attribute.PROJECT_CLIENT)    
 
-class PriorityAttributeManager(models.Manager):
+class TstatusAttributeManager(models.Manager):
     """Object manager for status attributes."""
     def get_query_set(self):
-        qs = super(PriorityAttributeManager, self).get_query_set()
-        return qs.filter(type=Attribute.TASK_PRIORITY)       
+        qs = super(TstatusAttributeManager, self).get_query_set()
+        return qs.filter(type=Attribute.TASK_STATUS)       
 
 
 
@@ -57,7 +57,7 @@ class Attribute(models.Model):
     PROJECT_ADMIN = 'project-admin'
     PROJECT_RD = 'project-rd'
     PROJECT_CLIENT = 'project-client'
-    TASK_PRIORITY = 'task-priority'
+    TASK_STATUS = 'task-status'
     ATTRIBUTE_TYPES = {
         PROJECT_TYPE: 'Tipo de proyecto',
         PROJECT_STATUS: 'Estado del proyecto',
@@ -65,11 +65,11 @@ class Attribute(models.Model):
         PROJECT_ADMIN: 'Administrador de proyecto',
         PROJECT_RD: 'Responsable de diseño',
         PROJECT_CLIENT: 'Cliente',
-        TASK_PRIORITY: 'Prioridad de tarea',
+        TASK_STATUS: 'Estado de la tarea',
     }
 
-    type = models.CharField(max_length=32, choices=ATTRIBUTE_TYPES.items())
-    label = models.CharField(max_length=255)
+    type = models.CharField(max_length=32, choices=ATTRIBUTE_TYPES.items(), verbose_name=_(u'Tipo de atributo'))
+    label = models.CharField(max_length=255, verbose_name=_(u'Valor'))
 
     objects = models.Manager()
 
@@ -79,7 +79,7 @@ class Attribute(models.Model):
     admins = AdminAttributeManager()
     rds = RdAttributeManager()
     clients = ClientAttributeManager()
-    priority = PriorityAttributeManager()
+    tstatus = TstatusAttributeManager()
 
     class Meta:
         #db_table = 'bt_attribute'  # Using legacy table name.

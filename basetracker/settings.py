@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'bt',    
     'south',
+    #'crispy_forms',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -68,6 +69,7 @@ ROOT_URLCONF = 'basetracker.urls'
 
 WSGI_APPLICATION = 'basetracker.wsgi.application'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
