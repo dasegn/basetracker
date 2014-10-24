@@ -6,4 +6,5 @@ import bt.admin.teams
 import bt.admin.attributes
 import bt.admin.tasks
 import bt.admin.projects
+import bt.admin.roles
 

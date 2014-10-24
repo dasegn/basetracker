@@ -4,8 +4,21 @@ from django.contrib import admin
 
 # Register your models here.
 from bt.models.projects import Project
-from bt.forms.projects import ProjectForm
+from bt.models.membership import Membership
 
+from bt.forms.projects import ProjectForm
+from bt.admin.roles import RoleInline
+
+
+class MembershipAdmin(admin.ModelAdmin):
+    list_display = ['project', 'role', 'user']
+    list_display_links = list_display
+    list_filter = ['project', 'role']
+
+class MembershipInline(admin.TabularInline):
+    model = Membership
+    extra = 0
+		
 
 class ProjectAdmin(admin.ModelAdmin):
 	form = ProjectForm
@@ -20,10 +33,6 @@ class ProjectAdmin(admin.ModelAdmin):
 		('Atributos', {
 			'classes': ('collapse','extrapretty'),
 			'fields': ('type', 'status', 'kam', 'admin', 'rd', 'client')
-		}),
-		('Miembros', {
-			'classes': ('collapse',),
-			'fields': ('users', 'groups')
 		}),	
 		('Servicios', {
 			'classes': ('collapse',),
@@ -35,6 +44,7 @@ class ProjectAdmin(admin.ModelAdmin):
 		}),	
 	)
 
+	inlines = [RoleInline, MembershipInline,]
 
 	def get_readonly_fields(self, request, obj = None):
 		if obj: #In edit mode
@@ -42,3 +52,4 @@ class ProjectAdmin(admin.ModelAdmin):
 		return self.readonly_fields
 		
 admin.site.register(Project,ProjectAdmin)
+admin.site.register(Membership, MembershipAdmin)

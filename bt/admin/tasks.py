@@ -12,9 +12,7 @@ class TaskInline(admin.TabularInline):
 	form = TaskForm
 	
 	def get_readonly_fields(self, request, obj = None):
-		if obj: #In edit mode
-			return ('completed_date',) + self.readonly_fields
-		return self.readonly_fields
+		return ('completed_date',) + self.readonly_fields
 
 
 class TaskListAdmin(admin.ModelAdmin):

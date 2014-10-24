@@ -31,8 +31,8 @@ class Project(models.Model):
 	date_modified = models.DateTimeField(null=False, blank=False, verbose_name=_(u'Fecha de modificación'), default=timezone.now)
 	
 	# Memberships
-	users = models.ManyToManyField(User,  related_name="projects", verbose_name=_("Miembros"))
-	groups = models.ManyToManyField(Group, verbose_name=_("Grupos"))
+	members = models.ManyToManyField(User, related_name="projects",
+									through="Membership", verbose_name=_("members"))
 
 	#Attributes
 	type = models.ForeignKey(Attribute, verbose_name=_(u"Tipo de proyecto"), null=True, limit_choices_to={'type': 'project-type'}, related_name='projects_with_type')

@@ -2,9 +2,9 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from bt.models.teams import Team
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext as _
+from utils.adminLabels import string_with_title
 
 # Create your models here.
 class Profile(models.Model):
@@ -14,7 +14,7 @@ class Profile(models.Model):
 	avatar = models.ImageField(verbose_name=_("Avatar"), upload_to='uploads/avatars', default='', blank=True)
 	
 	class Meta:
-		app_label = 'bt'
+		app_label = string_with_title('bt', u'Módulos')
 
 	def __unicode__(self):
 		return self.user.username
