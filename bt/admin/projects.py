@@ -50,6 +50,9 @@ class ProjectAdmin(admin.ModelAdmin):
 		if obj: #In edit mode
 			return ('identifier','date_created','date_modified',) + self.readonly_fields
 		return self.readonly_fields
+
+
+
 		
 admin.site.register(Project,ProjectAdmin)
 admin.site.register(Membership, MembershipAdmin)

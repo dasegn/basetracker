@@ -8,6 +8,7 @@ from django.contrib.auth.models import Group
 from bt.models.services import Service
 from bt.models.attributes import Attribute
 
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -49,15 +50,28 @@ class Project(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	def __str__(self):
+		return self.name
+
+	def __repr__(self):
+		return "<Project {0}>".format(self.id)
 	
 	def save(self, *args, **kwargs):
 		if self.date_modified:
 			self.date_modified = timezone.now()
 		super(Project, self).save(*args, **kwargs)
 
+	def get_roles(self):
+		return self.roles.all()
+
+	def get_users(self):
+		user_model = get_user_model()
+		members = self.memberships.values_list("user", flat=True)
+		return user_model.objects.filter(id__in=list(members))	
 
 	class Meta:
-		verbose_name = 'Proyecto'
-		verbose_name_plural = 'Proyectos'
+		verbose_name = 'proyecto'
+		verbose_name_plural = 'proyectos'
 		app_label = string_with_title('bt', u'Módulos')
 		ordering = ('name', 'status', 'type',)

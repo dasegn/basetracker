@@ -68,6 +68,9 @@ class Task(models.Model):
     def __unicode__(self):
     	return self.title
 
+    def __str__(self):
+        return "({1}) {0}".format(self.title, self.description)
+
     # Auto-set the item creation / completed date
     def save(self, *args, **kwargs):
         # If Item is being marked complete, set the completed_date
@@ -76,8 +79,8 @@ class Task(models.Model):
         super(Task, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'Tarea'
-        verbose_name_plural = 'Tareas'
+        verbose_name = 'tarea'
+        verbose_name_plural = 'tareas'
         app_label = string_with_title('bt', u'Módulos')
 
 
