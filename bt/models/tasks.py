@@ -12,6 +12,8 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 
 import datetime
+from django.utils import timezone
+
 
 class TaskList(models.Model):
     name = models.CharField(max_length=140, verbose_name=_(u'Nombre'))
@@ -38,8 +40,8 @@ class TaskList(models.Model):
 
     class Meta:
         ordering = ["name",'tstatus']
-        verbose_name = 'Lista de tareas'
-        verbose_name_plural = 'Listas de tareas'
+        verbose_name = 'lista de tareas'
+        verbose_name_plural = 'listas de tareas'
 
         # Prevents (at the database level) creation of two lists with the same name in the same group
         #unique_together = ("team", "slug")
@@ -90,18 +92,19 @@ class Comment(models.Model):
     a comment and change task details at the same time. Rolling our own since it's easy.
     """
 
-    author = models.ForeignKey(User, verbose_name=_(u'Autor'))
+    author = models.ForeignKey(User, verbose_name=_(u'Autor'), blank=True)
     tasklist = models.ForeignKey(TaskList, verbose_name=_(u'Lista de tareas'))
-    date = models.DateTimeField(default=datetime.datetime.now,  verbose_name=_(u'Fecha'))
-    body = models.TextField(blank=True, verbose_name=_(u'Mensaje'))
+    submit_date = models.DateTimeField(default=timezone.now,  verbose_name=_(u'Fecha'))
+    body = models.TextField(blank=False, verbose_name=_(u'Mensaje'))
+
 
     def __unicode__(self):
         return '%s - %s' % (
             self.author,
-            self.date,
+            self.submit_date,
         )
 
     class Meta:
-        verbose_name = 'Comentario'
-        verbose_name_plural = 'Comentarios'        
+        verbose_name = 'comentario'
+        verbose_name_plural = 'comentarios'        
         app_label = string_with_title('bt', u'Módulos')    
