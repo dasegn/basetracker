@@ -8,6 +8,7 @@ from bt.models.projects import Project
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from utils.slug import slugify_uniquely
+from django.core.exceptions import ValidationError
 
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
@@ -50,7 +51,7 @@ class Membership(models.Model):
 		# TODO: Review and do it more robust
 		memberships = Membership.objects.filter(user=self.user, project=self.project)
 		if self.user and memberships.count() > 0 and memberships[0].id != self.id:
-			raise ValidationError(_('The user is already member of the project'))
+			raise ValidationError(_('El usuario ya es miembro de este proyecto'))
 
 
 	class Meta:
