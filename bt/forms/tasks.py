@@ -29,8 +29,6 @@ class CommentForm(forms.ModelForm):
 
 class TaskForm(forms.ModelForm):
 
-	def __init__(self, *args, **kwargs):
-		super(TaskForm, self).__init__(*args, **kwargs)	
 
 
 	class Meta:

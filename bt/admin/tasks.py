@@ -11,19 +11,29 @@ class TaskInline(admin.TabularInline):
 	model = Task
 	extra = 0
 	form = TaskForm
-	
-	def get_readonly_fields(self, request, obj = None):
-		return ('completed_date',) + self.readonly_fields
 
+	exclude = ('completed_date',)
+	
+	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+		if (db_field.name in ["created_by",]):
+			kwargs['initial'] = request.user.id
+			return db_field.formfield(**kwargs)
+		return super(TaskInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+	def formfield_for_dbfield(self, db_field, **kwargs):
+		if (db_field.name in ["created_by",]):
+			kwargs["widget"] = ReadOnlyWidget(db_field=db_field)
+		return super(TaskInline, self).formfield_for_dbfield(db_field, **kwargs)
 
 class TaskListAdmin(admin.ModelAdmin):
 	list_display = ('name', 'project')
-	list_filter = ['project','name']
+	list_filter = ['name', 'project__name']
 
 	ordering = ['name', 'project']
-	search_fields = ['name']
+	search_fields = ['name', 'project__name']
 
 	inlines = [TaskInline,]
+
 	form = TaskListForm
 
 
@@ -34,10 +44,10 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-	list_display = ('author', 'submit_date', 'tasklist')
+	list_display = ('author', 'tasklist', 'submit_date')
 	list_filter = ['author','tasklist']
-	ordering = ['author', 'submit_date', 'tasklist']
-	search_fields = ['body']
+	ordering = ['author', 'tasklist', 'submit_date']
+	search_fields = ['author__username', 'tasklist__name', 'body']
 
 	form = CommentForm
 	readonly_fields = ['submit_date']

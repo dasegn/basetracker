@@ -55,8 +55,8 @@ class Task(models.Model):
     list = models.ForeignKey(TaskList)
     created_date = models.DateField(auto_now=True, auto_now_add=True, verbose_name=_(u'Fecha inicio'))
     hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
-    created_by = models.ForeignKey(User, related_name='task_created_by', verbose_name=_(u'Creada por'))
-    assigned_to = models.ForeignKey(User,  blank=True, null=False, default=None,  verbose_name=_("Asignada a"), related_name='task_assigned_to')
+    created_by = models.ForeignKey(User, blank=True, related_name='task_created_by', verbose_name=_(u'Creada por'))
+    assigned_to = models.ForeignKey(User,  blank=False, null=False, default=None,  verbose_name=_("Asignada a"), related_name='task_assigned_to')
 
     due_date = models.DateField(blank=True, null=True, verbose_name=_(u'Fecha fin'))
     completed_date = models.DateField(blank=True, null=True, verbose_name=_(u'Fecha de completado'))
