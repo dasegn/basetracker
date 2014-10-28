@@ -42,13 +42,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'bt',    
     'south',
-    #'crispy_forms',
+    'crispy_forms',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',    
     'django.contrib.messages.context_processors.messages',     
     'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.static'
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -97,5 +98,13 @@ USE_L10N = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR,  'static')
 STATIC_URL = '/static/'
+
+
+STATICFILES_FINDERS = ( 
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+ADMIN_MEDIA_PREFIX = '/static/admin/'

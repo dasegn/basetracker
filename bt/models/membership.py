@@ -20,10 +20,10 @@ class Role(models.Model):
 	project = models.ForeignKey(Project, null=True, blank=False, related_name="roles", verbose_name=_("project"))
 
 	def save(self, *args, **kwargs):
-	    if not self.slug:
-	        self.slug = slugify_uniquely(self.name, self.__class__)
+		if not self.slug:
+			self.slug = slugify_uniquely(self.name, self.__class__)
 
-	    super(Role, self).save(*args, **kwargs)
+		super(Role, self).save(*args, **kwargs)
 
 	class Meta:
 		verbose_name = "rol"
@@ -36,16 +36,21 @@ class Role(models.Model):
 		#)
 
 	def __str__(self):
-	    return self.name
+		return self.name
 
 
 class Membership(models.Model):
-	user = models.ForeignKey(User, null=True, blank=True, default=None, related_name="memberships")
+	user = models.ForeignKey(User, null=True, blank=False, default=None, related_name="memberships")
 	project = models.ForeignKey('Project', null=False, blank=False, related_name="memberships")
 	role = models.ForeignKey('Role', null=False, blank=False, related_name="memberships")
 
 	def __unicode__(self):
-		return self.user
+		return self.user.username
+		return '%s - %s - %s' % (
+			self.user.username,
+			self.project.name,
+			self.role.name
+		)		
 	
 	def clean(self):
 		# TODO: Review and do it more robust

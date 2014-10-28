@@ -7,13 +7,16 @@ from bt.models.projects import Project
 from bt.models.membership import Membership
 
 from bt.forms.projects import ProjectForm
+from bt.forms.membership import MembershipForm
 from bt.admin.roles import RoleInline
 
 
 class MembershipAdmin(admin.ModelAdmin):
     list_display = ['project', 'role', 'user']
     list_display_links = list_display
-    list_filter = ['project', 'role']
+    list_filter = ['project__name', 'user__username']
+    form = MembershipForm
+
 
 class MembershipInline(admin.TabularInline):
     model = Membership
