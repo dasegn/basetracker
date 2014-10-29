@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'bt',    
     'south',
     'crispy_forms',
+    'rest_framework',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -96,6 +97,7 @@ USE_I18N = True
 
 USE_L10N = True
 
+##### Static configuration #####
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR,  'static')

@@ -27,5 +27,7 @@ class MembershipForm(forms.ModelForm):
         model = Membership
         widgets = {
             'user' : forms.Select(attrs={'class': 'chosen-select'}),
+            'project' : forms.Select(attrs={'class': 'chosen-select'}),
+            'role' : forms.Select(attrs={'class': 'chosen-select'}),
         }
 

@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^$', RedirectView.as_view(url='admin'), name='redirect_home'),
     url('', include('django.contrib.auth.urls', namespace='auth')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
 
 

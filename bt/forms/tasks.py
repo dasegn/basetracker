@@ -6,7 +6,7 @@ from django.contrib.admin import widgets
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from bt.models.tasks import Task, TaskList, Comment
+from bt.models.tasks import Task, TaskList, Comment, TaskListSummary
 
 class TaskListForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
@@ -15,25 +15,32 @@ class TaskListForm(forms.ModelForm):
 
 
 	class Media:
+		css = { 'all' : ('css/chosen.css',) }
 		js = (
-			'/static/admin/pageadmin.js',
+			'js/jquery.min.js',
+			'js/chosen.jquery.min.js',
+			'js/chosen.init.js',
 		)
 
 	class Meta:
 		model = TaskList
 
-class CommentForm(forms.ModelForm):
+class TaskListSummaryForm(forms.ModelForm):
+	class Meta:
+		model = TaskListSummary
+		widgets = {
+			'assigned' : forms.Select(attrs={'class': 'chosen-select'}),
+		}
 
+class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Comment
 
 class TaskForm(forms.ModelForm):
 
-
-
 	class Meta:
 		model = Task
 		widgets = {
-			'description': forms.Textarea(attrs={'cols': 20}),
-			'hours': forms.NumberInput(attrs={'style': 'width: 70px'})
+			#'title': forms.TextInput(attrs={'style': "width:"}),
+			'description': forms.Textarea(attrs={ 'cols': 33 , 'rows' : 6 }),
 		}		

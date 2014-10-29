@@ -53,12 +53,9 @@ class Task(models.Model):
     title = models.CharField(max_length=140, verbose_name=_(u'Titulo'))
     description = models.TextField(null=False, blank=True, default="", verbose_name=_(u'Descripción'))
     list = models.ForeignKey(TaskList)
-    created_date = models.DateField(auto_now=True, auto_now_add=True, verbose_name=_(u'Fecha inicio'))
-    hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
-    created_by = models.ForeignKey(User, blank=True, related_name='task_created_by', verbose_name=_(u'Creada por'))
-    assigned_to = models.ForeignKey(User,  blank=False, null=False, default=None,  verbose_name=_("Asignada a"), related_name='task_assigned_to')
+    created_by = models.ForeignKey(User, null=True, blank=True, default=None, related_name='task_created_by', verbose_name=_(u'Creada por'))
 
-    due_date = models.DateField(blank=True, null=True, verbose_name=_(u'Fecha fin'))
+    created_date = models.DateField(auto_now=True, auto_now_add=True, verbose_name=_(u'Fecha de creación'))    
     completed_date = models.DateField(blank=True, null=True, verbose_name=_(u'Fecha de completado'))
     completed = models.BooleanField(verbose_name=_(u'Completado'))
 
@@ -78,6 +75,8 @@ class Task(models.Model):
         # If Item is being marked complete, set the completed_date
         if self.completed:
             self.completed_date = datetime.datetime.now()
+        if self.pk:
+            self.created_date = datetime.datetime.now()
         super(Task, self).save(*args, **kwargs)
 
     class Meta:
@@ -85,6 +84,22 @@ class Task(models.Model):
         verbose_name_plural = 'tareas'
         app_label = string_with_title('bt', u'Módulos')
 
+
+class TaskListSummary(models.Model):
+    list = models.ForeignKey(TaskList)
+    assigned = models.ForeignKey(User,  blank=False, null=False, default=None,  verbose_name=_("Asignada a"), related_name='tasklist_assigned_to')
+    hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
+
+    def __unicode__(self):
+        return self.title
+
+    def __str__(self):
+        return "({1}) {0}".format(self.title, self.description)
+
+    class Meta:
+        verbose_name = 'detalle de lista'
+        verbose_name_plural = 'detalles de listas'
+        app_label = string_with_title('bt', u'Módulos')
 
 class Comment(models.Model):
     """

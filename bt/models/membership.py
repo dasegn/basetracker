@@ -5,12 +5,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from bt.models.attributes import Attribute
 from bt.models.projects import Project
+
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from utils.slug import slugify_uniquely
-from django.core.exceptions import ValidationError
-
 from django.contrib.admin.widgets import FilteredSelectMultiple
+
+from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # Create your models here.
 
@@ -54,9 +57,12 @@ class Membership(models.Model):
 	
 	def clean(self):
 		# TODO: Review and do it more robust
-		memberships = Membership.objects.filter(user=self.user, project=self.project)
-		if self.user and memberships.count() > 0 and memberships[0].id != self.id:
-			raise ValidationError(_('El usuario ya es miembro de este proyecto'))
+		try: 
+			memberships = Membership.objects.filter(user=self.user, project=self.project)
+			if self.user and memberships.count() > 0 and memberships[0].id != self.id:
+				raise ValidationError(_('El usuario ya es miembro de este proyecto'))
+		except ObjectDoesNotExist:
+			raise ValidationError(_('Por favor, primero introduzca todos los campos requeridos'))
 
 
 	class Meta:
