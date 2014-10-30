@@ -5,14 +5,9 @@ from django.forms import ModelForm
 from django.contrib.admin import widgets 
 from bt.models.membership import Membership
 
-from crispy_forms.helper import FormHelper
-
 class MembershipForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MembershipForm, self).__init__(*args, **kwargs)  
-        self.helper = FormHelper(self)
-        self.helper.form_class = 'form-horizontal'
-
 
 
     class Media:

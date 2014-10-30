@@ -20,8 +20,6 @@ class TaskList(models.Model):
     slug = models.SlugField(max_length=140, editable=False)
     project = models.ForeignKey(Project, verbose_name=_(u'Proyecto'))
 
-    tstatus = models.ForeignKey(Attribute, verbose_name=_(u'Estado'), null=True, limit_choices_to={'type': 'task-status'}, related_name='task_with_status')
-
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.name)
@@ -39,7 +37,7 @@ class TaskList(models.Model):
         return Item.objects.filter(list=self, completed=0)
 
     class Meta:
-        ordering = ["name",'tstatus']
+        ordering = ["name",'project']
         verbose_name = 'lista de tareas'
         verbose_name_plural = 'listas de tareas'
 

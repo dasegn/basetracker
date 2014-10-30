@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli',
     'django.contrib.staticfiles',    
     'django.contrib.admin',
     'django.contrib.auth',
@@ -105,8 +106,12 @@ STATIC_URL = '/static/'
 
 
 STATICFILES_FINDERS = ( 
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',    
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+
+#### Grappelli settings ####
+GRAPPELLI_ADMIN_TITLE = "BaseTracker"

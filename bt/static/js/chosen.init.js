@@ -38,6 +38,7 @@ function chosenReset(obj){
 		console.log(jQuery(this));
 		jQuery(this).removeAttr('style');
 		jQuery(this).parents("td").find(".chosen-container").remove();
+		//jQuery(this).chosen('destroy');
 		jQuery(this).chosen();
 	});			
 

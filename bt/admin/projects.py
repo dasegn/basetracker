@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
+from django.conf import settings
 
 # Register your models here.
 from bt.models.projects import Project
@@ -24,6 +25,7 @@ class MembershipInline(admin.TabularInline):
 		
 
 class ProjectAdmin(admin.ModelAdmin):
+	add_form_template = settings.BASE_DIR + '/templates/admin/projects/change_form.html'
 	form = ProjectForm
 	list_display = ('name','identifier','access','type','status')
 	search_fields = ['name','identifier']
@@ -34,15 +36,15 @@ class ProjectAdmin(admin.ModelAdmin):
 			'fields': ('name', 'description', 'identifier', 'parent', 'access')
 		}),
 		('Atributos', {
-			'classes': ('collapse','extrapretty'),
+			'classes': ('',),
 			'fields': ('type', 'status', 'kam', 'admin', 'rd', 'client')
 		}),	
 		('Servicios', {
-			'classes': ('collapse',),
+			'classes': ('',),
 			'fields': ('services',)
 		}),			
 		('Fechas', {
-			'classes': ('collapse',),
+			'classes': ('',),
 			'fields': ('date_begin', 'date_end', 'date_created', 'date_modified')
 		}),	
 	)

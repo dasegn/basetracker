@@ -12,12 +12,19 @@ from django.contrib.auth.models import Group
 from django.utils.translation import ugettext as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
+
 # Importación de app de utilerías 
 from utils.forms import NestedModelChoiceField
 
 class ProjectForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(ProjectForm, self).__init__(*args, **kwargs)
+
+		self.helper = FormHelper(self)
+		self.helper.form_class = 'form-horizontal'
+
 		self.fields['date_begin'].required = False
 		self.fields['date_end'].required = False
 		self.fields['description'].required = False
@@ -59,13 +66,21 @@ class ProjectForm(forms.ModelForm):
 		)
 	)
 
-	services = forms.ModelMultipleChoiceField(
-		queryset=Service.objects.all(),
-		required=False,
-		widget=FilteredSelectMultiple(
-			verbose_name='Servicios',
-			is_stacked=False
+	class Media:
+		css = { 'all' : ('css/chosen.css',) }
+		js = (
+			'js/jquery.min.js',
+			'js/chosen.jquery.min.js',
+			'js/chosen.init.js',
 		)
-	)
+
 	class Meta:
 		model = Project
+		widgets = {
+			'services': forms.SelectMultiple(
+				attrs = {
+					'class': 'chosen-select',
+					'data-placeholder' : 'Seleccione algunos servicios'
+				}
+			),
+		}		
