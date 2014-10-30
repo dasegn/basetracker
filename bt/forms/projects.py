@@ -12,18 +12,12 @@ from django.contrib.auth.models import Group
 from django.utils.translation import ugettext as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
-
 # Importación de app de utilerías 
 from utils.forms import NestedModelChoiceField
 
 class ProjectForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(ProjectForm, self).__init__(*args, **kwargs)
-
-		self.helper = FormHelper(self)
-		self.helper.form_class = 'form-horizontal'
 
 		self.fields['date_begin'].required = False
 		self.fields['date_end'].required = False

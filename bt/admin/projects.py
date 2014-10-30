@@ -13,15 +13,15 @@ from bt.admin.roles import RoleInline
 
 
 class MembershipAdmin(admin.ModelAdmin):
-    list_display = ['project', 'role', 'user']
-    list_display_links = list_display
-    list_filter = ['project__name', 'user__username']
-    form = MembershipForm
+	list_display = ['project', 'role', 'user']
+	list_display_links = list_display
+	list_filter = ['project__name', 'user__username']
+	form = MembershipForm
 
 
 class MembershipInline(admin.TabularInline):
-    model = Membership
-    extra = 0
+	model = Membership
+	extra = 0
 		
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -32,24 +32,31 @@ class ProjectAdmin(admin.ModelAdmin):
 	list_filter = ['access','type','status','client']
 
 	fieldsets = (
-		(None, {
+		('General', {
+			'classes' : ('general',),
 			'fields': ('name', 'description', 'identifier', 'parent', 'access')
 		}),
 		('Atributos', {
-			'classes': ('',),
+			'classes' : ('atributos',),
 			'fields': ('type', 'status', 'kam', 'admin', 'rd', 'client')
 		}),	
 		('Servicios', {
-			'classes': ('',),
+			'classes' : ('servicios',),
 			'fields': ('services',)
 		}),			
 		('Fechas', {
-			'classes': ('',),
+			'classes' : ('fechas',),
 			'fields': ('date_begin', 'date_end', 'date_created', 'date_modified')
 		}),	
 	)
 
 	inlines = [RoleInline, MembershipInline,]
+
+	def add_view(self, request, form_url='', extra_context=None):
+		extra_context = extra_context or {}
+		#extra_context['tabs'] = self.tabs
+		return super(ProjectAdmin, self).add_view(request,
+			form_url, extra_context=extra_context)
 
 	def get_readonly_fields(self, request, obj = None):
 		if obj: #In edit mode
