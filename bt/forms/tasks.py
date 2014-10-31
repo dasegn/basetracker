@@ -6,7 +6,7 @@ from django.contrib.admin import widgets
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from bt.models.tasks import Task, TaskList, Comment, TaskListSummary
+from bt.models.tasks import Task, TaskList, TaskListSummary
 
 class TaskListForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
@@ -32,9 +32,7 @@ class TaskListSummaryForm(forms.ModelForm):
 			'assigned' : forms.Select(attrs={'class': 'chosen-select'}),
 		}
 
-class CommentForm(forms.ModelForm):
-	class Meta:
-		model = Comment
+
 
 class TaskForm(forms.ModelForm):
 

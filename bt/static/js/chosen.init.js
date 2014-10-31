@@ -9,7 +9,7 @@
 
 		// Tweak the CSS for any parent of a Chosen widget.
 		setTimeout(function() {
-			jQuery(".chosen-container").parents(".form-row").css({
+			jQuery(".chosen-container").parents(".grp-row").css({
 			  "position": "relative",
 			  "overflow": "visible"
 			});

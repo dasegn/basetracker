@@ -75,3 +75,26 @@ class Project(models.Model):
 		verbose_name_plural = 'proyectos'
 		app_label = string_with_title('bt', u'Módulos')
 		ordering = ('name', 'status', 'type',)
+
+class Comment(models.Model):
+	"""
+	Not using Django's built-in comments because we want to be able to save
+	a comment and change task details at the same time. Rolling our own since it's easy.
+	"""
+
+	author = models.ForeignKey(User, verbose_name=_(u'Autor'), blank=True)
+	project = models.ForeignKey(Project, null=True,  blank=False, verbose_name=_(u'Proyecto'))
+	submit_date = models.DateTimeField(default=timezone.now,  verbose_name=_(u'Fecha'))
+	body = models.TextField(blank=False, verbose_name=_(u'Mensaje'))
+
+
+	def __unicode__(self):
+		return '%s - %s' % (
+			self.author,
+			self.submit_date,
+		)
+
+	class Meta:
+		verbose_name = 'comentario'
+		verbose_name_plural = 'comentarios'        
+		app_label = string_with_title('bt', u'Módulos')    		

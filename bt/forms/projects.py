@@ -3,7 +3,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.admin import widgets 
-from bt.models.projects import Project
+from bt.models.projects import Project, Comment
 from bt.models.services import Service
 
 from django.contrib.auth.models import User
@@ -78,3 +78,7 @@ class ProjectForm(forms.ModelForm):
 				}
 			),
 		}		
+
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = Comment		

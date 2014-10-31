@@ -12,8 +12,6 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 
 import datetime
-from django.utils import timezone
-
 
 class TaskList(models.Model):
     name = models.CharField(max_length=140, verbose_name=_(u'Nombre'))
@@ -35,6 +33,20 @@ class TaskList(models.Model):
     def incomplete_tasks(self):
         # Count all incomplete tasks on the current list instance
         return Item.objects.filter(list=self, completed=0)
+
+    def count_tasks(self):
+        return u'%s' % TaskList.objects.get(id=self.id).task_set.all().count()
+
+    def progress_tasks(self):
+        tasks = TaskList.objects.get(id=self.id).task_set.all()
+        try:
+            return u"%d%%" % (float(tasks.filter(completed=True).count()) / tasks.count() * 100)
+        except (ValueError, ZeroDivisionError):
+            return u""
+
+    count_tasks.short_description = 'Tareas'
+    progress_tasks.allow_tags = True
+    progress_tasks.short_description = 'Progreso'
 
     class Meta:
         ordering = ["name",'project']
@@ -99,25 +111,3 @@ class TaskListSummary(models.Model):
         verbose_name_plural = 'detalles de listas'
         app_label = string_with_title('bt', u'Módulos')
 
-class Comment(models.Model):
-    """
-    Not using Django's built-in comments because we want to be able to save
-    a comment and change task details at the same time. Rolling our own since it's easy.
-    """
-
-    author = models.ForeignKey(User, verbose_name=_(u'Autor'), blank=True)
-    tasklist = models.ForeignKey(TaskList, verbose_name=_(u'Lista de tareas'))
-    submit_date = models.DateTimeField(default=timezone.now,  verbose_name=_(u'Fecha'))
-    body = models.TextField(blank=False, verbose_name=_(u'Mensaje'))
-
-
-    def __unicode__(self):
-        return '%s - %s' % (
-            self.author,
-            self.submit_date,
-        )
-
-    class Meta:
-        verbose_name = 'comentario'
-        verbose_name_plural = 'comentarios'        
-        app_label = string_with_title('bt', u'Módulos')    

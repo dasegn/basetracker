@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from bt.models.tasks import Task, TaskList, Comment, TaskListSummary
-from bt.forms.tasks import TaskForm, TaskListForm, CommentForm, TaskListSummaryForm
-from utils.readonlywidget import ReadOnlyWidget
+from bt.models.tasks import Task, TaskList, TaskListSummary
+from bt.forms.tasks import TaskForm, TaskListForm, TaskListSummaryForm
 
 class TaskInline(admin.TabularInline):
 	model = Task
@@ -25,7 +24,7 @@ class TaskListSummaryInline(admin.TabularInline):
 	form = TaskListSummaryForm
 
 class TaskListAdmin(admin.ModelAdmin):
-	list_display = ('name', 'project')
+	list_display = ('name', 'project','count_tasks','progress_tasks',)
 	list_filter = ['name', 'project__name']
 
 	ordering = ['name', 'project']
@@ -34,6 +33,8 @@ class TaskListAdmin(admin.ModelAdmin):
 	inlines = [TaskInline, TaskListSummaryInline, ]
 
 	form = TaskListForm
+
+
 
 	def save_formset(self, request, form, formset, change):
 		instances = formset.save(commit=False)
@@ -49,26 +50,7 @@ class TaskAdmin(admin.ModelAdmin):
 	search_fields = ['name']
 
 
-class CommentAdmin(admin.ModelAdmin):
-	list_display = ('author', 'tasklist', 'submit_date')
-	list_filter = ['author','tasklist']
-	ordering = ['author', 'tasklist', 'submit_date']
-	search_fields = ['author__username', 'tasklist__name', 'body']
 
-	form = CommentForm
-	readonly_fields = ['submit_date']
-	
-	def formfield_for_foreignkey(self, db_field, request, **kwargs):
-		if (db_field.name in ["author",]):
-			kwargs['initial'] = request.user.id
-			return db_field.formfield(**kwargs)
-		return super(CommentAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
-	def formfield_for_dbfield(self, db_field, **kwargs):
-		if (db_field.name in ["author",]):
-			kwargs["widget"] = ReadOnlyWidget(db_field=db_field)
-		return super(CommentAdmin, self).formfield_for_dbfield(db_field, **kwargs)
 
 
 admin.site.register(TaskList, TaskListAdmin)
-admin.site.register(Comment, CommentAdmin)
