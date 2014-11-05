@@ -16,7 +16,11 @@ import datetime
 class TaskList(models.Model):
     name = models.CharField(max_length=140, verbose_name=_(u'Nombre'))
     slug = models.SlugField(max_length=140, editable=False)
-    project = models.ForeignKey(Project, verbose_name=_(u'Proyecto'))
+    project = models.ForeignKey(Project, null=False, blank=False, verbose_name=_(u'Proyecto'))
+    service = models.ForeignKey(Service, null=False, blank=False, verbose_name=_(u'Servicio'))
+    list_start = models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de inicio'))  
+    list_end =  models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de fin'))  
+
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -60,7 +64,7 @@ class TaskList(models.Model):
 
 
 class Task(models.Model):
-    title = models.CharField(max_length=140, verbose_name=_(u'Titulo'))
+    title = models.CharField(max_length=140, null=False, verbose_name=_(u'Titulo'))
     description = models.TextField(null=False, blank=True, default="", verbose_name=_(u'Descripción'))
     list = models.ForeignKey(TaskList)
     created_by = models.ForeignKey(User, null=True, blank=True, default=None, related_name='task_created_by', verbose_name=_(u'Creada por'))
