@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
+from django.db.models.signals import post_save
+
 
 # Create your models here.
 class Profile(models.Model):

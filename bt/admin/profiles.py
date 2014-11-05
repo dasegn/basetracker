@@ -17,8 +17,8 @@ from bt.views import profiles
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
-    verbose_name = 'Perfil'
-    verbose_name_plural = 'Perfiles'
+    verbose_name = 'perfil'
+    verbose_name_plural = 'perfiles'
 
 # Define a new User admin
 class UserAdmin(UserAdmin):
