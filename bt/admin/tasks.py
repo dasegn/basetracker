@@ -24,7 +24,7 @@ class TaskListSummaryInline(admin.TabularInline):
 	form = TaskListSummaryForm
 
 class TaskListAdmin(admin.ModelAdmin):
-	list_display = ('name', 'project','count_tasks','progress_tasks',)
+	list_display = ('name', 'project', 'service', 'week_number','count_tasks','progress_tasks',)
 	list_filter = ['name', 'project__name']
 
 	ordering = ['name', 'project']
@@ -32,9 +32,15 @@ class TaskListAdmin(admin.ModelAdmin):
 
 	inlines = [TaskInline, TaskListSummaryInline, ]
 
+
 	form = TaskListForm
 
-
+	fieldsets = (
+		('Detalles de la lista', {
+			'classes' : ('general',),
+			'fields': ('name', ('project', 'service'), ('list_start', 'list_end'))
+		}),		
+	)
 
 	def save_formset(self, request, form, formset, change):
 		instances = formset.save(commit=False)

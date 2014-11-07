@@ -1,5 +1,5 @@
 // Chosen init file
-(function($, undefined){
+(function($){
 	jQuery(document).ready(function(){
 		setTimeout(function(){
 			jQuery(".chosen-select").chosen();

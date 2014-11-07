@@ -10,6 +10,8 @@ from bt.models.services import Service
 from utils.adminLabels import string_with_title
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
+from django.core.exceptions import ValidationError
+from smart_selects.db_fields import ChainedForeignKey 
 
 import datetime
 
@@ -17,16 +19,31 @@ class TaskList(models.Model):
     name = models.CharField(max_length=140, verbose_name=_(u'Nombre'))
     slug = models.SlugField(max_length=140, editable=False)
     project = models.ForeignKey(Project, null=False, blank=False, verbose_name=_(u'Proyecto'))
-    service = models.ForeignKey(Service, null=False, blank=False, verbose_name=_(u'Servicio'))
+    service = ChainedForeignKey(Service, chained_field="project", chained_model_field="services", null=False, blank=False, verbose_name=_(u'Servicio'))
     list_start = models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de inicio'))  
     list_end =  models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de fin'))  
+    list_created = models.DateTimeField(auto_now_add=True)
+    list_modified = models.DateTimeField(auto_now=True)
 
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = slugify(self.name)
+            if not self.list_created:
+                self.list_created = datetime.datetime.today()
+            if not self.list_modified:
+                self.list_modified = datetime.datetime.today()
+        else:
+            self.list_modified = datetime.datetime.today()
 
+        if not self.id:
+            self.slug = slugify(self.name)
         super(TaskList, self).save(*args, **kwargs)
+
+
+    def clean(self):
+        tasklist = TaskList.objects.filter(name=self.name, project=self.project, service=self.service)        
+        if tasklist.count() > 0 and tasklist[0].id != self.id:
+            raise ValidationError(_('La lista de tareas de esa semana, proyecto y servicio ya existe!'))
 
     def __unicode__(self):
         return self.name
@@ -48,9 +65,18 @@ class TaskList(models.Model):
         except (ValueError, ZeroDivisionError):
             return u""
 
+    def week_number(self):
+        if self.id:
+            if isinstance(self.list_start, datetime.date):               
+                return u'%s' % self.list_start.isocalendar()[1]
+        else:
+            return u""
+
+
     count_tasks.short_description = 'Tareas'
     progress_tasks.allow_tags = True
     progress_tasks.short_description = 'Progreso'
+    week_number.short_description = 'Semana'
 
     class Meta:
         ordering = ["name",'project']

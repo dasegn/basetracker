@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'south',
     'crispy_forms',
     'rest_framework',
+    'smart_selects',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -115,3 +116,8 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 #### Grappelli settings ####
 GRAPPELLI_ADMIN_TITLE = "BaseTracker"
+
+#### jQuery Autocomplete 
+USE_DJANGO_JQUERY = False
+JQUERY_URL = STATIC_URL + 'js/jquery.min.js'
+

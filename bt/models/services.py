@@ -16,6 +16,6 @@ class Service(models.Model):
 		return self.name
 
 	class Meta:
-		verbose_name = 'Servicio'
-		verbose_name_plural = 'Servicios'
+		verbose_name = 'servicio'
+		verbose_name_plural = 'servicios'
 		app_label = string_with_title('bt', u'Módulos')
