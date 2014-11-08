@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from bt.models.projects import Project
 from bt.models.attributes import Attribute
 from bt.models.services import Service
+from bt.models.membership import Membership
 
 from utils.adminLabels import string_with_title
 from django.template.defaultfilters import slugify
@@ -127,15 +128,21 @@ class Task(models.Model):
 
 class TaskListSummary(models.Model):
     list = models.ForeignKey(TaskList)
-    assigned = models.ForeignKey(User,  blank=False, null=False, default=None,  verbose_name=_("Asignada a"), related_name='tasklist_assigned_to')
+    assigned = models.ForeignKey(Membership,  blank=False, null=False, default=None,  verbose_name=_("Asignada a"), related_name='tasklist_assigned_to')
     hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
 
     def __unicode__(self):
-        return self.title
+        return self.assigned
 
     def __str__(self):
-        return "({1}) {0}".format(self.title, self.description)
+        return "({1}) {0}".format(self.assigned, self.hours)
 
+
+#    def clean(self):
+#        membership = Membership.objects.get(id=self.assigned, project=self.project)        
+#        if tasklist.count() > 0 and tasklist[0].id != self.id:
+#            raise ValidationError(_('La lista de tareas de esa semana, proyecto y servicio ya existe!'))
+        
     class Meta:
         verbose_name = 'detalle de lista'
         verbose_name_plural = 'detalles de listas'

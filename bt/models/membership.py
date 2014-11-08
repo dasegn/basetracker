@@ -19,7 +19,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class Role(models.Model):
 	name = models.CharField(max_length=200, null=False, blank=False, verbose_name=_("name"))
-	slug = models.SlugField(max_length=250, null=False, blank=True, verbose_name=_("slug"))
+	slug = models.SlugField(max_length=250, null=True, blank=True, verbose_name=_("slug"))
 	project = models.ForeignKey(Project, null=True, blank=False, related_name="roles", verbose_name=_("project"))
 
 	def save(self, *args, **kwargs):
@@ -47,9 +47,15 @@ class Membership(models.Model):
 	project = models.ForeignKey('Project', null=False, blank=False, related_name="memberships")
 	role = models.ForeignKey('Role', null=False, blank=False, related_name="memberships")
 
+	def __str__(self):
+		return u'%s - %s - %s' % (
+			self.user.username,
+			self.project.name,
+			self.role.name
+		)	
+
 	def __unicode__(self):
-		return self.user.username
-		return '%s - %s - %s' % (
+		return u'%s - %s - %s' % (
 			self.user.username,
 			self.project.name,
 			self.role.name

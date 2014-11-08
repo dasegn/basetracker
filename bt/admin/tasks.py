@@ -4,6 +4,8 @@ from django.contrib import admin
 from bt.models.tasks import Task, TaskList, TaskListSummary
 from bt.forms.tasks import TaskForm, TaskListForm, TaskListSummaryForm
 
+from django.forms.models import BaseInlineFormSet
+
 class TaskInline(admin.TabularInline):
 	model = Task
 	extra = 0
@@ -18,10 +20,21 @@ class TaskInline(admin.TabularInline):
 		return super(TaskInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
+class TaskListSummaryInlineFormset(BaseInlineFormSet):
+	def __init__(self, *args, **kwargs):
+		super(TaskListSummaryInlineFormset, self).__init__(*args, **kwargs)
+
+		
+	def add_fields(self, form, index):
+		super(TaskListSummaryInlineFormset, self).add_fields(form, index)
+
+
+
 class TaskListSummaryInline(admin.TabularInline):
 	model = TaskListSummary
 	extra = 0
 	form = TaskListSummaryForm
+	formset = TaskListSummaryInlineFormset
 
 class TaskListAdmin(admin.ModelAdmin):
 	list_display = ('name', 'project', 'service', 'week_number','count_tasks','progress_tasks',)
@@ -31,7 +44,6 @@ class TaskListAdmin(admin.ModelAdmin):
 	search_fields = ['name', 'project__name']
 
 	inlines = [TaskInline, TaskListSummaryInline, ]
-
 
 	form = TaskListForm
 

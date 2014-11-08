@@ -12,5 +12,7 @@ class RoleAdmin(admin.ModelAdmin):
 
 
 class RoleInline(admin.TabularInline):
+
+	exclude = ('slug',)
 	model = Role
 	extra = 0

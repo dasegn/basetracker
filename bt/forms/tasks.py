@@ -9,7 +9,6 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from bt.models.tasks import Task, TaskList, TaskListSummary
 from django.conf import settings
 
-
 class TaskListForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(TaskListForm, self).__init__(*args, **kwargs)	
@@ -59,7 +58,7 @@ class TaskListSummaryForm(forms.ModelForm):
 	class Meta:
 		model = TaskListSummary
 		widgets = {
-			'assigned' : forms.Select(attrs={'class': 'chosen-select'}),
+			#'assigned' : forms.Select(attrs={'class': 'chosen-select'}),
 		}
 
 
