@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'basetracker.middlewares.RequireLoginMiddleware',
+    #'basetracker.middlewares.RequireLoginMiddleware',
 )
 
 ROOT_URLCONF = 'basetracker.urls'
