@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'basetracker.middlewares.RequireLoginMiddleware',
+    'basetracker.middlewares.RequireLoginMiddleware',
 )
 
 ROOT_URLCONF = 'basetracker.urls'
@@ -121,3 +121,10 @@ GRAPPELLI_ADMIN_TITLE = "BaseTracker"
 USE_DJANGO_JQUERY = False
 JQUERY_URL = STATIC_URL + 'js/jquery.min.js'
 
+
+# login Settings #
+LOGIN_URL = '/login/'
+LOGIN_EXEMPT_URLS = (
+    r'^about\.html$',
+    r'^legal/', # allow any URL under /legal/*
+) 
