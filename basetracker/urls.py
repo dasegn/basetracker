@@ -4,16 +4,10 @@ from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from bt.viewsets.projects import ProjectViewSet, CommentViewSet
-from rest_framework.routers import DefaultRouter
-router = DefaultRouter()
-
-router.register(r'projects', ProjectViewSet)
-router.register(r'comments', CommentViewSet)
-
-
 from django.contrib import admin
 admin.autodiscover()
+
+from bt.routers import router
 
 urlpatterns = patterns('',
     # Examples: 

@@ -6,6 +6,9 @@ from bt.serializers.projects import ProjectSerializer, CommentSerializer
 from rest_framework import viewsets
 
 class ProjectViewSet(viewsets.ModelViewSet):
+	def get_queryset(self):
+		return Project.objects.all()
+
 	serializer_class = ProjectSerializer
 	queryset = Project.objects.all()
 

@@ -6,7 +6,8 @@ from django.template import RequestContext
 
 
 def login_user(request):
-    logout(request)
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/') 
     state = "Please log in below..."
     username = password = ''
     if request.POST:
