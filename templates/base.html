@@ -5,11 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-	<title>BaseTrack</title>
-	<script src="{% static "js/angular/angular.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/jquery.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/bootstrap.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/app.js" %}" type="text/javascript"></script>
+	<title>BaseTracker</title>
 
 	<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" />
 	<link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet" />
@@ -26,8 +22,8 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="?page=index">
-					<img src="../assets/images/d1-logo.png">
+				<a class="navbar-brand" href="/">
+					<h3 id="app_title">BaseTracker</h3>
 				</a>
 			</div>
 			<!-- /.navbar-header -->
@@ -36,7 +32,9 @@
 			<ul class="nav navbar-top-links navbar-left mega-menu hidden-xs">
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="fa fa-list-ul fa-fw"></i> <strong>Mega Menu</strong> <span class="badge badge-notification badge-danger animated pulse">new</span>
+						<i class="fa fa-list-ul fa-fw"></i> 
+						<strong>Mega Menu</strong> 
+						<span class="badge badge-notification badge-danger animated pulse">new</span>
 					</a>
 					<div class="dropdown-menu mega-menu animated flipInY">
 						<div class="row">
@@ -312,18 +310,21 @@
 
 				<li class="dropdown">
 					<a class="dropdown-toggle user" data-toggle="dropdown" href="#">
-						Jonathan Doe
-						<img src="../assets/images/people/25x25/1.jpg" alt="" data-src="../assets/images/people/25x25/1.jpg" data-src-retina="../assets/images/people/x2/1x2.jpg" class="img-responsive img-circle user-img">
+						{{ fullName }} 
+						<!-- <img src="../assets/images/people/25x25/1.jpg" alt="" data-src="../assets/images/people/25x25/1.jpg" data-src-retina="../assets/images/people/x2/1x2.jpg" class="img-responsive img-circle user-img"> -->
+						<img width="25" src="{{ avatar }}" alt="" data-src="{{ avatar }}" data-src-retina="{{ avatar }}" class="img-responsive img-circle user-img">
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-user animated fadeInUp">
 						<li>
 							 <div class="media">
 								<a class="pull-left" href="#">
-									<img class="media-object user-profile-image img-circle" src="../assets/images/people/65x65/1.jpg">
+									<img class="media-object user-profile-image img-circle" width="65" src="{{ avatar }}">
 								</a>
 								<div class="media-body">
-									<h4 class="media-heading">Jonathan Doe<small> USA</small></h4>
+									<h4 class="media-heading">
+										{{ fullName }}<small> USA</small>
+									</h4>
 									<h5>Software Developer at <a href="http://defthemes.com">DefThemes</a></h5>
 									<hr style="margin:8px auto">
 
@@ -339,13 +340,12 @@
 						<li class="divider"></li>
 						<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 						<li class="divider"></li>
-						<li><a href="#" class="text-danger"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						<li><a href="/logout" class="text-danger"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 						</li>
 					</ul>
 					<!-- /.dropdown-user -->
 				</li>
 				<!-- /.dropdown -->
-				<li class="active"><a href="#" class="animated fadeIn trigger-sidebar"><i class="fa fa-comments"></i> </a></li>
 			</ul>
 			<!-- /.navbar-top-links -->
 
@@ -357,26 +357,15 @@
 				<ul class="nav" id="side-menu">
 					<li class="sidebar-user">
 						<div class="user-img">
-							<img src="../assets/images/people/65x65/1.jpg" alt="" data-src="../assets/images/people/65x65/1.jpg" data-src-retina="../assets/images/people/x2/1x2.jpg" width="65" height="65" class="img-responsive img-circle animated bounceIn">
+							<img src="{{ avatar }}" alt="" data-src="{{ avatar }}" data-src-retina="{{ avatar }}" width="65" height="65" class="img-responsive img-circle animated bounceIn">
 						</div>
 						<div class="user-info">
-							<div class="user-greet">Welcome</div>
-							<div class="user-name">Jonathan Doe</div>
+							<div class="user-greet">Bienvenido </div>
+							<div class="user-name">{{ fullName }}</div>
 							<div class="user-status animated bounceInLeft">
 								<span class="label label-success dropdown-toggle">Online</span>
 							</div>
 						</div>
-					</li>
-					<li class="sidebar-search">
-						<div class="input-group custom-search-form">
-							<input type="text" class="form-control" placeholder="Quick Search...">
-							<span class="input-group-btn">
-								<button class="btn btn-inverse" type="button">
-									<i class="fa fa-search"></i>
-								</button>
-							</span>
-						</div>
-						<!-- /input-group -->
 					</li>
 					
 					
@@ -385,7 +374,8 @@
 					</li>
 
 										<li >
-						<a href="#"><i class="fa fa-wrench fa-fw"></i> UI Components <span class="fa arrow"></span></a>
+						<a href="#">
+						<i class="fa fa-wrench fa-fw"></i> UI Components <span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level ">
 							<li >
 								<a href="panels-wells.html">Panels and Wells <span class="label label-info pull-right">+10</span></a>
@@ -568,14 +558,28 @@
 		<!-- /.navbar-static-side -->	
 
 
-	<div class="container">
-		{% block container %}
+	<div id="page-wrapper">
+		<div class="row">
+			{% block container %}
 
-		{% endblock %}
+			{% endblock %}
+		</div>
 	</div>
-	<script src="{% static "js/angular/angular.min.js" %}" type="text/javascript"></script>
+
 	{% block scripts %}
 	{% endblock %}
-	<script src="{{ STATIC_URL }}js/djng-tutorial.js" type="text/javascript"></script>
+	<script src="{% static "js/jquery.min.js" %}" type="text/javascript"></script>	
+	<script src="{% static "js/plugins/jquery.easing.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/bootstrap.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/plugins/jquery.blockui.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/plugins/jquery-ui.custom.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/plugins/jquery.metisMenu.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/plugins/nicescroll/jquery.nicescroll.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/angular/angular.min.js" %}" type="text/javascript"></script>
+
+	<script src="{% static "js/app.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/init.js" %}" type="text/javascript"></script>
+
+
 </body>
 </html>

@@ -113,6 +113,8 @@ STATICFILES_FINDERS = (
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = '/files/'
 
 #### Grappelli settings ####
 GRAPPELLI_ADMIN_TITLE = "BaseTracker"

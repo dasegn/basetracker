@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
+from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -24,6 +25,6 @@ urlpatterns = patterns('',
     url(r'^admin/project/', include('bt.urls.projects'), name='project'),
     url(r'^admin/profile/', include('bt.urls.profiles'), name='profile'),
     url(r'^admin/', include(admin.site.urls), name='admin')   
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
