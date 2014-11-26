@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^login/$', 'bt.views.auth.login_user'),
     url(r'^logout/$', 'bt.views.auth.logout_user'),
 
+    url(r'^actions/$', 'bt.views.actions.actions'),
+
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),    
