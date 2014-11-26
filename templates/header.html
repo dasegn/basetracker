@@ -1,19 +1,3 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en" ng-app="bt-app" class="no-js">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-	<title>Dashboard - BaseTracker</title>
-
-	<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" />
-	<link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet" />
-	<link href="{% static "css/style_green.css" %}" rel="stylesheet" />
-</head>
-
-<body>
-	<div id="wrapper">
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle pull-left margin left" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -309,20 +293,20 @@
 
 				<li class="dropdown">
 					<a class="dropdown-toggle user" data-toggle="dropdown" href="#">
-						{{ fullName }} 
+						{{ cuser.full_name }} 
 						<!-- <img src="../assets/images/people/25x25/1.jpg" alt="" data-src="../assets/images/people/25x25/1.jpg" data-src-retina="../assets/images/people/x2/1x2.jpg" class="img-responsive img-circle user-img"> -->
-						<img width="25" src="{{ avatar }}" alt="" data-src="{{ avatar }}" data-src-retina="{{ avatar }}" class="img-responsive img-circle user-img">
+						<img width="25" src="{{ cuser.avatar }}" alt="" data-src="{{ cuser.avatar }}" data-src-retina="{{ cuser.avatar }}" class="img-responsive img-circle user-img">
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-user animated fadeInUp">
 						<li>
 							 <div class="media">
 								<a class="pull-left" href="#">
-									<img class="media-object user-profile-image img-circle" width="65" src="{{ avatar }}">
+									<img class="media-object user-profile-image img-circle" width="65" src="{{ cuser.avatar }}">
 								</a>
 								<div class="media-body">
 									<h4 class="media-heading">
-										{{ fullName }}
+										{{ cuser.full_name }}
 									</h4>
 									<h5>Software Developer</h5>
 									<hr style="margin:8px auto">
@@ -350,232 +334,3 @@
 
 		</nav>
 		<!-- /.navbar-static-top -->
-
-		<nav id="menu" class="navbar-default navbar-static-side hidden-xs" role="navigation">
-			<div class="sidebar-collapse">
-				<ul class="nav" id="side-menu">
-					<li class="sidebar-user">
-						<div class="user-img">
-							<img src="{{ avatar }}" alt="" data-src="{{ avatar }}" data-src-retina="{{ avatar }}" width="65" height="65" class="img-responsive img-circle animated bounceIn">
-						</div>
-						<div class="user-info">
-							<div class="user-greet">Bienvenido </div>
-							<div class="user-name">{{ fullName }}</div>
-							<div class="user-status animated bounceInLeft">
-								<span class="label label-success dropdown-toggle">Online</span>
-							</div>
-						</div>
-					</li>
-					
-					
-					<li class="active">
-						<a href="index.html"><i class="fa fa-desktop fa-fw"></i> Dashboard</a>
-					</li>
-
-										<li >
-						<a href="#">
-						<i class="fa fa-wrench fa-fw"></i> UI Components <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li >
-								<a href="panels-wells.html">Panels and Wells <span class="label label-info pull-right">+10</span></a>
-							</li>
-							<li >
-								<a href="buttons.html">Buttons</a>
-							</li>
-							<li >
-								<a href="animations.html">CSS Animations <span class="label label-info pull-right">NEW</span></a>
-							</li>
-							<li >
-								<a href="progress-bars.html">Progress bars</a>
-							</li>
-							<li >
-								<a href="sliders.html">jQuery Sliders</a>
-							</li>
-							<li >
-								<a href="ion-sliders.html">Ion Range Sliders <span class="label label-warning pull-right">NEW</span></a>
-							</li>
-							<!-- <li >
-								<a href="noui-sliders.html">NoUI Range Sliders</a>
-							</li> -->
-							<li >
-								<a href="carousels.html">Carousels <span class="label label-info pull-right">+2</span></a>
-							</li>
-							<li >
-								<a href="icons.html">Icons</a>
-							</li>
-							<li >
-								<a href="#">Notifications <span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level ">
-									<li >
-										<a href="notifications.html">Default Notifications</a>
-									</li>
-									<!-- <li >
-										<a href="toastr.html">Toastr Notifications <span class="label label-info">NEW</span></a>
-									</li> -->
-								</ul>
-							</li>
-							<li >
-								<a href="widgets.html">Widgets <span class="label label-info pull-right">+3</span></a>
-							</li>
-							<li >
-								<a href="typography.html">Typography</a>
-							</li>
-							<li >
-								<a href="grid.html">Grid</a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-					<li >
-						<a href="#"><i class="fa fa-edit fa-fw"></i> Forms <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li >
-								<a href="form-elements.html">Form elements</a>
-							</li>
-							<li >
-								<a href="validation.html">Form validation</a>
-							</li>
-							<li >
-								<a href="file-manager.html">File manager</a>
-							</li>
-							<li >
-								<a href="dropzone.html">DropZone</a>
-							</li>
-							<li >
-								<a href="editor.html">WYSIWYG Editor</a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-					<li >
-						<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li >
-								<a href="flot.html">Flot Charts</a>
-							</li>
-							<li >
-								<a href="morris.html">Morris.js Charts</a>
-							</li>
-							<li >
-								<a href="c3-charts.html">C3 Charts <span class="label label-info pull-right">new</span></a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-					<li >
-						<a href="mail.html"><i class="fa fa-envelope fa-fw"></i> Mail</a>
-					</li>
-					<li >
-						<a href="financial.html"><i class="fa fa-money fa-fw"></i> Financial  <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li >
-								<a href="invoice.html">Invoice</a>
-							</li>
-							<li >
-								<a href="finances.html">Finances</a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-
-					<li >
-						<a href="fleet.html"><i class="fa fa-automobile fa-fw"></i> Fleet Management  <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li >
-								<a href="fleet-dashboard.html">Dashboard</a>
-							</li>
-							<li >
-								<a href="fleet-view-vehicle.html">View Vehicle</a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-					<li >
-						<a href="maps.html"><i class="fa fa-map-marker fa-fw"></i> Maps</a>
-					</li>
-					<li >
-						<a href="calendar.html"><i class="fa fa-calendar-o fa-fw"></i> Calendar</a>
-					</li>
-					<li >
-						<a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables  <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li >
-								<a href="tables.html">Default and DataTables</a>
-							</li>
-							<li >
-								<a href="pricing_tables.html">Pricing Tables</a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-					
-					
-					<li >
-						<a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li >
-								<a href="blank.html">Blank Page</a>
-							</li>
-							<li >
-								<a href="page-tour.html">Page Tour</a>
-							</li>
-							<li >
-								<a href="login.html">Login</a>
-							</li>
-							<li >
-								<a href="register.html">Register</a>
-							</li>
-							<li >
-								<a href="404.html">404 Error</a>
-							</li>
-							<li >
-								<a href="500.html">500 Error</a>
-							</li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-
-										<li >
-						<a href="#"><i class="fa fa-info-circle fa-fw"></i> Documentation <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level ">
-							<li ><a href="documentation/customization-guide/grid-system.html" title="">Grid System</a></li>
-							<li ><a href="documentation/customization-guide/buttons.html" title="">Buttons</a></li>
-							<li ><a href="documentation/customization-guide/icons.html" title="">Icons</a></li>
-							<li ><a href="documentation/customization-guide/tables.html" title="">Tables</a></li>
-							
-							<li ><a href="documentation/customization-guide/tabs.html" title="">Tabs</a></li>
-						</ul>
-						<!-- /.nav-second-level -->
-					</li>
-									</ul>
-				<!-- /#side-menu -->
-			</div>
-			<!-- /.sidebar-collapse -->
-
-			
-		</nav>
-		<!-- /.navbar-static-side -->	
-
-
-	<div id="page-wrapper">
-			{% block container %}
-			{% endblock %}
-	</div>
-
-	{% block scripts %}
-	{% endblock %}
-	<script src="{% static "js/jquery.min.js" %}" type="text/javascript"></script>	
-	<script src="{% static "js/plugins/jquery.easing.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/bootstrap.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/plugins/jquery.blockui.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/plugins/jquery-ui.custom.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/plugins/jquery.metisMenu.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/plugins/nicescroll/jquery.nicescroll.min.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/angular/angular.min.js" %}" type="text/javascript"></script>
-
-	<script src="{% static "js/app.js" %}" type="text/javascript"></script>
-	<script src="{% static "js/init.js" %}" type="text/javascript"></script>
-
-
-</body>
-</html>

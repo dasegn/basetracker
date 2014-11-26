@@ -65,8 +65,8 @@ class Membership(models.Model):
 		# TODO: Review and do it more robust
 		try: 
 			memberships = Membership.objects.filter(user=self.user, project=self.project)
-			if self.user and memberships.count() > 0 and memberships[0].id != self.id:
-				raise ValidationError(_('El usuario ya es miembro de este proyecto'))
+			#if self.user and memberships.count() > 0 and memberships[0].id != self.id:
+			#	raise ValidationError(_('El usuario ya es miembro de este proyecto'))
 		except ObjectDoesNotExist:
 			raise ValidationError(_('Por favor, primero introduzca todos los campos requeridos'))
 
@@ -74,6 +74,6 @@ class Membership(models.Model):
 	class Meta:
 		verbose_name = u'membresia'
 		verbose_name_plural = u'membresias'
-		unique_together = ("user", "project",)
+		#unique_together = ("user", "project",)
 		app_label = string_with_title('bt', u'Módulos')
 		ordering = ('project', 'user',)

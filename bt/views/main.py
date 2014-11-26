@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import Context, loader
+from utils.helpers import CurrentUsr
 
 def index(request):
 	template = loader.get_template('main.html')
 	context = Context({
-		'fullName': nice_name(request.user),
-		'avatar': request.user.profile.get_avatar_url(),
+		'cuser': CurrentUsr(request.user),
 	})
 	return HttpResponse(template.render(context))
 

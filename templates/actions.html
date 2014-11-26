@@ -2,18 +2,18 @@
 
 {% block container %}
 <div class="row">
-    <div class="page-header">
-        <h3 class="heading"><i class="fa fa-tasks animated flip"></i> Acciones recientes</h3>
-    </div>
+	<div class="page-header">
+		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> Acciones recientes</h3>
+	</div>
 </div>
 
-	<!-- Breadcrumbs -->
-	<ol class="breadcrumb">
-	    <li><a href="/">Inicio</a></li>
-	    <li class="active">Acciones recientes</li>
-	</ol>
-	<!-- // Breadcrumbs -->    
-	<div class="separator bottom"></div>
+<!-- Breadcrumbs -->
+<ol class="breadcrumb">
+	<li><a href="/">Inicio</a></li>
+	<li class="active">Acciones recientes</li>
+</ol>
+<!-- // Breadcrumbs -->    
+<div class="separator bottom"></div>
 
 <div class="row">
 	<div class="col-md-12">
@@ -35,9 +35,9 @@
 							<td class="text-center">{{ entry.user }} </td>
 							<td class="text-center actions">
 								<span class="label label-{{ entry.action_color }}" href="#">
- 									<i class="fa {{ entry.icon }} fa-lg"></i> 
- 									{{ entry.action_flag }}
- 								</a>									
+									<i class="fa {{ entry.icon }} fa-lg"></i> 
+									{{ entry.action_flag }}
+								</a>									
 							</td>							
 							<td class="strong">
 								{{ entry.content_type }} 

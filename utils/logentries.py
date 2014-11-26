@@ -1,40 +1,23 @@
 #-*- coding: utf-8 -*-
-
+from django.utils import formats
 from django.contrib.admin.models import LogEntry
 
 def ListLogEntries(how_many):
 	last_actions = LogEntry.objects.all().order_by("-action_time")[:how_many]
 
 	for entry in last_actions:
-		entry.action_time = entry.action_time.strftime("%A %d de %B de %Y a las  %H:%M")
-		entry.action_color = get_color(entry)
-		entry.icon = get_icon(entry)
-		entry.action_flag = verb(entry)
+		entry.action_time = formats.date_format(entry.action_time, "DATETIME_FORMAT")
+		if entry.is_deletion():
+			entry.action_color = "danger"
+			entry.icon = "fa-minus-square-o"
+			entry.action_flag = u"eliminó"
+		elif entry.is_addition():
+			entry.action_color = "success"
+			entry.icon = "fa-plus-square-o"
+			entry.action_flag = u"agregó"
+		elif entry.is_change():
+			entry.action_color = "info"
+			entry.icon = "fa-pencil-square-o"
+			entry.action_flag = u"modificó"		
+
 	return last_actions
-
-def get_color(action):
-	""" Return verb label for a given action code"""
-	if action.is_deletion():
-		return "danger"
-	elif action.is_addition():
-		return "success"
-	elif action.is_change():
-		return "info"
-
-def get_icon(action):
-	""" Return verb label for a given action code"""
-	if action.is_deletion():
-		return "fa-minus-square-o"
-	elif action.is_addition():
-		return "fa-plus-square-o"
-	elif action.is_change():
-		return "fa-pencil-square-o"
-
-def verb(action):
-	""" Return verb label for a given action code"""
-	if action.is_deletion():
-		return u"eliminó"
-	elif action.is_addition():
-		return u"agregó"
-	elif action.is_change():
-		return u"modificó"
