@@ -130,3 +130,4 @@ LOGIN_EXEMPT_URLS = (
     r'^about\.html$',
     r'^legal/', # allow any URL under /legal/*
 ) 
+

@@ -19,13 +19,15 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'bt.views.auth.logout_user'),
 
     url(r'^actions/$', 'bt.views.actions.actions'),
+    url(r'^project/', include('bt.urls.projects'), name='project'),
+    url(r'^profile/', include('bt.urls.profiles'), name='profile'),
 
+    
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),    
     url(r'^chaining/', include('smart_selects.urls')),
-    url(r'^admin/project/', include('bt.urls.projects'), name='project'),
-    url(r'^admin/profile/', include('bt.urls.profiles'), name='profile'),
+
     url(r'^admin/', include(admin.site.urls), name='admin')   
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
