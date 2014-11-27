@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
 {% block container %}
+<!--
 	<ul>
       <li><a href="/">home</a></li>
       <li><a href="/logout/">logout</a></li>
-    </ul>	
-
+    </ul>	-->
+<br/>
 <div class="row">
 	<div class="col-md-4">
         <div class="widget widget-dashboard widget-success">
@@ -86,39 +87,39 @@
 
     </div>
 </div>
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Line Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Pie Chart Example
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-pie-chart"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Line Chart Example
             </div>
-            <!-- /.row -->  
-	
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div id="c3-line-chart"></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-6 -->
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Donut Chart Example
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div id="c3-donut-chart"></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-6 -->
+</div>
+
+
+   
 {% endblock container %}
