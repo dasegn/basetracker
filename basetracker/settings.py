@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'basetracker',
         'USER': 'root',
-        'PASSWORD' : '',
+        'PASSWORD' : 'demo123',
         'HOST' : '127.0.0.1'
     }
 }

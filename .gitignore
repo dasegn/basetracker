@@ -230,3 +230,4 @@ basetracker/settings.pyc
 basetracker/urls.pyc
 
 utils/forms.pyc
+*.pyc
