@@ -4,8 +4,8 @@ $(function () {
 	    bindto: '#c3-line-chart',
 	    data: {
 	      columns: [
-	        ['data1', 30, 200, 100, 400, 150, 250],
-	        ['data2', 50, 20, 10, 40, 15, 25]
+	        ['Noviembre', 78, 90, 64, 97, 53],
+	        ['Octubre', 50, 98, 114, 65, 85]
 	      ]
 	    }
 	});
@@ -49,16 +49,13 @@ $(function () {
 		bindto: '#c3-donut-chart',
 	    data: {
 	        columns: [
-	            ['data1', 30],
-	            ['data2', 120],
+	            ['Libre', 23],
+	            ['Ocupado', 77],
 	        ],
 	        type : 'donut',
 	        onclick: function (d, i) { console.log("onclick", d, i); },
 	        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
 	        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-	    },
-	    donut: {
-	        title: "Iris Petal Width"
 	    }
 	});
 })
