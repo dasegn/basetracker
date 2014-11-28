@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 #@login_required
@@ -14,7 +15,13 @@ from django.contrib.auth.decorators import login_required
 
 def detail(request, profile_id):
 	template = loader.get_template('profiles.html')
+	try:
+		usr = User.objects.get(pk=profile_id)
+	except User.DoesNotExist:
+		raise Http404
+	
 	context = RequestContext(request, {
 		'profile_id': profile_id,
+		'user' : usr
 	})	
 	return HttpResponse(template.render(context))

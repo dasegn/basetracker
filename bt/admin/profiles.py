@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 
 # Register your models here.
 from bt.models.profiles import Profile
-from bt.views import profiles
 
 
 # Define an inline admin descriptor for Profile model

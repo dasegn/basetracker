@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from bt.views import projects
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
