@@ -12,7 +12,7 @@ from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils import timezone
-
+ 
 # Create your models here.
 
 class Project(models.Model):
@@ -68,6 +68,18 @@ class Project(models.Model):
 		user_model = get_user_model()
 		members = self.memberships.values_list("user", flat=True)
 		return user_model.objects.filter(id__in=list(members))	
+
+	def get_memberships(self):
+		class MembersLists: pass
+		ml = []
+		for mbs_obj in self.memberships.all():
+			ml_elem = MembersLists()
+			ml_elem.user = mbs_obj.user.get_full_name
+			ml_elem.role = mbs_obj.role
+			ml_elem.tasks = None
+			ml.append(ml_elem)
+		return ml
+
 
 	class Meta:
 		verbose_name = 'proyecto'

@@ -92,7 +92,14 @@
                 <tr>
                     <td class="text-center">{{ tasklist.week_number }}</td>
                     <td><h5>{{ tasklist.service }}</h5></td>
-                    <td class="text-center"><span class="label label-default">Ivar Hernández</span> <span class="label label-default">Daniel Martinez</span></td>
+                    <td class="text-center">
+                        {% for tsk_service in tasklist.tasklistsummary_set.all %}
+                        <span class="label label-default">
+                            {{ tsk_service.assigned.user.get_full_name }}
+                        </span><br/> 
+                        {% endfor %} 
+
+                    </td>
                     <td class="text-center">{{ tasklist.count_tasks }}</td>
                     <td class="text-center">{{ tasklist.progress_tasks }}</td>
                 </tr>
@@ -126,11 +133,11 @@
                             </tr>
                         </thead>
                         <tbody>                     
-                            {% for member in project.get_users %}
+                            {% for member in project.get_memberships %}
                             <tr>
                                 <td class="text-center">ID</td>
-                                <td class="text">{{ member }}</td>                           
-                                <td class="strong"></td>
+                                <td class="text">{{ member.user }}</td>                           
+                                <td class="strong">{{ member.role }}</td>
                                 <td class="text-center"></td>
                             </tr>
                             {% endfor %}                        
