@@ -14,28 +14,42 @@
 </ol>
 <!-- // Breadcrumbs -->    
 <div class="separator bottom"></div>
+			
 
-<h3>Tags Template</h3>
-
-{% for all_user in all_users %}
-
-<h4>Username: {{ all_user.username }}</h4>
-<br>First name: {{ all_user.first_name }}
-<br>Last name: {{ all_user.last_name }}
-<br>E-mail: {{ all_user.email }}
-<br>Groups:
-
-{% for group in all_user.groups.all %}
-	<br>{{ group.name }}
-{% endfor %}
-
-<br>Last login: {{ all_user.last_login|date:"D d M Y H:i" }}
-<br>Date joined: {{ all_user.date_joined|date:"D d M Y H:i" }}
-
-<br>Horas por semana: {{ all_user.profile.hours_per_week }}
-<br>Skype: {{ all_user.profile.skype }}
-<br>Avatar: {{ all_user.profile.get_avatar_url }}
-
-{% endfor %}
+<div class="col-md-8">
+	<div class="panel-body">
+	    <table class="table table-hover table-striped">
+	      <tbody>
+			{% for all_user in all_users %}      
+	        <tr>
+	          <td width="10%">
+	          	<img src="{{ all_user.profile.get_avatar_url }}" alt="" width="30" class="img-responsive img-circle animated bounceIn"></td>
+	          <td width="50%">
+	            {{ all_user.get_full_name }}<br />
+	            <i class="fa fa-user"></i> {{ all_user.username }}
+	            <br/>
+	            <i class="fa fa-envelope"></i><a href="mailto:{{ all_user.email }}"> {{ all_user.email }}</a>
+	          </td>
+	          <td width="20%">
+	          	{% for group in all_user.groups.all %}
+					{{ group.name }}<br>
+				{% endfor %}
+	          </td>
+	          <td width="20%">
+	            <a class="text-muted edit-comment" href="/profile/{{ all_user.id }}" data-toggle="tooltip" data-container="body" data-placement="top" title="Ver perfil" title="Ver perfil"><i class="fa fa-eye"></i>
+	            </a>&nbsp;
+	            <a class="text-muted edit-comment" href="/admin/auth/user/{{ all_user.id }}" data-toggle="tooltip" data-container="body" data-placement="top" title="Editar usuario" title="Editar usuario"><i class="fa fa-pencil"></i>
+	            </a>&nbsp;
+	            <a class="text-muted delete-comment" data-toggle="tooltip" data-container="body" data-placement="top" title="Borrar usuario" href="/admin/auth/user/{{ all_user.id }}/delete/" rel="nofollow" title="Borrar usuario"><i class="fa fa-trash-o"></i>
+	            </a>
+	          </td>
+	        </tr>
+			{% endfor %}            
+	      </tbody>
+	    </table>
+	</div>    
+</div>
 
 {% endblock container %}
+
+

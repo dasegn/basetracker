@@ -91,7 +91,7 @@
             {% for tasklist in tasklists %}
                 <tr>
                     <td class="text-center">{{ tasklist.week_number }}</td>
-                    <td><h5>{{ tasklist.service }}</h5></td>
+                    <td><a href="/admin/bt/tasklist/{{ tasklist.id }}">{{ tasklist.service }}</a></td>
                     <td class="text-center">
                         {% for tsk_service in tasklist.tasklistsummary_set.all %}
                         <span class="label label-default">
