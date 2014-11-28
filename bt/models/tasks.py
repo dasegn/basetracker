@@ -3,6 +3,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from django.db.models import Count, Min, Sum, Avg
+
 from bt.models.projects import Project
 from bt.models.attributes import Attribute
 from bt.models.services import Service
@@ -46,8 +48,11 @@ class TaskList(models.Model):
         if tasklist.count() > 0 and tasklist[0].id != self.id:
             raise ValidationError(_('La lista de tareas de esa semana, proyecto y servicio ya existe!'))
 
+    def __str__(self):
+        return unicode(self.name)
+
     def __unicode__(self):
-        return self.name
+        return unicode(self.name)
 
     # Custom manager lets us do things like Item.completed_tasks.all()
     objects = models.Manager()
@@ -59,8 +64,9 @@ class TaskList(models.Model):
     def count_tasks(self):
         return u'%s' % TaskList.objects.get(id=self.id).task_set.all().count()
 
-    #def count_hour(self):
-    #    return u'%s' % TaskList.objects.get(id=self.id).tasklistsummary_set.all().
+    def count_hours(self):
+        total_hours = TaskList.objects.annotate(hours=Sum('tasklistsummary__hours')).filter(pk=self.id)
+        return u'%d' % (total_hours[0].hours)
 
     def progress_tasks(self):
         tasks = TaskList.objects.get(id=self.id).task_set.all()
@@ -131,14 +137,14 @@ class Task(models.Model):
 
 class TaskListSummary(models.Model):
     list = models.ForeignKey(TaskList)
-    assigned = models.ForeignKey(Membership,  blank=False, null=False, default=None,  verbose_name=_("Asignada a"), related_name='tasklist_assigned_to')
+    assigned = models.ForeignKey(Membership,  blank=False, null=False, default=None,  verbose_name=_(u"Asignada a"), related_name='tasklist_assigned_to')
     hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
 
     def __unicode__(self):
-        return unicode(self.assigned.user.username)
+        return u'(%s) {%d}' % (self.assigned.user, self.hours)
 
     def __str__(self):
-        return u'(%s) {%d}' % (self.assigned.user.username, self.hours)
+        return u'(%s) {%d}' % (self.assigned.user, self.hours)
 
 
 #    def clean(self):
