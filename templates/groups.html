@@ -20,6 +20,11 @@
 {% for group in groups %}
 	<br>{{ group.name }}<br>
 	<p>{{ group.team.description }}</p>
+	{% for guser in group.user_set.all %}
+		( {{ guser.username }} ) {{ guser.get_full_name }} <br>
+	{% endfor %}
+	
+
 {% endfor %}
 
 
