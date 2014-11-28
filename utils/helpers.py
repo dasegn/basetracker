@@ -8,3 +8,11 @@ class CurrentUsr(object):
 
 	def nice_name(self, user):
 		return user.get_full_name() or user.username
+
+
+
+def get_dashboard_data(request):
+	context = {}
+	context['cuser'] = CurrentUsr(request.user)
+	return context
+

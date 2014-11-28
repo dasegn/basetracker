@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),    
     url(r'^chaining/', include('smart_selects.urls')),
 
+    url(r'^static/(.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes' : False}),
     url(r'^admin/', include(admin.site.urls), name='admin')   
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
