@@ -59,6 +59,9 @@ class TaskList(models.Model):
     def count_tasks(self):
         return u'%s' % TaskList.objects.get(id=self.id).task_set.all().count()
 
+    #def count_hour(self):
+    #    return u'%s' % TaskList.objects.get(id=self.id).tasklistsummary_set.all().
+
     def progress_tasks(self):
         tasks = TaskList.objects.get(id=self.id).task_set.all()
         try:
@@ -132,10 +135,10 @@ class TaskListSummary(models.Model):
     hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
 
     def __unicode__(self):
-        return self.assigned
+        return unicode(self.assigned.user.username)
 
     def __str__(self):
-        return "({1}) {0}".format(self.assigned, self.hours)
+        return u'(%s) {%d}' % (self.assigned.user.username, self.hours)
 
 
 #    def clean(self):

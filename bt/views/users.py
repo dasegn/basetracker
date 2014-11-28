@@ -6,22 +6,14 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 #@login_required
-#def index(request):
-#	template = loader.get_template('admin/profiles/index.html')
-#	context = Context({
-#		'variable': 'desde vista',
-#	})
-#	return HttpResponse(template.render(context))
-
-def detail(request, profile_id):
-	template = loader.get_template('profiles.html')
+def index(request):
+	template = loader.get_template('users.html')
 	try:
-		usr = User.objects.get(pk=profile_id)
+		users = User.objects.all()
 	except User.DoesNotExist:
-		raise Http404
-	
+		users = None
+
 	context = RequestContext(request, {
-		'profile_id': profile_id,
-		'userprof' : usr
-	})	
+		'all_users': users,
+	})
 	return HttpResponse(template.render(context))

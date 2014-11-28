@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="row">
+	<div class="page-header">
+		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> Grupos</h3>
+	</div>
+</div>
+
+<!-- Breadcrumbs -->
+<ol class="breadcrumb">
+	<li><a href="/">Inicio</a></li>
+	<li class="active">Grupos</li>
+</ol>
+<!-- // Breadcrumbs -->    
+<div class="separator bottom"></div>
+
+<h3>Tags Template</h3>
+
+{% for group in groups %}
+	<br>{{ group.name }}<br>
+{% endfor %}
+
+
+{% endblock container %}

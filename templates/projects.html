@@ -45,7 +45,7 @@
                             <h2>{{ project.name }}</h2>
                             <address class="margin-none">
                                 Fecha de inicio: {{ project.date_begin|date:"D d M Y" }}<br>
-                                Fecha de término: <br>
+                                Fecha de término: {{ project.date_end|date:"D d M Y" }}<br>
                                 <abbr title="Work email">ADMINISTRADOR DE PROYECTO:</abbr> <a href="mailto:#">company@example.com</a><br> 
                                 <abbr title="Work Phone">phone:</abbr> (650) 693-4000<br>
                                 <abbr title="Work Fax">fax:</abbr> (650) 693-3329
@@ -183,5 +183,38 @@
         <!-- // Row END -->
     </div>
 </div>  
-	
+
+<h3>Tags Template</h3>
+
+<br>Descripción: {{ project.description }}
+<br>Identificador: {{ project.identifier }}
+<br>Estado: {{ project.status }}
+<br>Tipo: {{ project.type }}
+<br>KAM: {{ project.kam }}
+<br>Administrador: {{ project.admin }}
+<br>RD: {{ project.rd }}
+<br>Cliente: {{ project.client }}
+
+<br>Servicios:
+{% for service in project.services.all %}
+	<br>{{ service.name }}
+{% endfor %}
+
+<br>Miembros:
+{% for member in project.get_users %}
+	<br>{{ member }}
+{% endfor %}
+
+<br>Roles:
+{% for rol in project.get_roles %}
+	<br>{{ rol }}
+{% endfor %}
+
+<h4>Listas de tareas:</h4>
+{% for tasklist in tasklists %}
+	<br>Semama: {{ tasklist.week_number }} - Service: {{ tasklist.service }}
+	<br>{{ tasklist.count_tasks }} tareas al {{ tasklist.progress_tasks }}
+{% endfor %}
+
+
 {% endblock container %}

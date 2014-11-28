@@ -25,8 +25,11 @@ def detail(request, project_id):
 	except Project.DoesNotExist:
 		raise Http404
 
+	tasklists = project.tasklist_set.all().order_by('name')
+
 	context = RequestContext(request, {
 		'project_id' : project_id,
-		'project' : project
+		'project' : project,
+		'tasklists' : tasklists
 	})	
 	return HttpResponse(template.render(context))

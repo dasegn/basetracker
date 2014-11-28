@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="row">
+	<div class="page-header">
+		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> Servicios</h3>
+	</div>
+</div>
+
+<!-- Breadcrumbs -->
+<ol class="breadcrumb">
+	<li><a href="/">Inicio</a></li>
+	<li class="active">Servicios</li>
+</ol>
+<!-- // Breadcrumbs -->    
+<div class="separator bottom"></div>
+
+<h3>Tags Template</h3>
+
+{% for service in services %}
+	<br>{{ service.name }}  -  {{ service.description }}  <br>
+{% endfor %}
+
+
+{% endblock container %}

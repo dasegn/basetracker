@@ -14,5 +14,25 @@
 </ol>
 <!-- // Breadcrumbs -->    
 <div class="separator bottom"></div>
-	
+
+<h3>Tags Template</h3>
+
+<br>Username: {{ userprof.username }}
+<br>First name: {{ userprof.first_name }}
+<br>Last name: {{ userprof.last_name }}
+<br>E-mail: {{ userprof.email }}
+<br>Groups:
+
+{% for group in userprof.groups.all %}
+	<br>{{ group.name }}
+{% endfor %}
+
+<br>Last login: {{ userprof.last_login|date:"D d M Y H:i" }}
+<br>Date joined: {{ userprof.date_joined|date:"D d M Y H:i" }}
+
+<br>Horas por semana: {{ userprof.profile.hours_per_week }}
+<br>Skype: {{ userprof.profile.skype }}
+<br>Avatar: {{ userprof.profile.get_avatar_url }}
+
+
 {% endblock container %}
