@@ -3,23 +3,73 @@
 {% block container %}
 <div class="row">
 	<div class="page-header">
-		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> Servicios</h3>
+		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> Catálogo de Servicios</h3>
 	</div>
 </div>
 
 <!-- Breadcrumbs -->
 <ol class="breadcrumb">
 	<li><a href="/">Inicio</a></li>
-	<li class="active">Servicios</li>
+	<li class="active">Catálogo de Servicios</li>
 </ol>
 <!-- // Breadcrumbs -->    
-<div class="separator bottom"></div>
-
-<h3>Tags Template</h3>
-
-{% for service in services %}
-	<br>{{ service.name }}  -  {{ service.description }}  <br>
-{% endfor %}
+<div class="separator bottom"></div>  
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <!--<div class="panel-heading">
+                <h4><i class="fa fa-exchange fa-fw"></i> Lista de </h4>
+            </div>-->
+            <div class="panel-body reset padding padding-all">
+                <table class="table table-hover reset margin bottom table-striped ">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 25%">Servicio</th>
+                            <th class="text-center" style="width: 40%">Descripción</th>
+                            <th class="text-center" style="width: 25%">Etiquetas</th>
+                            <th class="text-center" style="width: 10%">Acciones</th>
+                        </tr>
+                    </thead>
+                        <tbody>                     
+                            {% for service in services %}
+                            <tr>
+                                <td class="text">{{ service.name }}</td>
+                                <td class="text"><small>{{ service.description }}</small></td>
+                                <td class="text-center">
+                                	<span class="label label-social">Redes Sociales</span> 
+                                	<span class="label label-portals">Administración</span>
+                                	<span class="label label-dev">Desarrollo</span>
+                                	<span class="label label-lms">LMS</span>
+                                </td>
+                                <td class="text-center"><a href="/admin/bt/service/{{ service.id }}"><i class="fa fa-pencil-square-o"></i></a> <i class="fa fa-times"></i></td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <!-- Website Stats  Widget -->
+        <div class="panel">
+            <div class="panel-heading clearfix">
+                <h4 class="pull-left">Demanda de servicios</h4>
+            </div>
+            <div class="inner-t inner-b text-center clearfix">
+                <div class="col-xs-6 border right">
+                    <div class="h3 font-bold">24</div>
+                    <small class="text-muted">Activos</small>
+                </div>
+                <div class="col-xs-6 border right">
+                    <div class="h3 font-bold">3</div>
+                    <small class="text-muted">Inactivos</small>
+                </div>                
+            </div>
+        </div>
+        <!-- End of Website Stats Widget -->
+    </div>
+</div>  
 
 
 {% endblock container %}
