@@ -77,5 +77,19 @@
         <!-- End of Website Stats Widget -->
     </div>
 </div>  
+
+{% for project in projects %}
+
+    {{ project.name }}
+    {{ project.description }}
+    {% for service in project.services.all %}
+        <br>{{ service.name }}
+    {% endfor %}
+    {{ project.client }}
+    {{ project.status }}
+    {{ project.type }}<br/>
+    {{ project.kam }}<br/>
+
+{% endfor %} 
     
 {% endblock container %}
