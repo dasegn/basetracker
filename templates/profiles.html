@@ -3,7 +3,7 @@
 {% block container %}
 <div class="row">
 	<div class="page-header">
-		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> Perfil de usuario</h3>
+		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> {{ userprof.username }}</h3>
 	</div>
 </div>
 
@@ -14,25 +14,47 @@
 </ol>
 <!-- // Breadcrumbs -->    
 <div class="separator bottom"></div>
+<div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Detalle de usuario
+                        </div>
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                                <dt>Nombre(s):</dt>
+                                <dd>{{ userprof.first_name }}</dd>
+                                <dt>Apellido(s):</dt>
+                                <dd>{{ userprof.last_name }}</dd>
+                                <dt>Correo: </dt>
+                                <dd>{{ userprof.email }}</dd>
+                                <dt>Extensión: </dt>
+                                <dd>4444</dd>
+                                <dt>Teléfono celular: </dt>
+                                <dd>044 55 5555 5555</dd>                                                                
+                                <dt>Grupos:</dt>
+                                <dd>
+                                	{% for group in userprof.groups.all %}
+										{{ group.name }}<br/>
+									{% endfor %}
+                                </dd>
+                                <dt>Última conexión: </dt>
+                                <dd>{{ userprof.last_login|date:"D d M Y H:i" }}</dd>
+                                <dt>Fecha de alta: </dt>
+                                <dd>{{ userprof.date_joined|date:"D d M Y H:i" }}</dd>
+                                <dt>Horas por semana: </dt>
+                                <dd>{{ userprof.profile.hours_per_week }}</dd>
+                                <dt>Avatar: </dt>
+                                <dd><img src="{{ userprof.profile.get_avatar_url }}" style="width: 200px"></dd>
+                            </dl>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <a href="/admin/auth/user/{{ userprof.id }}"><button type="button" class="btn btn-outline btn-primary">Editar</button></a>
+                    <!-- /.panel -->
+                </div>
 
-<h3>Tags Template</h3>
-
-<br>Username: {{ userprof.username }}
-<br>First name: {{ userprof.first_name }}
-<br>Last name: {{ userprof.last_name }}
-<br>E-mail: {{ userprof.email }}
-<br>Groups:
-
-{% for group in userprof.groups.all %}
-	<br>{{ group.name }}
-{% endfor %}
-
-<br>Last login: {{ userprof.last_login|date:"D d M Y H:i" }}
-<br>Date joined: {{ userprof.date_joined|date:"D d M Y H:i" }}
-
-<br>Horas por semana: {{ userprof.profile.hours_per_week }}
-<br>Skype: {{ userprof.profile.skype }}
-<br>Avatar: {{ userprof.profile.get_avatar_url }}
-
+                <!-- /.col-lg-4 -->
+            </div>
 
 {% endblock container %}
