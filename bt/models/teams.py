@@ -9,7 +9,7 @@ from utils.adminLabels import string_with_title
 
 # Create your models here.
 class Team(models.Model):	
-	group = models.OneToOneField(Group, related_name='Team', unique=True)
+	group = models.OneToOneField(Group, related_name='team', unique=True)
 	description = models.TextField(verbose_name=_(u'Descripción'))
 	members = models.ManyToManyField(User, verbose_name=_("Miembros"))
 
