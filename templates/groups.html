@@ -3,7 +3,7 @@
 {% block container %}
 <div class="row">
 	<div class="page-header">
-		<h3 class="heading"><i class="fa fa-tasks animated flip"></i> Grupos</h3>
+		<h3 class="heading"><i class="fa fa-users animated flip"></i> Grupos</h3>
 	</div>
 </div>
 
@@ -15,17 +15,36 @@
 <!-- // Breadcrumbs -->    
 <div class="separator bottom"></div>
 
-<h3>Tags Template</h3>
-
+<div class="row">
 {% for group in groups %}
-	<br>{{ group.name }}<br>
-	<p>{{ group.team.description }}</p>
-	{% for guser in group.user_set.all %}
-		( {{ guser.username }} ) {{ guser.get_full_name }} <br>
-	{% endfor %}
+                <div class="col-sm-3">
+                    <div class="panel panel-blockquote panel-border-success top">
+                    
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{ group.name }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h5>{{ group.team.description }}</h5>
+                            <ul>
+                            	{% for guser in group.user_set.all %}
+									<li>{{ guser.get_full_name }}<br/>
+	            						<small><i class="fa fa-envelope"></i><a href="mailto:{{ all_user.email }}"> {{ guser.email }}</a></small>  </li>
+								{% endfor %}
+                            </ul>
+                        </div>
+                    
+                    </div>
+                </div>	
+                {% endfor %}
+</div>
+
+
+	<br><br>
+	
+	
 	
 
-{% endfor %}
+
 
 
 {% endblock container %}
