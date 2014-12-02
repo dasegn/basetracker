@@ -59,7 +59,7 @@ class TaskList(models.Model):
 
     def incomplete_tasks(self):
         # Count all incomplete tasks on the current list instance
-        return Item.objects.filter(list=self, completed=0)
+        return TaskList.objects.filter(list=self, completed=0)
 
     def count_tasks(self):
         return u'%s' % TaskList.objects.get(id=self.id).task_set.all().count()
@@ -74,6 +74,28 @@ class TaskList(models.Model):
             return u"%d%%" % (float(tasks.filter(completed=True).count()) / tasks.count() * 100)
         except (ValueError, ZeroDivisionError):
             return u""
+    
+    def count_members_tasks(self):
+        return TaskList.objects.get(id=self.id).tasklistsummary_set.all().count()
+
+    def get_tasks(self):
+        return TaskList.objects.get(id=self.id).task_set.all().order_by('completed')
+
+    def risk_color_tasks(self):
+        try:
+            progress = int(self.progress_tasks().strip('%'))
+        except(ValueError):
+            return 'primary'
+
+        if progress >= 0 and progress <= 50:
+            return 'danger'
+        elif progress >= 51 and progress <= 75:
+            return 'warning'
+        elif progress >= 76 and progress <= 100:
+            return 'successful'
+        else:
+            return 'primary'
+
 
     def week_number(self):
         if self.id:
@@ -81,6 +103,7 @@ class TaskList(models.Model):
                 return u'%s' % self.list_start.isocalendar()[1]
         else:
             return u""
+
 
 
     count_tasks.short_description = 'Tareas'
