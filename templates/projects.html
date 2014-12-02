@@ -99,7 +99,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">99</a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">{{ tasklist.count_members_tasks }}</a>
                                         </h4>
                                     </div>
                                     <div id="collapse1" class="panel-collapse collapse">
@@ -112,17 +112,21 @@
                                 </div>
                             </div>
                     </td>
-                    <td class="text-center">
+                    <td class="text">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading text-center">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">{{ tasklist.count_tasks }}</a>
                                         </h4>
                                     </div>
-                                    <div id="collapse2" class="panel-collapse collapse">
+                                    <div id="collapse2" class="panel-collapse collapse"  style="text-align=left">
                                         <div class="panel-body">
-                                            Test de tareas    
+                                            <ul>
+                                            {% for tsk_listed in tasklist.get_tasks %}
+                                                <li>{{ tsk_listed.title }}</li>
+                                            {% endfor %}
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +136,7 @@
                     {{ tasklist.progress_tasks }}
                             <!-- Progress bars -->
                             <div class="progress">
-                                <div class="progress-bar progress-bar-primary" title="{{ tasklist.progress_tasks }}" data-container="body" role="progressbar" style="width: {{ tasklist.progress_tasks }};"></div>
+                                <div class="progress-bar progress-bar-{{ tasklist.risk_color_tasks }}" title="{{ tasklist.progress_tasks }}" data-container="body" role="progressbar" style="width: {{ tasklist.progress_tasks }};"></div>
                             </div>
                             <!-- // Progress bars-->
                     </td>
