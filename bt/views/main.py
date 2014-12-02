@@ -6,8 +6,7 @@ from utils.logentries import ListLogEntries
 def index(request):
 	template = loader.get_template('main.html')
 	log_entries = ListLogEntries(9)	
-
 	context = RequestContext(request, {
-		'entries': log_entries,		
+		'entries': log_entries,	
 	})
 	return HttpResponse(template.render(context))
