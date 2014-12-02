@@ -44,23 +44,25 @@
                             <h2>{{ project.name }}</h2>
                             <address class="margin-none">
                                 <abbr title="Descripción">Descripción:</abbr> {{ project.description }}<br/>
-                                <abbr title="Descripción">Servicios:</abbr> 
+                                <abbr title="Descripción">Servicios:</abbr>
                                     {% for service in project.services.all %}
-                                        <br>{{ service.name }}
-                                    {% endfor %}
-                            </address>
-                        </td>
-                        <td class="pull-right">
-                            <p class="lead">Información del cliente</p>
-                            <h2>{{ project.client }}</h2>
-                            <address class="margin-none">
+                                        {{ service.name }}
+                                    {% endfor %}<br/>
+                                
                                 <abbr title="Descripción">Estado: </abbr> {{ project.status }}<br/>
                                 <abbr title="Descripción">Tipo: </abbr> {{ project.type }}<br/>
                                 <abbr title="Descripción">KAM: </abbr> {{ project.kam }}<br/>
                                 <abbr title="Descripción">Administrador: </abbr> {{ project.admin }}<br/>
                                 <abbr title="Descripción">RD: </abbr> {{ project.rd }}<br/>             
                                 <abbr title="Descripción">Fecha de inicio: </abbr> {{ project.date_begin|date:"D d M Y" }}<br/>
-                                <abbr title="Descripción">Fecha de término: </abbr> {{ project.date_end|date:"D d M Y" }}
+                                <abbr title="Descripción">Fecha de término: </abbr> {{ project.date_end|date:"D d M Y" }}                                        
+                            </address>
+                        </td>
+                        <td class="pull-right">
+                            <p class="lead">Información del cliente</p>
+                            <h2>{{ project.client }}</h2>
+                            <address class="margin-none">
+                                <abbr title="Descripción">Datos</abbr>
                             </address>
                         </td>
                     </tr>
@@ -126,7 +128,14 @@
                                 </div>
                             </div>
                     </td>
-                    <td class="text-center">{{ tasklist.progress_tasks }}</td>
+                    <td class="text-center">
+                    {{ tasklist.progress_tasks }}
+                            <!-- Progress bars -->
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-primary" title="{{ tasklist.progress_tasks }}" data-container="body" role="progressbar" style="width: {{ tasklist.progress_tasks }};"></div>
+                            </div>
+                            <!-- // Progress bars-->
+                    </td>
                 </tr>
                 {% endfor %}  
                 <!-- // Cart item END -->                                
