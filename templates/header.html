@@ -9,11 +9,25 @@
 				<a class="navbar-brand" href="/">
 					<h3 id="app_title">BaseTracker</h3>
 				</a>
-			</div>
+			</div>	
 			<!-- /.navbar-header -->
 
 
-			<ul class="nav navbar-top-links navbar-right hidden-xs">				
+			<ul class="nav navbar-top-links navbar-right hidden-xs">		
+				<li class="dropdown">
+					<a class="dropdown-toggle user" data-toggle="dropdown" href="#">
+						Semana ##: <small>(FECHA MOSTRADA)</small>
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-user animated fadeInUp">
+						<li><a href="#">Hace 2 semanas <small>(FECHA A MOSTRAR)</small></a></li>
+						<li><a href="#">Hace 1 semana <small>(FECHA A MOSTRAR)</small></a></li>
+						<li><a href="#"><strong>Esta semana <small>(FECHA A MOSTRAR)</small></strong></a></li>
+						<li><a href="#">Próxima semana <small>(FECHA A MOSTRAR)</small></a></li>
+						<li><a href="#">Dentro de 2 semanas <small>(FECHA A MOSTRAR)</small></a></li>
+					</ul>
+					<!-- /.dropdown-user -->
+				</li>			
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="fa fa-bell fa-fw"></i> <span class="badge badge-notification badge-info animated fadeIn">3</span>
