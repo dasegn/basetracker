@@ -20,10 +20,6 @@ def get_dashboard_data(request):
 	context['current_url'] = request.path
 	context['current_url_full'] = request.get_full_path()
 	context['bt_week'] = GetActiveWeek(request)
-
-	if 'bt_week_date' in request.session.keys():
-		context['bt_week_select'] = 'Fecha: ' + request.session['bt_week_date']
-
 	return context
 
 class GetActiveWeek(object):
@@ -46,6 +42,7 @@ class GetActiveWeek(object):
 		self.week_next = self.get_week_range(self.week_now + timedelta(days=7))
 		self.week_next_two = self.get_week_range(self.week_now + timedelta(days=14))
 		self.week_now = self.get_week_range(self.week_now)
+		self.week_default = self.get_week_range(datetime.now())
 
 		request.session["bt_week_date"] =  '%d/%d' % (self.week_now[2] , self.week_now[3])
 
@@ -62,7 +59,10 @@ class GetActiveWeek(object):
 		return (start_date, end_date, year, week)
 
 	def get_first_day(self, year, weeknum):
-		ret = datetime.strptime('%04d-%02d-1' % (year, weeknum), '%Y-%W-%w')
+		try:
+			ret = datetime.strptime('%04d-%02d-1' % (year, weeknum), '%Y-%W-%w')
+		except(ValueError):
+			ret = datetime.now()
 		if date(year, 1, 4).isoweekday() > 4:
 			ret -= timedelta(days=7)
 		return ret
