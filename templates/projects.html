@@ -44,9 +44,9 @@
                             <h2>{{ project.name }}</h2>
                             <address class="margin-none">
                                 <abbr title="Descripción">Descripción:</abbr> {{ project.description }}<br/>
-                                <abbr title="Descripción">Servicios:</abbr>
+                                <abbr title="Descripción">Servicios:</abbr><br/>
                                     {% for service in project.services.all %}
-                                        {{ service.name }}
+                                        {{ service.name }}<br/>
                                     {% endfor %}<br/>
                                 
                                 <abbr title="Descripción">Estado: </abbr> {{ project.status }}<br/>
@@ -94,39 +94,40 @@
                 <tr>
                     <td class="text-center">{{ tasklist.week_number }}</td>
                     <td><a href="/admin/bt/tasklist/{{ tasklist.id }}">{{ tasklist.service }}</a></td>
-                    <td class="text-center">
+                    <td>
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading text-center">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">{{ tasklist.count_members_tasks }}</a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ tasklist.id }}">{{ tasklist.count_members_tasks }}</a>
                                         </h4>
                                     </div>
-                                    <div id="collapse1" class="panel-collapse collapse">
+                                    <div id="collapse{{ tasklist.id }}" class="panel-collapse collapse">
                                         <div class="panel-body text">
                                             {% for tsk_service in tasklist.tasklistsummary_set.all %}
-                                                {{ tsk_service.assigned.user.get_full_name }}
+                                                <p>{{ tsk_service.assigned.user.get_full_name }}</p>
                                             {% endfor %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                     </td>
-                    <td class="text">
+                    <td>
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading text-center">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">{{ tasklist.count_tasks }}</a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_panel{{ tasklist.id }}">{{ tasklist.count_tasks }}</a>
                                         </h4>
                                     </div>
-                                    <div id="collapse2" class="panel-collapse collapse"  style="text-align=left">
+                                    <div id="collapse_panel{{ tasklist.id }}" class="panel-collapse collapse"  style="text-align=left">
                                         <div class="panel-body">
-                                            <ul>
-                                            {% for tsk_listed in tasklist.get_tasks %}
-                                                <li>{{ tsk_listed.title }}</li>
+                                            {% for tsk_listed in tasklist.incomplete_tasks %}
+                                                <p><i class="fa fa-cogs text-warning"></i> {{ tsk_listed.title }}</p>
                                             {% endfor %}
-                                            </ul>
+                                            {% for tsk_listed in tasklist.complete_tasks %}
+                                                <p><i class="fa fa-check text-success"></i> {{ tsk_listed.title }}</p>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
