@@ -16,6 +16,8 @@ class CurrentUsr(object):
 def get_dashboard_data(request):	
 	context = {}
 	context['cuser'] = CurrentUsr(request.user)
+	context['current_url'] = request.path
+	context['current_url_full'] = request.get_full_path()
 	context['bt_week'] = GetActiveWeek(request)
 
 	return context
