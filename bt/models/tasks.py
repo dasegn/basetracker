@@ -59,7 +59,11 @@ class TaskList(models.Model):
 
     def incomplete_tasks(self):
         # Count all incomplete tasks on the current list instance
-        return TaskList.objects.filter(list=self, completed=0)
+        return TaskList.objects.get(id=self.id).task_set.filter(completed=0)
+
+    def complete_tasks(self):
+        # Count all incomplete tasks on the current list instance
+        return TaskList.objects.get(id=self.id).task_set.filter(completed=1)
 
     def count_tasks(self):
         return u'%s' % TaskList.objects.get(id=self.id).task_set.all().count()
@@ -92,7 +96,7 @@ class TaskList(models.Model):
         elif progress >= 51 and progress <= 75:
             return 'warning'
         elif progress >= 76 and progress <= 100:
-            return 'successful'
+            return 'success'
         else:
             return 'primary'
 
