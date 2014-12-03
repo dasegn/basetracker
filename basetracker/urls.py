@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^project/', include('bt.urls.projects'), name='project'),
     url(r'^profile/', include('bt.urls.profiles'), name='profile'),
     url(r'^users/', 'bt.views.users.index', name='users'),
+    url(r'^ocupation/', 'bt.views.ocupation.index', name='ocupation'),
     url(r'^groups/', 'bt.views.groups.index', name='groups'),
     url(r'^services/', 'bt.views.services.index', name='services'),
 
