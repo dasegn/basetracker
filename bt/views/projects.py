@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from bt.models.projects import Project
+from utils.helpers import GetActiveWeek
 
 # Create your views here.
 #@login_required
@@ -19,22 +20,25 @@ def index(request):
 	return HttpResponse(template.render(context))
 
 def detail(request, project_id):
-	template = loader.get_template('projects.html')
+	template = 'projects.html'
 	try:
 		project = Project.objects.get(pk=project_id)
 	except Project.DoesNotExist:
 		raise Http404
 
-	list_start = request.session["bt_week_date_start"]
-	list_end = request.session["bt_week_date_end"]
+	week = GetActiveWeek(request)
+
+	list_start = week.week_now[0].strftime(week.date_pattern)
+	list_end = week.week_now[1].strftime(week.date_pattern)
 
 	tasklists = project.tasklist_set.all().order_by('name')
 
-	context = RequestContext(request, {
+	context = {
 		'project_id' : project_id,
 		'project' : project,
-		'demo' : list_start + ' - ' + list_end,
-		'dates' : request.session["bt_week_date"],
+		'start' : list_start,
+		'end' : list_end,
+		'dates' : week.week_now[3],
 		'tasklists' : tasklists
-	})	
-	return HttpResponse(template.render(context))
+	}
+	return render_to_response(template, context, context_instance=RequestContext(request))	
