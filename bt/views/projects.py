@@ -28,16 +28,19 @@ def detail(request, project_id):
 
 	week = GetActiveWeek(request)
 
-	list_start = week.week_now[0].strftime(week.date_pattern)
-	list_end = week.week_now[1].strftime(week.date_pattern)
+	week_start = week.week_now[0].strftime(week.date_pattern)
+	week_end = week.week_now[1].strftime(week.date_pattern)
 
-	tasklists = project.tasklist_set.all().order_by('name')
+	tasklists = project.tasklist_set.filter(
+		list_start = week_start, 
+		list_end = week_end
+		).order_by('name')
 
 	context = {
 		'project_id' : project_id,
 		'project' : project,
-		'start' : list_start,
-		'end' : list_end,
+		'start' : week_start,
+		'end' : week_end,
 		'dates' : week.week_now[3],
 		'tasklists' : tasklists
 	}
