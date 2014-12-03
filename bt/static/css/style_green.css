@@ -8534,3 +8534,8 @@ body {
     margin: 0;
     text-transform: none;
 }
+
+.item-selector {
+    font-size: 13px;
+    line-height: 1.7;
+}

@@ -11,16 +11,46 @@
 				</a>
 			</div>	
 			<!-- /.navbar-header -->
-
-
-			<ul class="nav navbar-top-links navbar-right hidden-xs">		
+			<ul class="nav navbar-top-links navbar-left hidden-xs">		
 				<li class="dropdown">
-					<a class="dropdown-toggle user" data-toggle="dropdown" href="#">
-						Semana {{ bt_week.week_now.3 }}: 
-						<small>
-							(Del {{ bt_week.week_now.0|date:"d/m/y" }} 
-							al {{ bt_week.week_now.1|date:"d/m/y" }})
-						</small>
+					<a class="dropdown-toggle item-selector" data-toggle="dropdown" href="#">
+						Cordinación: <i>Nombre de la coordinación seleccionada</i>
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-user animated fadeInUp">
+						<li>
+							<a href="">Vista General</a>
+						</li>
+						<li>
+							<a href="">Evolución de portales
+							<br>
+								<small>
+									Coordinador: Salvador
+								</small>
+							</a>
+						</li>
+						<li>
+							<a href="">Diseño gráfico
+							<br>
+								<small>
+									Coordinador: Héctor
+								</small>
+							</a>
+						</li>
+						<li>
+							<a href="">Administración de portales
+							<br>
+								<small>
+									Coordinador: Carlos
+								</small>
+							</a>
+						</li>																		
+					</ul>
+					<!-- /.dropdown-user -->
+				</li>			
+				<li class="dropdown">
+					<a class="dropdown-toggle item-selector" data-toggle="dropdown" href="#">
+						Semana {{ bt_week.week_now.3 }}:<i> Del {{ bt_week.week_now.0|date:"d/m/y" }} al {{ bt_week.week_now.1|date:"d/m/y" }})</i>
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-user animated fadeInUp">
@@ -54,10 +84,15 @@
 								Semana {{ bt_week.week_next_two.3 }}: 
 								del {{ bt_week.week_next_two.0|date:"d/m/y" }} 
 								al {{ bt_week.week_next_two.1|date:"d/m/y" }}
-							</small></a></li>
+							</small></a>
+						</li>
 					</ul>
 					<!-- /.dropdown-user -->
 				</li>			
+			</ul>
+					<!-- /.dropdown-user -->
+			<!-- /.navbar-top-links -->
+			<ul class="nav navbar-top-links navbar-right hidden-xs">				
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="fa fa-bell fa-fw"></i> <span class="badge badge-notification badge-info animated fadeIn">3</span>
@@ -158,7 +193,7 @@
 				</li>
 				<!-- /.dropdown -->
 			</ul>
-			<!-- /.navbar-top-links -->
+			<!-- /.navbar-top-links -->			
 
 		</nav>
 		<!-- /.navbar-static-top -->
