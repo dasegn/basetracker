@@ -16,20 +16,45 @@
 			<ul class="nav navbar-top-links navbar-right hidden-xs">		
 				<li class="dropdown">
 					<a class="dropdown-toggle user" data-toggle="dropdown" href="#">
-						Semana {{ bt_week.week_now.3 }}: <small>(Del {{ bt_week.week_now.0 }} al {{ bt_week.week_now.1 }})</small>
+						Semana {{ bt_week.week_now.3 }}: 
+						<small>
+							(Del {{ bt_week.week_now.0|date:"d/m/y" }} 
+							al {{ bt_week.week_now.1|date:"d/m/y" }})
+						</small>
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-user animated fadeInUp">
 						<li><a href="{{ current_url }}?year={{ bt_week.week_last_two.2 }}&week={{ bt_week.week_last_two.3 }}">Dos semanas antes
-							<br><small>Semana {{ bt_week.week_last_two.3 }}: del {{ bt_week.week_last_two.0 }} al {{ bt_week.week_last_two.1 }}</small></a></li>
+							<br>
+							<small>
+								Semana {{ bt_week.week_last_two.3 }}: 
+								del {{ bt_week.week_last_two.0|date:"d/m/y" }} 
+								al {{ bt_week.week_last_two.1|date:"d/m/y" }}
+							</small></a></li>
 						<li><a href="{{ current_url }}?year={{ bt_week.week_last.2 }}&week={{ bt_week.week_last.3 }}">Semana anterior
-							<br><small>Semana {{ bt_week.week_last.3 }}: del {{ bt_week.week_last.0 }} al {{ bt_week.week_last.1 }}</small></a></li>
+							<br>
+							<small>
+								Semana {{ bt_week.week_last.3 }}: 
+								del {{ bt_week.week_last.0|date:"d/m/y" }} 
+								al {{ bt_week.week_last.1|date:"d/m/y" }}
+							</small></a></li>
 						<li><a href="{{ current_url }}?year={{ bt_week.week_default.2 }}&week={{ bt_week.week_default.3 }}"><strong>Semana mostrada: {{ bt_week.week_now.3 }}
-							<br/><small>Ir a la semana actual</small></strong></a></li>
-						<li><a href="{{ current_url }}?year={{ bt_week.week_next.2 }}&week={{ bt_week.week_default.3 }}">Semana siguiente
-							<br><small>Semana {{ bt_week.week_next.3 }}: del {{ bt_week.week_next.0 }} al {{ bt_week.week_next.1 }}</small></a></li>
+							<br/>
+							<small>Ir a la semana actual</small></strong></a></li>
+						<li><a href="{{ current_url }}?year={{ bt_week.week_next.2 }}&week={{ bt_week.week_next.3 }}">Semana siguiente
+							<br>
+							<small>
+								Semana {{ bt_week.week_next.3 }}: 
+								del {{ bt_week.week_next.0|date:"d/m/y" }} 
+								al {{ bt_week.week_next.1|date:"d/m/y" }}
+							</small></a></li>
 						<li><a href="{{ current_url }}?year={{ bt_week.week_next_two.2 }}&week={{ bt_week.week_next_two.3 }}">Dos semanas despues
-							<br><small>Semana {{ bt_week.week_next_two.3 }}: del {{ bt_week.week_next_two.0 }} al {{ bt_week.week_next_two.1 }}</small></a></li>
+							<br>
+							<small>
+								Semana {{ bt_week.week_next_two.3 }}: 
+								del {{ bt_week.week_next_two.0|date:"d/m/y" }} 
+								al {{ bt_week.week_next_two.1|date:"d/m/y" }}
+							</small></a></li>
 					</ul>
 					<!-- /.dropdown-user -->
 				</li>			

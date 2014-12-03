@@ -26,7 +26,7 @@ class GetActiveWeek(object):
 	def __init__(self,request):
 		year = request.GET.get('year', None)
 		week = request.GET.get('week', None)		
-		self.date_pattern = '%d/%m/%y'
+		self.date_pattern = '%Y-%m-%d'
 
 		if year is None and week is None:
 			if 'bt_week_date' in request.session.keys():
@@ -45,6 +45,9 @@ class GetActiveWeek(object):
 		self.week_default = self.get_week_range(datetime.now())
 
 		request.session["bt_week_date"] =  '%d/%d' % (self.week_now[2] , self.week_now[3])
+		request.session["bt_week_date_start"] =  self.week_now[0].strftime(self.date_pattern)	
+		request.session["bt_week_date_end"] =  self.week_now[1].strftime(self.date_pattern)	
+		request.session.modified = True
 
 	def get_week_range(self, week_date):
 		year, week, dow = week_date.isocalendar()
@@ -53,9 +56,6 @@ class GetActiveWeek(object):
 		else:
 			start_date = self.get_first_day(year,week)
 		end_date = start_date + timedelta(6)
-
-		start_date = start_date.strftime(self.date_pattern)	
-		end_date = end_date.strftime(self.date_pattern)	
 		return (start_date, end_date, year, week)
 
 	def get_first_day(self, year, weeknum):
