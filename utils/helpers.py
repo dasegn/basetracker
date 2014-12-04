@@ -19,23 +19,22 @@ class CurrentGroup(object):
 
 		if req_group is None:
 			if 'bt_group' in request.session.keys():
-				req_group = int(request.session["bt_group"])
+				req_group = request.session["bt_group"]
 			else:
-				req_group = 0
-		else:
-			req_group = 0
+				req_group = 'all'
 
 		self.group = req_group
 		self.group_name = self.get_group_name()
 		self.group_url = self.get_group_url(request)
 
-		request.session["bt_group"] =  req_group
+		request.session["bt_group"] =  self.group
 		request.session.modified = True		
 
 	def get_group_name(self):
-		if self.group > 0:
+		try:
+			self.group = int(self.group)
 			return Group.objects.get(id=self.group).name
-		else:
+		except(ValueError):
 			return 'Todos'			
 
 	def get_group_url(self, request):
