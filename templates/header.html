@@ -14,37 +14,23 @@
 			<ul class="nav navbar-top-links navbar-left hidden-xs">		
 				<li class="dropdown">
 					<a class="dropdown-toggle item-selector" data-toggle="dropdown" href="#">
-						Cordinación: <i>Nombre de la coordinación seleccionada</i>
+						Cordinación: <i>{{ cgroup.group }}</i>
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-user animated fadeInUp">
 						<li>
 							<a href="">Vista General</a>
 						</li>
+						{% for group in cgroup.groups %}
 						<li>
-							<a href="">Evolución de portales
+							<a href="{{ current_url }}/{{ group.id }}"> {{ group.name }}
 							<br>
 								<small>
-									Coordinador: Salvador
+									Coordinador: 
 								</small>
 							</a>
 						</li>
-						<li>
-							<a href="">Diseño gráfico
-							<br>
-								<small>
-									Coordinador: Héctor
-								</small>
-							</a>
-						</li>
-						<li>
-							<a href="">Administración de portales
-							<br>
-								<small>
-									Coordinador: Carlos
-								</small>
-							</a>
-						</li>																		
+						{% endfor %}																		
 					</ul>
 					<!-- /.dropdown-user -->
 				</li>			

@@ -39,9 +39,6 @@ def detail(request, project_id):
 	context = {
 		'project_id' : project_id,
 		'project' : project,
-		'start' : week_start,
-		'end' : week_end,
-		'dates' : week.week_now[3],
 		'tasklists' : tasklists
 	}
 	return render_to_response(template, context, context_instance=RequestContext(request))	

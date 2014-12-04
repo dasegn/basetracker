@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
-from importlib import import_module
-from django.conf import settings
 from datetime import date, datetime, timedelta
+from django.contrib.auth.models import Group
 
 class CurrentUsr(object):
 	def __init__(self, usr):
@@ -13,13 +12,40 @@ class CurrentUsr(object):
 	def nice_name(self, user):
 		return user.get_full_name() or user.username
 
+class CurrentGroup(object):
+	def __init__(self, request):
+		self.groups = Group.objects.all()
+		req_group = request.GET.get('group', None)
+
+		if req_group is None:
+			if 'bt_group' in request.session.keys():
+				req_group = int(request.session["bt_group"])
+				#self.group_name = Group.objects.get(id=req_group).name
+			else:
+				req_group = 0
+				self.group_name = 'Todos'
+		else:
+			self.group_name = Group.objects.get(id=req_group).name
+
+		self.group = req_group
+		request.session["bt_group"] =  self.group
+		request.session.modified = True		
+
+
+	def get_group_url(self, request):
+		if 'group' in request.GET.keys():
+			return ''
+		else:
+			return '&group=%d' % (self.group)
 
 def get_dashboard_data(request):	
 	context = {}
 	context['cuser'] = CurrentUsr(request.user)
+	context['cgroup'] = CurrentGroup(request)
 	context['current_url'] = request.path
 	context['current_url_full'] = request.get_full_path()
 	context['bt_week'] = GetActiveWeek(request)
+	context['bt_param_sep'] = params_separator(request)
 	return context
 
 class GetActiveWeek(object):
@@ -66,3 +92,9 @@ class GetActiveWeek(object):
 		if date(year, 1, 4).isoweekday() > 4:
 			ret -= timedelta(days=7)
 		return ret
+
+def params_separator(request):
+	if request.method == 'GET':
+		return '?' if (len(request.GET.items()) == 0 ) else '&'
+	else:
+		return 'none'
