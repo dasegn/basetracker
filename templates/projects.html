@@ -28,7 +28,6 @@
                     <td class="pull-right">
                         <div class="inner-l">
                             <h4 class="separator bottom">Número de proyecto: {{ project.identifier }}</h4>
-                            <!--<button type="button" data-toggle="button-loading pdf" data-target="#pdfTarget" class="btn btn-primary hidden-print"><i class="fa fa-fw fa-download"></i> Save as PDF</button>-->
                         </div>
                     </td>
                 </tr>
@@ -41,33 +40,74 @@
                     <tr>
                         <td style="width: 50%;">
                             <h2>{{ project.name }}</h2>
-                            <address class="margin-none">
-                                <abbr title="Descripción">Descripción:</abbr> {{ project.description }}<br/>
-                                <abbr title="Descripción">Servicios:</abbr><br/>
-                                    {% for service in project.services.all %}
-                                        {{ service.name }}<br/>
-                                    {% endfor %}<br/>
-                                
-                                <abbr title="Descripción">Estado: </abbr> {{ project.status }}<br/>
-                                <abbr title="Descripción">Tipo: </abbr> {{ project.type }}<br/>
-                                <abbr title="Descripción">KAM: </abbr> {{ project.kam }}<br/>
-                                <abbr title="Descripción">Administrador: </abbr> {{ project.admin }}<br/>
-                                <abbr title="Descripción">RD: </abbr> {{ project.rd }}<br/>             
-                                <abbr title="Descripción">Fecha de inicio: </abbr> {{ project.date_begin|date:"D d M Y" }}<br/>
-                                <abbr title="Descripción">Fecha de término: </abbr> {{ project.date_end|date:"D d M Y" }}                                        
-                            </address>
-                        </td>
-                        <td class="pull-right">
-                            <p class="lead">Información del cliente</p>
-                            <h2>{{ project.client }}</h2>
-                            <address class="margin-none">
-                                <abbr title="Descripción">Datos</abbr>
-                            </address>
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>   
+        </div> 
+
+
+<div class="col-lg-12">
+
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="tabs tabs-bordered tabs-icons">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#home2" data-toggle="tab"><h5>Descripción</h5></a>
+                    </li>
+                    <li>
+                        <a href="#servicios" data-toggle="tab"><h5>Servicios</h5></a>
+                    </li>
+                    <li>
+                        <a href="#roles" data-toggle="tab"><h5>Usuarios y roles</h5></a>
+                    </li>
+                    <li>
+                        <a href="#messages2" data-toggle="tab"><h5>Información del proyecto</h5></a>
+                    </li>
+                    <li>
+                        <a href="#settings2" data-toggle="tab"><h5>Información del cliente</h5></a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="home2">
+                        <p>{{ project.description }}</p>
+                    </div>
+                    <div class="tab-pane fade" id="servicios">
+                        {% for service in project.services.all %}
+                            <p>{{ service.name }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane fade" id="roles">
+                    {% for member in project.get_memberships %}
+                    <p><strong>{{ member.user }} </strong>
+                            <span class="label label-info">{{ member.role }} </span> 
+                    </p>            
+                    {% endfor %}         
+                    </div>
+                    <div class="tab-pane fade" id="messages2">
+                        <p><strong>Estado: </strong> {{ project.status }}</p>
+                        <p><strong>Tipo: </strong> {{ project.type }}</p>
+                        <p><strong>KAM: </strong> {{ project.kam }}</p>
+                        <p><strong>Administrador: </strong> {{ project.admin }}</p>
+                        <p><strong>RD: </strong> {{ project.rd }}</p>             
+                        <p><strong>Fecha de inicio: </strong> {{ project.date_begin|date:"D d M Y" }}</p>
+                        <p><strong>Fecha de término: </strong> {{ project.date_end|date:"D d M Y" }}</p>  
+                    </div>
+                    <div class="tab-pane fade" id="settings2">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
+            </div> <!-- /.tabs -->
+        </div>
+        <!-- /.panel-body -->
+    <!-- /.panel -->
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="page-header">
@@ -158,39 +198,6 @@
         </div>
     <!-- /.panel -->    
     </div>
-    <!--
-    <div class="col-md-4">
-        <div class="page-header">
-            <h3 class="heading"><i class="fa fa-tasks animated flip"></i> Miembros</h3>
-        </div>    
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped reset margin bottom" id="dataTables-example">
-                        <thead>
-                            <tr>
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Nombre</th>
-                                <th>Rol</th>
-                                <th class="text-center">Tareas pendientes</th>                          
-                            </tr>
-                        </thead>
-                        <tbody>                     
-                            {% for member in project.get_memberships %}
-                            <tr>
-                                <td class="text-center">ID</td>
-                                <td class="text">{{ member.user }}</td>                           
-                                <td class="strong">{{ member.role }}</td>
-                                <td class="text-center"></td>
-                            </tr>
-                            {% endfor %}                        
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>-->
 </div>
         
     </div>
