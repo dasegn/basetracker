@@ -20,23 +20,34 @@ class CurrentGroup(object):
 		if req_group is None:
 			if 'bt_group' in request.session.keys():
 				req_group = int(request.session["bt_group"])
-				#self.group_name = Group.objects.get(id=req_group).name
 			else:
 				req_group = 0
-				self.group_name = 'Todos'
 		else:
-			self.group_name = Group.objects.get(id=req_group).name
+			req_group = 0
 
 		self.group = req_group
-		request.session["bt_group"] =  self.group
+		self.group_name = self.get_group_name()
+		self.group_url = self.get_group_url(request)
+
+		request.session["bt_group"] =  req_group
 		request.session.modified = True		
 
+	def get_group_name(self):
+		if self.group > 0:
+			return Group.objects.get(id=self.group).name
+		else:
+			return 'Todos'			
 
 	def get_group_url(self, request):
-		if 'group' in request.GET.keys():
-			return ''
+		if len(request.GET) > 0:
+			if 'group' in request.GET.keys():
+				req = request.GET.copy()
+				req.pop('group')
+				return '?%s' % (req.urlencode())
+			else:
+				return '?%s' % (request.GET.urlencode())
 		else:
-			return '&group=%d' % (self.group)
+			return '?'
 
 def get_dashboard_data(request):	
 	context = {}
