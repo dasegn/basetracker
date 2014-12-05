@@ -2,7 +2,12 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
+
+# Controllers
 from bt.models.projects import Project
+from bt.models.services import Service
+from bt.models.attributes import Attribute
+# Helpers
 from utils.helpers import GetActiveWeek
 
 # Create your views here.
@@ -14,10 +19,16 @@ def index(request):
 	except Project.DoesNotExist:
 		projects = None
 
+	clients_count = Attribute.objects.filter(type='project-client').count()
+	services_count = Service.objects.all().count()
+	
 	context = RequestContext(request, {
 		'projects': projects,
+		'clients_count': clients_count,
+		'services_count': services_count,
 	})
 	return HttpResponse(template.render(context))
+
 
 def detail(request, project_id):
 	template = 'projects.html'
