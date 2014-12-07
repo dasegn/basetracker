@@ -26,18 +26,15 @@
                     <thead>
                         <tr>
                             <th class="text-center" style="width: 30%">Nombre</th>
-                            <th class="text-center">Descripción</th>
                             <th class="text-center" style="width: 20%">Servicios</th>
                             <th class="text-center" style="width: 10%">Cliente</th>
-                            <th class="text-center" style="width: 10%">Status</th>
-                            <th class="text-center" style="width: 10%">Tipo</th>
+                            <th class="text-center" style="width: 10%">Riesgo</th>
                         </tr>
                     </thead>
                         <tbody>                     
                             {% for project in projects %}
                             <tr>
                                 <td class="text"><a href="/project/{{ project.id }}">{{ project.name }}</td>
-                                <td class="text"><small>{{ project.description }}</small></td>
                                 <td class="text">
                                     <small>
                                         <ol>
@@ -47,9 +44,14 @@
                                             
                                         </ol>
                                     </small>
-                                <td class="text-center"><small>{{ project.client }}</small></td>
-                                <td class="text-center"><small>{{ project.status }}</small></td>
                                 <td class="text-center"><small>{{ project.type }}</small></td>
+                                <td class="text-center">
+                                    <!-- Progress bars -->
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-warning" title="50&" data-container="body" role="progressbar" style="width: 50%;"></div>
+                                    </div>
+                                    <!-- // Progress bars-->
+                                </td>                         
                             </tr>
                             {% endfor %}
                             
