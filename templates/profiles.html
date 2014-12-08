@@ -43,7 +43,10 @@
                     <p><small>Horas asignadas</small></p>
                 </div>
                 <div class="col-xs-12 col-sm-4 emphasis panel darken success text-white">
-                    <h2><strong>25h / 83%</strong></h2>                    
+                    <h2><strong>
+                        {{ week_totals.hours|floatformat:"-2" }}h / 
+                        {{  week_totals.percent|floatformat:"-2" }}%
+                        </strong></h2>                    
                     <p><small>Ocupación</small></p>
                 </div>
                 <div class="col-xs-12 col-sm-4 emphasis">

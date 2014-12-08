@@ -14,11 +14,13 @@
 </ol>
 <!-- // Breadcrumbs -->    
 <div class="separator bottom"></div>
+
+{% for e in groups %}
 			
 <div class="row">
     <div class="panel panel-default col-md-8">
         <div class="panel-heading">
-            Coordinación de modelado de portales
+            {{ e.group.name }}
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
@@ -34,27 +36,29 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for week in e.total %}
                         <tr>
-                            <td>Yuriham Hernández</td>
-                            <td class="text-center" style="width: 15%">50 h / 167%</td>
-                            <td class="text-center" style="width: 15%">3 h / 10%</td>
-                            <td class="text-center" style="width: 15%">0 h / 0%</td>
-                            <td class="text-center text-danger" style="width: 15%"><strong>53 h / 177%</strong></td>
+                            <td>{{ week.user.get_full_name }}</td>
+                            <td class="text-center" style="width: 15%">
+                                {{ week.cur_hours.hours|floatformat:"-2" }}h / 
+                                {{ week.cur_hours.percent|floatformat:"-2" }}%
+                            </td>
+                            <td class="text-center" style="width: 15%">
+                                {{ week.ini_hours.hours|floatformat:"-2" }}h / 
+                                {{ week.ini_hours.percent|floatformat:"-2" }}%
+                            </td>
+                            <td class="text-center" style="width: 15%">
+                                {{ week.pro_hours.hours|floatformat:"-2" }}h / 
+                                {{ week.pro_hours.percent|floatformat:"-2" }}%
+                            </td>
+                            <td class="text-center text-warning" style="width: 15%">
+                                <strong>
+                                {{ week.all_hours.hours|floatformat:"-2" }}h / 
+                                {{ week.all_hours.percent|floatformat:"-2" }}%                                    
+                                </strong>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Paul Jiménez</td>
-                            <td class="text-center" style="width: 15%">5 h / 17%</td>
-                            <td class="text-center" style="width: 15%">34 h / 113%</td>
-                            <td class="text-center" style="width: 15%">0 h / 0%</td>
-                            <td class="text-center text-success" style="width: 15%"><strong>39 h / 130%</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Gilberto Alonso Viveros Cano</td>
-                            <td class="text-center" style="width: 15%">34 h / 113%</td>
-                            <td class="text-center" style="width: 15%">0 h / 0%</td>
-                            <td class="text-center" style="width: 15%">0 h / 0%</td>
-                            <td class="text-center text-warning" style="width: 15%"><strong>34 h / 113%</strong></td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -93,6 +97,7 @@
     </div>     
 </div>
 
+{% endfor %}
 
 
 <div class="row">

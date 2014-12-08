@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from bt.models.projects import Project
 from bt.models.services import Service
 from bt.models.attributes import Attribute
+
 # Helpers
 from utils.helpers import GetActiveWeek
 
@@ -21,11 +22,26 @@ def index(request):
 
 	clients_count = Attribute.objects.filter(type='project-client').count()
 	services_count = Service.objects.all().count()
-	
+	week = GetActiveWeek(request)
+
+	class SkelProject: pass
+	elements = []
+	for project in projects:
+		elem = SkelProject()
+		elem.project = project
+		elem.risks = project.get_risk_totals(
+			year = week.week_now[2],
+			week = week.week_now[3]
+		)
+		elements.append(elem)
+
+
+
 	context = RequestContext(request, {
 		'projects': projects,
 		'clients_count': clients_count,
 		'services_count': services_count,
+		'elements': elements
 	})
 	return HttpResponse(template.render(context))
 
@@ -50,6 +66,10 @@ def detail(request, project_id):
 	context = {
 		'project_id' : project_id,
 		'project' : project,
-		'tasklists' : tasklists
+		'tasklists' : tasklists,
+		'project_totals' : project.get_risk_totals(
+			year = week.week_now[2],
+			week = week.week_now[3]
+		)		
 	}
 	return render_to_response(template, context, context_instance=RequestContext(request))	

@@ -32,23 +32,26 @@
                         </tr>
                     </thead>
                         <tbody>                     
-                            {% for project in projects %}
+                            {% for e in elements %}
                             <tr>
-                                <td class="text"><a href="/project/{{ project.id }}">{{ project.name }}</td>
+                                <td class="text"><a href="/project/{{ project.id }}">{{ e.project.name }}</td>
                                 <td class="text">
                                     <small>
                                         <ol>
-                                            {% for service in project.services.all %}
+                                            {% for service in e.project.services.all %}
                                                     <li>{{ service.name }}</li>
                                                 {% endfor %}
                                             
                                         </ol>
                                     </small>
-                                <td class="text-center"><small>{{ project.type }}</small></td>
+                                <td class="text-center"><small>{{ e.project.type }}</small></td>
                                 <td class="text-center">
                                     <!-- Progress bars -->
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" title="50&" data-container="body" role="progressbar" style="width: 50%;"></div>
+                                        <div class="progress-bar progress-bar-warning" 
+                                            title="{{ e.risks.percent|floatformat:"-2" }}&" data-container="body" role="progressbar" 
+                                            style="width: {{ e.risks.percent|floatformat:"-2" }}%;">
+                                        </div>
                                     </div>
                                     <!-- // Progress bars-->
                                 </td>                         
@@ -84,5 +87,5 @@
         <!-- End of Website Stats Widget -->
     </div>
 </div>  
-    
+
 {% endblock container %}

@@ -5,10 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.db.models import Count, Min, Sum, Avg
 
-from bt.models.projects import Project
 from bt.models.attributes import Attribute
 from bt.models.services import Service
-from bt.models.membership import Membership
 
 from utils.adminLabels import string_with_title
 from django.template.defaultfilters import slugify
@@ -21,7 +19,7 @@ import datetime
 class TaskList(models.Model):
     name = models.CharField(max_length=140, verbose_name=_(u'Nombre'))
     slug = models.SlugField(max_length=140, editable=False)
-    project = models.ForeignKey(Project, null=False, blank=False, verbose_name=_(u'Proyecto'))
+    project = models.ForeignKey('Project', null=False, blank=False, verbose_name=_(u'Proyecto'))
     service = ChainedForeignKey(Service, chained_field="project", chained_model_field="services", null=False, blank=False, verbose_name=_(u'Servicio'))
     list_start = models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de inicio'))  
     list_end =  models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de fin'))  
@@ -164,7 +162,7 @@ class Task(models.Model):
 
 class TaskListSummary(models.Model):
     list = models.ForeignKey(TaskList)
-    assigned = models.ForeignKey(Membership,  blank=False, null=False, default=None,  verbose_name=_(u"Asignada a"), related_name='tasklist_assigned_to')
+    assigned = models.ForeignKey('Membership',  blank=False, null=False, default=None,  verbose_name=_(u"Asignada a"), related_name='tasklist_assigned_to')
     hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
 
     def __unicode__(self):

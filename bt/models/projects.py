@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
 from bt.models.services import Service
 from bt.models.attributes import Attribute
+from bt.models.tasks import TaskList
 
+from django.db.models import Count, Sum
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
@@ -68,6 +72,26 @@ class Project(models.Model):
 		user_model = get_user_model()
 		members = self.memberships.values_list("user", flat=True)
 		return user_model.objects.filter(id__in=list(members))	
+
+	def get_risk_totals(self, year=datetime.now().isocalendar()[0], week=datetime.now().isocalendar()[1]):
+		tsk_com = TaskList.objects.filter(project=self.id, name=('Semana %d %d' % (week, year))) \
+									.filter(task__completed=True) \
+									.aggregate(completed=Count('task'))
+		tsk_incom = TaskList.objects.filter(project=self.id, name=('Semana %d %d' % (week, year))) \
+									.filter(task__completed=False) \
+									.aggregate(incompleted=Count('task'))		
+		tsk_total = float(tsk_com['completed']) + float(tsk_incom['incompleted'])
+		
+		values = {}
+		values['total'] = tsk_total
+		values['completed'] = tsk_com['completed']
+		try:
+			values['percent'] = (float(tsk_com['completed']) / tsk_total ) * 100
+		except (ValueError, TypeError, ZeroDivisionError):
+			values['percent'] = 0  
+
+		return values
+
 
 	def get_memberships(self):
 		class MembersLists: pass
