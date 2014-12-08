@@ -8,6 +8,7 @@ from django.db.models import Count, Sum
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
+from django.db.models.signals import post_save
 from django.conf import settings
 
 from bt.models.projects import Project
