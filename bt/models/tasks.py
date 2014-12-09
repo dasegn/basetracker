@@ -17,7 +17,7 @@ from smart_selects.db_fields import ChainedForeignKey
 import datetime
 
 class TaskList(models.Model):
-    name = models.CharField(max_length=140, verbose_name=_(u'Nombre'))
+    name = models.CharField(max_length=140, verbose_name=_(u'Nombre de lista'))
     slug = models.SlugField(max_length=140, editable=False)
     project = models.ForeignKey('Project', null=False, blank=False, verbose_name=_(u'Proyecto'))
     service = ChainedForeignKey(Service, chained_field="project", chained_model_field="services", null=False, blank=False, verbose_name=_(u'Servicio'))
@@ -178,7 +178,7 @@ class TaskListSummary(models.Model):
 #            raise ValidationError(_('La lista de tareas de esa semana, proyecto y servicio ya existe!'))
         
     class Meta:
-        verbose_name = 'detalle de lista'
-        verbose_name_plural = 'detalles de listas'
+        verbose_name = 'asignacion de lista'
+        verbose_name_plural = 'asignacion de lista'
         app_label = string_with_title('bt', u'Módulos')
 

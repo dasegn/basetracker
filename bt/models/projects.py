@@ -22,7 +22,7 @@ from django.utils import timezone
 class Project(models.Model):
 
 	id = models.AutoField(primary_key=True, unique=True)
-	name = models.CharField(verbose_name=_("Nombre"), null=False, blank=False, max_length=255)
+	name = models.CharField(verbose_name=_("Nombre de proyecto"), null=False, blank=False, max_length=255)
 	description = models.TextField(null=False, blank=False, default="", verbose_name=_(u'Descripción'))
 	identifier = models.CharField( verbose_name=_("Identificador"), max_length=255)
 	parent = models.ForeignKey('self', verbose_name=_(u"Proyecto padre"), default=0, null=True, blank=True)

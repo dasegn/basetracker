@@ -13,9 +13,9 @@ from bt.admin.roles import RoleInline
 from utils.readonlywidget import ReadOnlyWidget
 
 class MembershipAdmin(admin.ModelAdmin):
-	list_display = ['project', 'role', 'user']
+	list_display = ['project', 'role', 'get_user_full']
 	list_display_links = list_display
-	list_filter = ['project__name', 'user__username']
+	list_filter = ['project__name', 'user__username', 'user__groups']
 	form = MembershipForm
 
 

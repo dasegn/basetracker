@@ -9,6 +9,7 @@ from bt.models.projects import Project
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from utils.slug import slugify_uniquely
+from utils.utils import truncate_text
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from django.core.exceptions import ValidationError
@@ -18,15 +19,21 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create your models here.
 
 class Role(models.Model):
-	name = models.CharField(max_length=200, null=False, blank=False, verbose_name=_("name"))
+	name = models.CharField(max_length=200, null=False, blank=False, verbose_name=_("Nombre"))
 	slug = models.SlugField(max_length=250, null=True, blank=True, verbose_name=_("slug"))
-	project = models.ForeignKey(Project, null=True, blank=False, related_name="roles", verbose_name=_("project"))
+	project = models.ForeignKey(Project, null=True, blank=False, related_name="roles", verbose_name=_("Proyecto"))
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify_uniquely(self.name, self.__class__)
 
 		super(Role, self).save(*args, **kwargs)
+	
+	def __str__(self):
+		return self.name
+
+	def __unicode__(self):
+		return self.name
 
 	class Meta:
 		verbose_name = "rol"
@@ -38,29 +45,31 @@ class Role(models.Model):
 		#	("view_role", "Can view role"),
 		#)
 
-	def __str__(self):
-		return self.name
 
 
 class Membership(models.Model):
-	user = models.ForeignKey(User, null=True, blank=False, default=None, related_name="memberships")
-	project = models.ForeignKey('Project', null=False, blank=False, related_name="memberships")
-	role = models.ForeignKey('Role', null=False, blank=False, related_name="memberships")
+	user = models.ForeignKey(User, null=True, blank=False, default=None, related_name="memberships", verbose_name=_("Usuario"))
+	project = models.ForeignKey('Project', null=False, blank=False, related_name="memberships", verbose_name=_("Proyecto"))
+	role = models.ForeignKey('Role', null=False, blank=False, related_name="memberships", verbose_name=_("Rol"))
 
 	def __str__(self):
 		return u'%s - %s - %s' % (
-			self.user.username,
-			self.project.name,
+			truncate_text(self.project.name, 80),
+			self.user.get_full_name(),			
 			self.role.name
 		)	
 
 	def __unicode__(self):
 		return u'%s - %s - %s' % (
-			self.user.username,
-			self.project.name,
+			truncate_text(self.project.name, 80),
+			self.user.get_full_name(),			
 			self.role.name
 		)		
-	
+	def get_user_full(self):
+		return u'%s' % (self.user.get_full_name())	
+
+	get_user_full.short_description = 'Usuario'
+
 	def clean(self):
 		# TODO: Review and do it more robust
 		try: 

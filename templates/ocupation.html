@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for week in e.total %}
+                        {% for week in e.total.elems %}
                         <tr>
                             <td>{{ week.user.get_full_name }}</td>
                             <td class="text-center" style="width: 15%">
@@ -51,13 +51,14 @@
                                 {{ week.pro_hours.hours|floatformat:"-2" }}h / 
                                 {{ week.pro_hours.percent|floatformat:"-2" }}%
                             </td>
-                            <td class="text-center text-warning" style="width: 15%">
+                            <td class="text-center text-{{ week.overload }}" style="width: 15%">
                                 <strong>
                                 {{ week.all_hours.hours|floatformat:"-2" }}h / 
                                 {{ week.all_hours.percent|floatformat:"-2" }}%                                    
                                 </strong>
                             </td>
                         </tr>
+
                         {% endfor %}
                     </tbody>
                 </table>
@@ -73,7 +74,9 @@
                 <a class="pull-right" href="#"><i class="fa fa-map-marker fa-2x text-white"></i></a>
                 <span class="h3">Ocupación general</span>
                 <div class="text-center inner-all margin top">
-                    <span class="h1"><i class="fa fa-clock-o text-white animate bounceInDown"></i> 370 h</span>
+                    <span class="h1"><i class="fa fa-clock-o text-white animate bounceInDown"></i> 
+                        {{ e.total.total_hours|floatformat:"0" }} h
+                    </span>
                 </div>
             </div>
             <div class="panel-body lighten success no-border">
