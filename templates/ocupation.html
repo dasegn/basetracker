@@ -28,11 +28,11 @@
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 40%">Recurso</th>
+                            <th class="text-center" style="width: 30%">Recurso</th>
                             <th class="text-center" style="width: 15%">Proyectos vigentes</th>
                             <th class="text-center" style="width: 15%">Iniciativas</th>
                             <th class="text-center" style="width: 15%">Prospecciones</th>
-                            <th class="text-center" style="width: 15%">Total</th>
+                            <th class="text-center" style="width: 25%">Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,21 +40,21 @@
                         <tr>
                             <td>{{ week.user.get_full_name }}</td>
                             <td class="text-center" style="width: 15%">
-                                {{ week.cur_hours.hours|floatformat:"-2" }}h / 
-                                {{ week.cur_hours.percent|floatformat:"-2" }}%
+                                {{ week.cur_hours.percent|floatformat:"-2" }}%<br/>
+                                <small>{{ week.cur_hours.hours|floatformat:"-2" }}h</small>
                             </td>
                             <td class="text-center" style="width: 15%">
-                                {{ week.ini_hours.hours|floatformat:"-2" }}h / 
-                                {{ week.ini_hours.percent|floatformat:"-2" }}%
+                                {{ week.ini_hours.percent|floatformat:"-2" }}%<br/>
+                                <small>{{ week.ini_hours.hours|floatformat:"-2" }}h</small>
                             </td>
                             <td class="text-center" style="width: 15%">
-                                {{ week.pro_hours.hours|floatformat:"-2" }}h / 
-                                {{ week.pro_hours.percent|floatformat:"-2" }}%
+                                {{ week.pro_hours.percent|floatformat:"-2" }}%<br/>
+                                <small>{{ week.pro_hours.hours|floatformat:"-2" }}h</small>
                             </td>
                             <td class="text-center text-{{ week.overload }}" style="width: 15%">
                                 <strong>
-                                {{ week.all_hours.hours|floatformat:"-2" }}h / 
-                                {{ week.all_hours.percent|floatformat:"-2" }}%                                    
+                                {{ week.all_hours.percent|floatformat:"-2" }}h <br/>
+                                <small>{{ week.all_hours.hours|floatformat:"-2" }}%     </small>                               
                                 </strong>
                             </td>
                         </tr>
