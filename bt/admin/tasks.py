@@ -38,7 +38,7 @@ class TaskListSummaryInline(admin.TabularInline):
 
 class TaskListAdmin(admin.ModelAdmin):
 	list_display = ('name', 'project', 'service', 'week_number','count_tasks','progress_tasks',)
-	list_filter = ['name', 'project__name']
+	list_filter = ['name', 'project__name', 'service']
 
 	ordering = ['name', 'project']
 	search_fields = ['name', 'project__name']

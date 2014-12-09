@@ -8,6 +8,7 @@
 		jQuery('.weekpicker').weekpicker({
 			firstDay: 1,
 			weekLength: 7,
+			//calculateWeek: myWeekCalc,
 			startField: jQuery('.startField'),
 			endField: jQuery('.endField'),
 			dateFormat: 'yy-mm-dd',
@@ -15,6 +16,8 @@
 			dayNamesMin: day_names.split(" "),
 	        onSelect: function(dateText, inst) {
 	            var weekNumber = jQuery.datepicker.iso8601Week(new Date(dateText));
+	            console.log(weekNumber);
+	            console.log(jQuery.datepicker.formatDate('D', new Date(dateText)));
 	            var year = jQuery(this).datepicker('getDate').getFullYear();
 	            jQuery('.listName').val("Semana " + weekNumber + ' ' + year);
 	            
