@@ -16,7 +16,8 @@ from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils import timezone
- 
+from utils.utils import get_color_overload
+
 # Create your models here.
 
 class Project(models.Model):
@@ -89,6 +90,7 @@ class Project(models.Model):
 			values['percent'] = (float(tsk_com['completed']) / tsk_total ) * 100
 		except (ValueError, TypeError, ZeroDivisionError):
 			values['percent'] = 0  
+		values['overload'] = get_color_overload(values['percent'])
 
 		return values
 

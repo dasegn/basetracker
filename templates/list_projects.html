@@ -34,7 +34,7 @@
                         <tbody>                     
                             {% for e in elements %}
                             <tr>
-                                <td class="text"><a href="/project/{{ project.id }}">{{ e.project.name }}</td>
+                                <td class="text"><a href="/project/{{ e.project.id }}">{{ e.project.name }}</td>
                                 <td class="text">
                                     <small>
                                         <ol>
@@ -48,7 +48,7 @@
                                 <td class="text-center">
                                     <!-- Progress bars -->
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" 
+                                        <div class="progress-bar progress-bar-{{ e.risks.overload }}" 
                                             title="{{ e.risks.percent|floatformat:"-2" }}&" data-container="body" role="progressbar" 
                                             style="width: {{ e.risks.percent|floatformat:"-2" }}%;">
                                         </div>
