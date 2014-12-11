@@ -58,7 +58,7 @@ def detail(request, project_id):
 	week_start = week.week_now[0].strftime(week.date_pattern)
 	week_end = week.week_now[1].strftime(week.date_pattern)
 
-	tasklists = project.tasklist_set.filter(
+	tasklists = project.tsklst.filter(
 		list_start = week_start, 
 		list_end = week_end
 		).order_by('name')
