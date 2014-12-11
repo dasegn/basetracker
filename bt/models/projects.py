@@ -20,6 +20,18 @@ from utils.utils import get_color_overload
 
 # Create your models here.
 
+class PercentManager(models.Manager):
+	"""Object manager for percent."""
+	def get_query_set(self):
+		qs = super(PercentManager, self).get_query_set()
+		return qs.exclude(status__label='Cerrado')
+
+	#def get_id(self):
+	#	qs = super(PercentManager, self).get_query_set()
+	#	return qs.
+
+
+
 class Project(models.Model):
 
 	id = models.AutoField(primary_key=True, unique=True)
@@ -51,6 +63,8 @@ class Project(models.Model):
 	services = models.ManyToManyField(Service, related_name="services", verbose_name=_("Servicios"))
 
 	objects = models.Manager()
+	percent = PercentManager()
+
 
 	def __unicode__(self):
 		return self.name

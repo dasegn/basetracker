@@ -19,7 +19,7 @@ import datetime
 class TaskList(models.Model):
     name = models.CharField(max_length=140, verbose_name=_(u'Nombre de lista'))
     slug = models.SlugField(max_length=140, editable=False)
-    project = models.ForeignKey('Project', null=False, blank=False, verbose_name=_(u'Proyecto'))
+    project = models.ForeignKey('Project', related_name="tsklst", null=False, blank=False, verbose_name=_(u'Proyecto'))
     service = ChainedForeignKey(Service, chained_field="project", chained_model_field="services", null=False, blank=False, verbose_name=_(u'Servicio'))
     list_start = models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de inicio'))  
     list_end =  models.DateField(null=True, blank=False, verbose_name=_(u'Fecha de fin'))  
@@ -57,21 +57,21 @@ class TaskList(models.Model):
 
     def incomplete_tasks(self):
         # Count all incomplete tasks on the current list instance
-        return TaskList.objects.get(id=self.id).task_set.filter(completed=0)
+        return TaskList.objects.get(id=self.id).tsk_item.filter(completed=0)
 
     def complete_tasks(self):
         # Count all incomplete tasks on the current list instance
-        return TaskList.objects.get(id=self.id).task_set.filter(completed=1)
+        return TaskList.objects.get(id=self.id).tsk_item.filter(completed=1)
 
     def count_tasks(self):
-        return u'%s' % TaskList.objects.get(id=self.id).task_set.all().count()
+        return u'%s' % TaskList.objects.get(id=self.id).tsk_item.all().count()
 
     def count_hours(self):
         total_hours = TaskList.objects.annotate(hours=Sum('tasklistsummary__hours')).filter(pk=self.id)
         return u'%d' % (total_hours[0].hours)
 
     def progress_tasks(self):
-        tasks = TaskList.objects.get(id=self.id).task_set.all()
+        tasks = TaskList.objects.get(id=self.id).tsk_item.all()
         try:
             return u"%d%%" % (float(tasks.filter(completed=True).count()) / tasks.count() * 100)
         except (ValueError, ZeroDivisionError):
@@ -81,7 +81,7 @@ class TaskList(models.Model):
         return TaskList.objects.get(id=self.id).tasklistsummary_set.all().count()
 
     def get_tasks(self):
-        return TaskList.objects.get(id=self.id).task_set.all().order_by('completed')
+        return TaskList.objects.get(id=self.id).tsk_item.all().order_by('completed')
 
     def risk_color_tasks(self):
         try:
@@ -127,7 +127,7 @@ class TaskList(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=140, null=False, verbose_name=_(u'Titulo'))
     description = models.TextField(null=False, blank=True, default="", verbose_name=_(u'Descripción'))
-    list = models.ForeignKey(TaskList)
+    list = models.ForeignKey(TaskList, related_name="tsk_item")
     created_by = models.ForeignKey(User, null=True, blank=True, default=None, related_name='task_created_by', verbose_name=_(u'Creada por'))
 
     created_date = models.DateField(auto_now=True, auto_now_add=True, verbose_name=_(u'Fecha de creación'))    
@@ -161,7 +161,7 @@ class Task(models.Model):
 
 
 class TaskListSummary(models.Model):
-    list = models.ForeignKey(TaskList)
+    list = models.ForeignKey(TaskList, related_name="tsk_member")
     assigned = models.ForeignKey('Membership',  blank=False, null=False, default=None,  verbose_name=_(u"Asignada a"), related_name='tasklist_assigned_to')
     hours = models.DecimalField(verbose_name=_(u'Horas'), max_digits=5, decimal_places=2, default=0)
 
