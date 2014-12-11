@@ -90,11 +90,11 @@ class Project(models.Model):
 
 	def get_risk_totals(self, year=datetime.now().isocalendar()[0], week=datetime.now().isocalendar()[1]):
 		tsk_com = TaskList.objects.filter(project=self.id, name=('Semana %d %d' % (week, year))) \
-									.filter(task__completed=True) \
-									.aggregate(completed=Count('task'))
+									.filter(tsk_item__completed=True) \
+									.aggregate(completed=Count('tsk_item'))
 		tsk_incom = TaskList.objects.filter(project=self.id, name=('Semana %d %d' % (week, year))) \
-									.filter(task__completed=False) \
-									.aggregate(incompleted=Count('task'))		
+									.filter(tsk_item__completed=False) \
+									.aggregate(incompleted=Count('tsk_item'))		
 		tsk_total = float(tsk_com['completed']) + float(tsk_incom['incompleted'])
 		
 		values = {}
