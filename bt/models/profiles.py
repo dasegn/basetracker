@@ -51,7 +51,7 @@ class Profile(models.Model):
 			memb = User.objects.get(id=self.user.id).memberships.filter(project__type__label=lstype).values_list('id', flat=True)
 		else:
 			memb = User.objects.get(id=self.user.id).memberships.values_list('id', flat=True)
-		qs = TaskList.objects.filter(name=('Semana %d %d' % (week, year))).filter(tasklistsummary__assigned__in=memb).aggregate(sum_hours=Sum('tasklistsummary__hours'))
+		qs = TaskList.objects.filter(name=('Semana %d %d' % (week, year))).filter(tsk_member__assigned__in=memb).aggregate(sum_hours=Sum('tsk_member__hours'))
 		values = {}
 		values['hours'] = qs['sum_hours']
 		try:

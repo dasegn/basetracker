@@ -78,7 +78,7 @@ class TaskList(models.Model):
             return u""
     
     def count_members_tasks(self):
-        return TaskList.objects.get(id=self.id).tasklistsummary_set.all().count()
+        return TaskList.objects.get(id=self.id).tsk_member.all().count()
 
     def get_tasks(self):
         return TaskList.objects.get(id=self.id).tsk_item.all().order_by('completed')

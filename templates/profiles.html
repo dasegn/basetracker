@@ -22,7 +22,7 @@
                     <h2>{{ userprof.username }}</h2>
                     <p><strong>Correo: </strong> {{ userprof.email }}</p>
                     <p><strong>Extensión: </strong> 4444</p>
-                    <p><strong>Grupos: </strong>
+                    <p><strong>Coordinación: </strong>
                         {% for group in userprof.groups.all %}
                             <span class="tags">{{ group.name }}</span> 
                         {% endfor %}
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-4 emphasis">
                     <h2><strong>18</strong></h2>                    
-                    <p><small>Tareas asignadas</small></p>
+                    <p><small>Proyectos en los que participa</small></p>
                 </div>
             </div>
         </div>

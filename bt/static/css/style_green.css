@@ -8539,3 +8539,7 @@ body {
     font-size: 13px;
     line-height: 1.7;
 }
+
+table.table-mid tbody tr.table-mid td {
+     vertical-align: middle;
+}

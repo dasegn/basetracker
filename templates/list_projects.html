@@ -27,8 +27,8 @@
                         <tr>
                             <th class="text-center" style="width: 30%">Nombre</th>
                             <th class="text-center" style="width: 20%">Servicios</th>
-                            <th class="text-center" style="width: 10%">Cliente</th>
-                            <th class="text-center" style="width: 10%">Riesgo</th>
+                            <th class="text-center" style="width: 10%">Tipo de proyecto</th>
+                            <th class="text-center" style="width: 10%">Avance</th>
                         </tr>
                     </thead>
                         <tbody>                     
@@ -46,10 +46,11 @@
                                     </small>
                                 <td class="text-center"><small>{{ e.project.type }}</small></td>
                                 <td class="text-center">
+                                {{ e.risks.percent|floatformat:"-2" }}%
                                     <!-- Progress bars -->
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-{{ e.risks.overload }}" 
-                                            title="{{ e.risks.percent|floatformat:"-2" }}&" data-container="body" role="progressbar" 
+                                            title="{{ e.risks.percent|floatformat:"-2" }}%" data-container="body" role="progressbar" 
                                             style="width: {{ e.risks.percent|floatformat:"-2" }}%;">
                                         </div>
                                     </div>
