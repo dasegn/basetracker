@@ -20,15 +20,40 @@ from utils.utils import get_color_overload
 
 # Create your models here.
 
-class PercentManager(models.Manager):
+class TotalsManager(models.Manager):
 	"""Object manager for percent."""
 	def get_query_set(self):
-		qs = super(PercentManager, self).get_query_set()
+		qs = super(TotalsManager, self).get_query_set()
 		return qs.exclude(status__label='Cerrado')
 
-	#def get_id(self):
-	#	qs = super(PercentManager, self).get_query_set()
-	#	return qs.
+	def get_data(self):
+		from django.db import connection
+		cursor = connection.cursor()
+		cursor.execute("""
+				SELECT 
+				`bt_project`.`id`, `bt_project`.`name`, `bt_project`.`description`,
+				(COUNT(CASE WHEN `bt_task`.`completed` = '1'  THEN `bt_task`.`id` ELSE null END)) AS `completed`, 
+				(COUNT(`bt_task`.`id`)) AS `total`, 
+				(COALESCE((COUNT(CASE WHEN `bt_task`.`completed` = '1'  THEN `bt_task`.`id` ELSE null END) * 100 / COUNT(`bt_task`.`id`)),0)) AS `percent` 
+ 
+				FROM `bt_project` 
+				LEFT OUTER JOIN `bt_attribute` ON ( `bt_project`.`status_id` = `bt_attribute`.`id` )
+				LEFT OUTER JOIN `bt_tasklist` ON ( `bt_project`.`id` = `bt_tasklist`.`project_id` ) 
+				LEFT OUTER JOIN `bt_task` ON ( `bt_tasklist`.`id` = `bt_task`.`list_id` )  
+
+				WHERE (NOT (`bt_attribute`.`label` = 'Cerrado'  AND `bt_attribute`.`label` IS NOT NULL) AND `bt_tasklist`.`name` LIKE BINARY '%47 2014' )
+				GROUP BY `bt_project`.`id` 
+				ORDER BY `percent` DESC
+						""")
+		col_names = [desc[0] for desc in cursor.description]
+		result_list = []
+		for row in cursor.fetchall():
+			p = self.model(id=row[0], name=row[1], description=row[2])
+			p.completed = row[3]
+			p.total = row[4]
+			p.percent = row[5]
+			result_list.append(p)
+		return result_list
 
 
 
@@ -63,7 +88,7 @@ class Project(models.Model):
 	services = models.ManyToManyField(Service, related_name="services", verbose_name=_("Servicios"))
 
 	objects = models.Manager()
-	percent = PercentManager()
+	totals = TotalsManager()
 
 
 	def __unicode__(self):
@@ -107,7 +132,6 @@ class Project(models.Model):
 		values['overload'] = get_color_overload(values['percent'])
 
 		return values
-
 
 	def get_memberships(self):
 		class MembersLists: pass
