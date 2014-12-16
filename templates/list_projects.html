@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load overload %}
 
 {% block container %}
 
@@ -46,6 +47,7 @@
                                     </small>
                                 <td class="text-center"><small>{{ e.project.type }}</small></td>
                                 <td class="text-center">
+                                {{ e.risks.percent|overload }}
                                 {{ e.risks.percent|floatformat:"-2" }}%
                                     <!-- Progress bars -->
                                     <div class="progress">
