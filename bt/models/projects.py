@@ -16,7 +16,6 @@ from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils import timezone
-from utils.utils import get_color_overload
 
 # Create your models here.
 
@@ -26,35 +25,45 @@ class TotalsManager(models.Manager):
 		qs = super(TotalsManager, self).get_query_set()
 		return qs.exclude(status__label='Cerrado')
 
-	def get_data(self):
+	def results(self, week=datetime.now().isocalendar()[1], year=datetime.now().isocalendar()[0]):
 		from django.db import connection
 		cursor = connection.cursor()
-		cursor.execute("""
+		raw_query = """
 				SELECT 
-				`bt_project`.`id`, `bt_project`.`name`, `bt_project`.`description`,
+				`bt_project`.`id`, `bt_project`.`name`, T3.`label` AS `ptype`,
 				(COUNT(CASE WHEN `bt_task`.`completed` = '1'  THEN `bt_task`.`id` ELSE null END)) AS `completed`, 
 				(COUNT(`bt_task`.`id`)) AS `total`, 
 				(COALESCE((COUNT(CASE WHEN `bt_task`.`completed` = '1'  THEN `bt_task`.`id` ELSE null END) * 100 / COUNT(`bt_task`.`id`)),0)) AS `percent` 
  
 				FROM `bt_project` 
 				LEFT OUTER JOIN `bt_attribute` ON ( `bt_project`.`status_id` = `bt_attribute`.`id` )
+				LEFT OUTER JOIN `bt_attribute` T3 ON ( `bt_project`.`type_id` = T3.`id` ) 
 				LEFT OUTER JOIN `bt_tasklist` ON ( `bt_project`.`id` = `bt_tasklist`.`project_id` ) 
 				LEFT OUTER JOIN `bt_task` ON ( `bt_tasklist`.`id` = `bt_task`.`list_id` )  
 
-				WHERE (NOT (`bt_attribute`.`label` = 'Cerrado'  AND `bt_attribute`.`label` IS NOT NULL) AND `bt_tasklist`.`name` LIKE BINARY '%47 2014' )
+				WHERE (NOT (`bt_attribute`.`label` = 'Cerrado'  AND `bt_attribute`.`label` IS NOT NULL) AND `bt_tasklist`.`name` LIKE BINARY '%{0} {1}' )
 				GROUP BY `bt_project`.`id` 
-				ORDER BY `percent` DESC
-						""")
-		col_names = [desc[0] for desc in cursor.description]
-		result_list = []
-		for row in cursor.fetchall():
-			p = self.model(id=row[0], name=row[1], description=row[2])
-			p.completed = row[3]
-			p.total = row[4]
-			p.percent = row[5]
-			result_list.append(p)
-		return result_list
+				ORDER BY `percent` ASC
+						""".format(week, year)
 
+		try:
+			cursor.execute(raw_query)
+			col_names = [desc[0] for desc in cursor.description]
+			result_list = []
+			for row in cursor.fetchall():
+				p = self.model(id=row[0], name=row[1])
+				p.completed = row[3]
+				p.total = row[4]
+				p.percent = row[5]
+				p.ptype = row[2]
+				result_list.append(p)
+			return result_list
+			#return self.filter(id__in=(x[0] for x in cursor))
+		finally:
+			cursor.close()
+
+	def count(self):
+		return self.get_query_set().count()
 
 
 class Project(models.Model):
@@ -108,6 +117,9 @@ class Project(models.Model):
 	def get_roles(self):
 		return self.roles.all()
 
+	def get_type(self):
+		return self.filter(id=self.id).type
+
 	def get_users(self):
 		user_model = get_user_model()
 		members = self.memberships.values_list("user", flat=True)
@@ -129,7 +141,6 @@ class Project(models.Model):
 			values['percent'] = (float(tsk_com['completed']) / tsk_total ) * 100
 		except (ValueError, TypeError, ZeroDivisionError):
 			values['percent'] = 0  
-		values['overload'] = get_color_overload(values['percent'])
 
 		return values
 

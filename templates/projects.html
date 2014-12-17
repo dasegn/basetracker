@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load overload %}
 
 {% block container %}
 <div class="row">
@@ -22,7 +23,7 @@
         </div>        
     </div>
     <div class="col-md-11">
-        <div class="alert alert-{{ project_totals.overload }} alert-dismissable">
+        <div class="alert alert-{{ project_totals.percent|overload }} alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <h5>El avance del proyecto es de {{ project_totals.percent|floatformat:"-2" }}%</h5>
         </div>        

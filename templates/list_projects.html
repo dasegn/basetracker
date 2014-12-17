@@ -33,27 +33,26 @@
                         </tr>
                     </thead>
                         <tbody>                     
-                            {% for e in elements %}
+                            {% for project in projects %}
                             <tr>
-                                <td class="text"><a href="/project/{{ e.project.id }}">{{ e.project.name }}</td>
+                                <td class="text"><a href="/project/{{ project.id }}">{{ project.name }}</td>
                                 <td class="text">
                                     <small>
                                         <ol>
-                                            {% for service in e.project.services.all %}
+                                            {% for service in project.services.all %}
                                                     <li>{{ service.name }}</li>
                                                 {% endfor %}
                                             
                                         </ol>
                                     </small>
-                                <td class="text-center"><small>{{ e.project.type }}</small></td>
-                                <td class="text-center">
-                                {{ e.risks.percent|overload }}
-                                {{ e.risks.percent|floatformat:"-2" }}%
+                                <td class="text-center"><small>{{ project.ptype }}</small></td>
+                                <td class="text-center">                                
+                                    {{ project.percent|floatformat:"-2" }}%
                                     <!-- Progress bars -->
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-{{ e.risks.overload }}" 
-                                            title="{{ e.risks.percent|floatformat:"-2" }}%" data-container="body" role="progressbar" 
-                                            style="width: {{ e.risks.percent|floatformat:"-2" }}%;">
+                                        <div class="progress-bar progress-bar-{{ project.percent|overload }}" 
+                                            title="{{ project.percent|floatformat:"-2" }}%" data-container="body" role="progressbar" 
+                                            style="width: {{ project.percent|floatformat:"-2" }}%;">
                                         </div>
                                     </div>
                                     <!-- // Progress bars-->

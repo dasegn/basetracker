@@ -15,8 +15,10 @@ from utils.helpers import GetActiveWeek
 #@login_required
 def index(request):
 	template = loader.get_template('list_projects.html')
+	week = GetActiveWeek(request)
+
 	try:
-		projects = Project.objects.exclude(status__label='Cerrado')
+		projects = Project.totals.results(week.week_now[3], week.week_now[2])
 	except Project.DoesNotExist:
 		projects = None
 
@@ -24,24 +26,10 @@ def index(request):
 	services_count = Service.objects.all().count()
 	week = GetActiveWeek(request)
 
-	class SkelProject: pass
-	elements = []
-	for project in projects:
-		elem = SkelProject()
-		elem.project = project
-		elem.risks = project.get_risk_totals(
-			year = week.week_now[2],
-			week = week.week_now[3]
-		)
-		elements.append(elem)
-
-
-
 	context = RequestContext(request, {
 		'projects': projects,
 		'clients_count': clients_count,
 		'services_count': services_count,
-		'elements': elements
 	})
 	return HttpResponse(template.render(context))
 
