@@ -14,8 +14,10 @@ class TeamInLine(admin.StackedInline):
 	model = Team
 	form = TeamForm
 	can_delete = False
-	verbose_name = 'Equipo'
-	verbose_name_plural = 'Equipos'
+	verbose_name = 'equipo'
+	verbose_name_plural = 'equipos'
+	classes = ('collapse open',)
+	inline_classes = ('collapse open',)
 
 # Define a new User admin
 class GroupAdmin(GroupAdmin):

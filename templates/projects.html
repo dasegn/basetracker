@@ -190,8 +190,12 @@
                                                     </div>
                                                     <div id="collapse{{ tasklist.id }}" class="panel-collapse collapse">
                                                         <div class="panel-body text">
-                                                            {% for tsk_service in tasklist.tasklistsummary_set.all %}
-                                                                <p>{{ tsk_service.assigned.user.get_full_name }}</p>
+                                                            {% for tsk_service in tasklist.tsk_member.all %}
+                                                                <p>
+                                                                    <a href="/profile/{{ tsk_service.assigned.user.id }}"> 
+                                                                    {{ tsk_service.assigned.user.get_full_name }}
+                                                                    </a>
+                                                                </p>
                                                             {% endfor %}
                                                         </div>
                                                     </div>

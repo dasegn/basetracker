@@ -9,7 +9,7 @@ from django.contrib.auth.models import Group
 def index(request):
 	template = loader.get_template('groups.html')
 	try:
-		groups = Group.objects.all()
+		groups = Group.objects.all().order_by('team__order')
 	except Group.DoesNotExist:
 		groups = None
 

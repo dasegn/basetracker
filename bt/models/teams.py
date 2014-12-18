@@ -16,7 +16,8 @@ from utils.utils import get_color_overload, convert_to_decimal
 class Team(models.Model):	
 	group = models.OneToOneField(Group, related_name='team', unique=True)
 	description = models.TextField(verbose_name=_(u'Descripción'))
-	members = models.ManyToManyField(User, verbose_name=_("Miembros"))
+	order = models.IntegerField(default=0, null=True, blank=True,
+								verbose_name=_("Orden"))
 
 	def get_team_totals(self, year=datetime.now().isocalendar()[0], week=datetime.now().isocalendar()[1]):
 		class SkelTeam: pass

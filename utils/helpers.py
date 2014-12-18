@@ -14,7 +14,7 @@ class CurrentUsr(object):
 
 class CurrentGroup(object):
 	def __init__(self, request):
-		self.groups = Group.objects.all()
+		self.groups = Group.objects.all().order_by('team__order')
 		req_group = request.GET.get('group', None)
 
 		if req_group is None:

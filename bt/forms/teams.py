@@ -12,14 +12,5 @@ class TeamForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(TeamForm, self).__init__(*args, **kwargs)	
 
-	members = forms.ModelMultipleChoiceField(
-		queryset=User.objects.all(),
-		required=False,
-		widget=FilteredSelectMultiple(
-			verbose_name='Miembros',
-			is_stacked=False
-		)
-	)
-
 	class Meta:
 		model = Team

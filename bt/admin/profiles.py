@@ -18,7 +18,9 @@ class ProfileInline(admin.StackedInline):
     can_delete = False
     verbose_name = 'perfil'
     verbose_name_plural = 'perfiles'
-
+    classes = ('collapse open',)
+    inline_classes = ('collapse open',)
+    
 # Define a new User admin
 class UserAdmin(UserAdmin):
     inlines = (ProfileInline, )
@@ -27,18 +29,18 @@ class UserAdmin(UserAdmin):
 # Esto agrega el model al admin, pero no deseamos tener otra app más
 # en el listado de administración
 class ProfileAdmin(admin.ModelAdmin):
-	def get_urls(self):
-		urls = super(ProfileAdmin, self).get_urls()
-		my_urls = patterns('',
-			url(r'^$', self.admin_site.admin_view(self.index_view), name='index'),
-			#(r'^(?P<project_id>\d+)/$', views.detail, name='detail'),
-		)
-		return my_urls + urls
+    def get_urls(self):
+        urls = super(ProfileAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(r'^$', self.admin_site.admin_view(self.index_view), name='index'),
+            #(r'^(?P<project_id>\d+)/$', views.detail, name='detail'),
+        )
+        return my_urls + urls
 
-	def index_view(self, request):
-		return views.admin_index_view(request)
+    def index_view(self, request):
+        return views.admin_index_view(request)
 
 
 # Re-register UserAdmin
-admin.site.unregister(User)	
+admin.site.unregister(User) 
 admin.site.register(User, UserAdmin)

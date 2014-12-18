@@ -147,7 +147,8 @@ class Project(models.Model):
 	def get_memberships(self):
 		class MembersLists: pass
 		ml = []
-		for mbs_obj in self.memberships.all():
+		membs = self.memberships.all().order_by('role','user')
+		for mbs_obj in membs:
 			ml_elem = MembersLists()
 			ml_elem.user = mbs_obj.user.get_full_name
 			ml_elem.role = mbs_obj.role

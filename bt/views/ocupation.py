@@ -15,7 +15,7 @@ def index(request):
 
 	try:
 		if(cgroup.group == 'all'):
-			groups = Group.objects.all()
+			groups = Group.objects.all().order_by('team__order')
 		else:
 			groups = Group.objects.filter(id=int(cgroup.group))
 	except Group.DoesNotExist:
