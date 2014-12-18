@@ -72,8 +72,8 @@
                             <tbody>
                                 {% for member in project.get_memberships %}                            
                                 <tr>
-                                    <td class="text-muted text-right col-md-2">{{ member.user }} </td>
-                                    <td>{{ member.role }}</td>
+                                    <td class="text-muted text-right col-md-2">{{ member.role }} </td>
+                                    <td>{{ member.user }}</td>
                                 </tr>
                                 {% endfor %}                                
                             </tbody>
