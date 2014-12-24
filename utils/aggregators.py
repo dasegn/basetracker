@@ -28,3 +28,17 @@ class CompleteCount(Aggregate):
     name = 'Complete'
     def add_to_query(self, query, alias, col, source, is_summary):
         query.aggregates[alias] = CompleteCountAggregate(col, source=source, is_summary=is_summary, **self.extra)
+
+class PercentAggregate(SQLAggregate):
+    is_ordinal = False
+    is_computed = True
+    sql_function = 'WEEK' # unused
+    sql_template = """COALESCE(
+                    (COUNT(CASE WHEN `bt_task`.`completed` = '1'  THEN `bt_task`.`id` ELSE null END) 
+                    * 100 / 
+                    COUNT(`bt_task`.`id`)),0) """
+
+class Percent(Aggregate):
+    name = 'Percent'
+    def add_to_query(self, query, alias, col, source, is_summary):
+        query.aggregates[alias] = PercentAggregate(col, source=source, is_summary=is_summary, **self.extra)
