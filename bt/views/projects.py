@@ -13,15 +13,24 @@ from utils.helpers import GetActiveWeek
 
 # Create your views here.
 #@login_required
-def index(request):
+def index(request, filter_type=None):
 	template = loader.get_template('list_projects.html')
 	week = GetActiveWeek(request)
 
 	try:
-		projects = Project.totals.results(week.week_now[3], week.week_now[2])
+		projects = Project.total.getweek(week.week_now[3], week.week_now[2])
 	except Project.DoesNotExist:
 		projects = None
 
+	# Set Filter Type
+	if filter_type:
+		if filter_type == 'danger':
+			projects = projects.danger()
+		elif filter_type == 'warning':
+			projects = projects.warning()
+		elif filter_type == 'success':
+			projects = projects.success()
+			
 	clients_count = Attribute.objects.filter(type='project-client').count()
 	services_count = Service.objects.all().count()
 	week = GetActiveWeek(request)

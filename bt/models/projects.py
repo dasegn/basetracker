@@ -10,60 +10,48 @@ from bt.models.services import Service
 from bt.models.attributes import Attribute
 from bt.models.tasks import TaskList
 
-from django.db.models import Count, Sum
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from utils.adminLabels import string_with_title
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils import timezone
 
-# Create your models here.
+# Aggregates imports
+from django.db.models import Count, Sum
+from django.db.models import Q
+from utils.aggregators import Percent,PercentAggregate, CompleteCount, CompleteCountAggregate
 
-class TotalsManager(models.Manager):
-	"""Object manager for percent."""
+# Create your models here.
+class TotalQuerySet(models.query.QuerySet):
+	def getweek(self, week, year):
+		week_end = '{0} {1}'.format(week, year)
+		qs = self.filter(tsklst__name__endswith=week_end)
+		qs = qs.annotate(total=CompleteCount('tsklst__tsk_item'), percent=Percent('tsklst__tsk_item'))
+		qs = qs.order_by('percent')
+		return qs
+
+	def danger(self):
+		return self.filter(percent__gte=0, percent__lte=50)
+	def warning(self):
+		return self.filter(percent__gte=51, percent__lte=75)
+	def success(self):
+		return self.filter(percent__gte=76, percent__lte=100)
+
+class TotalManager(models.Manager):
+	"""Object manager for totals """
 	def get_query_set(self):
-		qs = super(TotalsManager, self).get_query_set()
+		qs = TotalQuerySet(self.model, using=self._db)
 		return qs.exclude(status__label='Cerrado')
 
-	def results(self, week=datetime.now().isocalendar()[1], year=datetime.now().isocalendar()[0]):
-		from django.db import connection
-		cursor = connection.cursor()
-		raw_query = """
-				SELECT 
-				`bt_project`.`id`, `bt_project`.`name`, T3.`label` AS `ptype`,
-				(COUNT(CASE WHEN `bt_task`.`completed` = '1'  THEN `bt_task`.`id` ELSE null END)) AS `completed`, 
-				(COUNT(`bt_task`.`id`)) AS `total`, 
-				(COALESCE((COUNT(CASE WHEN `bt_task`.`completed` = '1'  THEN `bt_task`.`id` ELSE null END) * 100 / COUNT(`bt_task`.`id`)),0)) AS `percent` 
- 
-				FROM `bt_project` 
-				LEFT OUTER JOIN `bt_attribute` ON ( `bt_project`.`status_id` = `bt_attribute`.`id` )
-				LEFT OUTER JOIN `bt_attribute` T3 ON ( `bt_project`.`type_id` = T3.`id` ) 
-				LEFT OUTER JOIN `bt_tasklist` ON ( `bt_project`.`id` = `bt_tasklist`.`project_id` ) 
-				LEFT OUTER JOIN `bt_task` ON ( `bt_tasklist`.`id` = `bt_task`.`list_id` )  
+	def getweek(self, week=datetime.now().isocalendar()[1], year=datetime.now().isocalendar()[0]):
+		return self.get_query_set().getweek(week, year)
 
-				WHERE (NOT (`bt_attribute`.`label` = 'Cerrado'  AND `bt_attribute`.`label` IS NOT NULL) AND `bt_tasklist`.`name` LIKE BINARY '%{0} {1}' )
-				GROUP BY `bt_project`.`id` 
-				ORDER BY `percent` ASC
-						""".format(week, year)
-
-		try:
-			cursor.execute(raw_query)
-			col_names = [desc[0] for desc in cursor.description]
-			result_list = []
-			for row in cursor.fetchall():
-				p = self.model(id=row[0], name=row[1])
-				p.completed = row[3]
-				p.total = row[4]
-				p.percent = row[5]
-				p.ptype = row[2]
-				result_list.append(p)
-			return result_list
-			#return self.filter(id__in=(x[0] for x in cursor))
-		finally:
-			cursor.close()
-
-	def count(self):
-		return self.get_query_set().count()
+	def danger(self):
+		return self.get_query_set().danger()
+	def warning(self):
+		return self.get_query_set().warning()
+	def success(self):
+		return self.get_query_set().success()
 
 
 class Project(models.Model):
@@ -97,7 +85,7 @@ class Project(models.Model):
 	services = models.ManyToManyField(Service, related_name="services", verbose_name=_("Servicios"))
 
 	objects = models.Manager()
-	totals = TotalsManager()
+	total = TotalManager()
 
 
 	def __unicode__(self):
